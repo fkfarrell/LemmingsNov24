@@ -29,6 +29,8 @@ public class Controller {
 		view.showWelcome();
 
 		view.showGame();
+
+		
 		while ( !game.isFinished()) {
 			words = view.getPrompt();
 			Command command = CommandGenerator.parse(words);

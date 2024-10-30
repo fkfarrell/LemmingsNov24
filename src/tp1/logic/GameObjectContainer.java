@@ -11,15 +11,28 @@ public class GameObjectContainer {
 	public GameObjectContainer() {
 		objects = new ArrayList<GameObject>();
 	}
-	
+
 	// Only one add method (polymorphism)
 	public void add(GameObject object) {
-	//TODO fill your code
+		objects.add(object);
 	}
 
-	//TODO fill your code
+	public String getStringAt(Position position) {
+		for (GameObject object : objects) {
+			if (object.isInPosition(position)) {
+				return object.getIcon();
+			}
 
-	// TODO you should write a toString method to return the string that represents the object status
-	// @Override
-	// public String toString()
+		}
+		return " ";
+	}
+
+	// TODO you should write a toString method to return the string that represents
+	// the object status
+	@Override
+	public String toString() {
+		// should call to string on the object in container?
+		// would that breach incapsulation
+		return null;
+	}
 }

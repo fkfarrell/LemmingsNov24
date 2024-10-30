@@ -8,7 +8,7 @@ import tp1.logic.Game;
 import tp1.util.MyStringUtils;
 
 public class ConsoleView extends GameView {
-	
+
 	protected static final String SPACE = " ";
 
 	private static final String CELL_BORDER_CHAR = "—";
@@ -33,7 +33,7 @@ public class ConsoleView extends GameView {
 	@SuppressWarnings("unused")
 	private static final String INDENTED_UPPER_ROW_BORDER = TAB + UPPER_ROW_BORDER;
 	@SuppressWarnings("unused")
-	private static final String INDENTED_LOWER_ROW_BORDER = TAB + LOWER_ROW_BORDER ;
+	private static final String INDENTED_LOWER_ROW_BORDER = TAB + LOWER_ROW_BORDER;
 
 	Scanner scanner;
 
@@ -41,7 +41,7 @@ public class ConsoleView extends GameView {
 		super(game);
 		scanner = new Scanner(System.in);
 	}
-		
+
 	/**
 	 * Builds a string that represent the game status
 	 * 
@@ -58,17 +58,19 @@ public class ConsoleView extends GameView {
 		/* @formatter:on */
 		return buffer.toString();
 	}
-	
+
 	public static String getColName(int num) {
-		return Integer.toString( (num + 1) %100);
+		return Integer.toString((num + 1) % 100);
 	}
+
 	public static int colNameToNum(String name) {
-        return Integer.parseInt(name) - 1;
+		return Integer.parseInt(name) - 1;
 	}
-	
+
 	public static String getRowName(int num) {
 		return Character.toString('A' + num % 27);
 	}
+
 	public static String rowNameToNum(String name) {
 		return Integer.toString(name.charAt(0) - 'A');
 	}
@@ -76,7 +78,7 @@ public class ConsoleView extends GameView {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		
+
 		// Game Status
 		str.append(getInfo());
 		str.append(NEW_LINE);
@@ -87,17 +89,17 @@ public class ConsoleView extends GameView {
 		str.append(UPPER_ROW_BORDER);
 
 		for (int row = 0; row < Game.DIM_Y; row++) {
-			str.append(MyStringUtils.right( getRowName(row) , LATERAL_TAB_SIZE) );
+			str.append(MyStringUtils.right(getRowName(row), LATERAL_TAB_SIZE));
 			str.append(VERTICAL_DELIMITER);
 
 			for (int col = 0; col < Game.DIM_X; col++) {
 				str.append(consoleCell(game.positionToString(col, row)));
-				//str.append(VERTICAL_DELIMITER);
+				// str.append(VERTICAL_DELIMITER);
 			}
 			str.append(VERTICAL_DELIMITER);
-			str.append( getRowName(row) );
+			str.append(getRowName(row));
 			str.append(NEW_LINE);
-			//str.append(ROW_BORDER);
+			// str.append(ROW_BORDER);
 		}
 
 		str.append(LATERAL_TAB);
@@ -112,28 +114,31 @@ public class ConsoleView extends GameView {
 		str.append(LATERAL_TAB + SPACE);
 
 		for (int col = 0; col < Game.DIM_X; col++) {
-			str.append(MyStringUtils.center( getColName(col), CELL_SIZE));
+			str.append(MyStringUtils.center(getColName(col), CELL_SIZE));
 		}
 		str.append(NEW_LINE);
 		return str.toString();
 	}
-	
+
 	private String endMessage() {
 		StringBuilder sb = new StringBuilder();
-		if(game.playerWins()) sb.append(Messages.PLAYER_WINS);
-		else if (game.playerLooses()) sb.append(Messages.PLAYER_LOOSES);
-		else sb.append(Messages.PLAYER_QUITS);
+		if (game.playerWins())
+			sb.append(Messages.PLAYER_WINS);
+		else if (game.playerLooses())
+			sb.append(Messages.PLAYER_LOOSES);
+		else
+			sb.append(Messages.PLAYER_QUITS);
 		return sb.toString();
 	}
 
 	protected String consoleCell(String celStr) {
 		return MyStringUtils.center(celStr, CELL_SIZE);
 	}
-	
+
 	@Override
 	public void showWelcome() {
 		System.out.println(Messages.WELCOME);
-   }
+	}
 
 	@Override
 	public void showGame() {
@@ -143,14 +148,14 @@ public class ConsoleView extends GameView {
 	@Override
 	public void showEndMessage() {
 		System.out.println(this.endMessage());
-		
+
 	}
 
 	@Override
 	public void showError(String message) {
-        System.out.println(Messages.ERROR.formatted(message));		
+		System.out.println(Messages.ERROR.formatted(message));
 	}
-	
+
 	@Override
 	public void showMessage(String message) {
 		System.out.println(message);
@@ -161,14 +166,61 @@ public class ConsoleView extends GameView {
 	 *
 	 * @return the player command as words
 	 */
+	// @Override
+	// public String[] getPrompt() {
+	// System.out.print(Messages.PROMPT);
+	// String line = scanner.nextLine();
+	// String[] words = line.trim().split("\\s+");
+
+	// System.out.println(Messages.DEBUG.formatted(line));
+
+	// return words;
+	// }
 	@Override
 	public String[] getPrompt() {
 		System.out.print(Messages.PROMPT);
 		String line = scanner.nextLine();
 		String[] words = line.trim().split("\\s+");
+		// game.cycleNum++;
 
-        System.out.println(Messages.DEBUG.formatted(line));		
+		if (line.isEmpty()) {
+			game.none();
+			return new String[0];
+		} else {
 
-		return words;
+			System.out.println(Messages.DEBUG.formatted(line));
+
+			String cmd = words[0].toLowerCase();
+			char firstLetter = cmd.charAt(0);
+			String index = String.valueOf(firstLetter);
+
+			switch (index) {
+				case "h":
+					System.out.print(Messages.PROMPT);
+					line = scanner.nextLine();
+					words = line.trim().split("\\s+");
+					cmd = words[0].toLowerCase();
+					return new String[0];
+				case "r":
+					// game.reset(); should now be done in an execute method in the Command Subclass
+					break;
+				case "e":
+					game.exit();
+					break;
+				case "n":
+					game.none();
+					break;
+				case "":
+					game.none();
+					// if game.none doesnt update the status of the game
+					// ie nothing moves, the board shouldnt be displayed.
+					break;
+				default:
+					showError(Messages.INVALID_COMMAND);
+					break;
+			}
+
+			return words;
+		}
 	}
 }

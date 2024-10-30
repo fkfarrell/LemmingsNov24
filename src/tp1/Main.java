@@ -11,24 +11,20 @@ import tp1.view.Messages;
 
 public class Main {
 
-	/**
-	 * Lemmings entry point
-	 * 
-	 * @param args Arguments for the game.
-	 */
 	public static void main(String[] args) {
 		// Required to avoid issues with tests
-        Locale.setDefault(new Locale("es", "ES"));
-		
-		try {
-			
-			int nLevel = 1;
-			if (args.length != 0) nLevel = Integer.parseInt(args[0]);
+		Locale.setDefault(new Locale("es", "ES"));
 
-            Game game = new Game(nLevel);
-            GameView view = args.length>1 ? new ConsoleView(game): new ConsoleColorsView(game);
-            Controller controller = new Controller(game, view);
-					
+		try {
+
+			int nLevel = 1;
+			if (args.length != 0)
+				nLevel = Integer.parseInt(args[0]);
+
+			Game game = new Game(nLevel);
+			GameView view = args.length > 1 ? new ConsoleView(game) : new ConsoleColorsView(game);
+			Controller controller = new Controller(game, view);
+
 			controller.run();
 
 		} catch (NumberFormatException e) {
