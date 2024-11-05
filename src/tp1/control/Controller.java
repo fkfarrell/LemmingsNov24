@@ -7,7 +7,7 @@ import tp1.view.GameView;
 import tp1.view.Messages;
 
 /**
- *  Accepts user input and coordinates the game execution logic
+ * Accepts user input and coordinates the game execution logic
  */
 public class Controller {
 
@@ -19,7 +19,6 @@ public class Controller {
 		this.view = view;
 	}
 
-
 	/**
 	 * Runs the game logic, coordinate Model(game) and View(view)
 	 */
@@ -30,13 +29,15 @@ public class Controller {
 
 		view.showGame();
 
-		
-		while ( !game.isFinished()) {
+		while (!game.isFinished()) {
 			words = view.getPrompt();
 			Command command = CommandGenerator.parse(words);
-			if (command != null)
+			if (command != null) {
+
+				System.out.println("EXECUTING : " + command);
 				command.execute(game, view);
-			else 
+
+			} else
 				view.showError(Messages.UNKNOWN_COMMAND.formatted(words[0]));
 
 		}

@@ -181,46 +181,7 @@ public class ConsoleView extends GameView {
 		System.out.print(Messages.PROMPT);
 		String line = scanner.nextLine();
 		String[] words = line.trim().split("\\s+");
-		// game.cycleNum++;
 
-		if (line.isEmpty()) {
-			game.none();
-			return new String[0];
-		} else {
-
-			System.out.println(Messages.DEBUG.formatted(line));
-
-			String cmd = words[0].toLowerCase();
-			char firstLetter = cmd.charAt(0);
-			String index = String.valueOf(firstLetter);
-
-			switch (index) {
-				case "h":
-					System.out.print(Messages.PROMPT);
-					line = scanner.nextLine();
-					words = line.trim().split("\\s+");
-					cmd = words[0].toLowerCase();
-					return new String[0];
-				case "r":
-					// game.reset(); should now be done in an execute method in the Command Subclass
-					break;
-				case "e":
-					game.exit();
-					break;
-				case "n":
-					game.none();
-					break;
-				case "":
-					game.none();
-					// if game.none doesnt update the status of the game
-					// ie nothing moves, the board shouldnt be displayed.
-					break;
-				default:
-					showError(Messages.INVALID_COMMAND);
-					break;
-			}
-
-			return words;
-		}
+		return words;
 	}
 }

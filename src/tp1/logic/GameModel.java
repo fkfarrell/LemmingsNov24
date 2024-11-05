@@ -6,11 +6,12 @@ public interface GameModel {
 
     public void update();
 
+    public void exit();
+
     public void reset();
 
     public void none();
 
     public String help();
 
-    public void createLevel(int levelNum);
 }

@@ -7,22 +7,21 @@ package tp1.logic;
  */
 public class Position {
 
-	private int col;
-	private int row;
+	private final int COL;
+	private final int ROW;
 
 	// TODO fill your code
 
 	public Position(int col, int row) {
-		this.col = col;
-		this.row = row;
+		this.COL = col;
+		this.ROW = row;
 	}
 
-	public boolean isEqual(Position pos1) {
-		if (this == pos1) {
-			return true;
-		} else {
+	public boolean isEqual(Position pos) {
+		if (pos == null) {
 			return false;
 		}
+		return this.COL == pos.COL && this.ROW == pos.ROW;
 	}
 
 	public String toString() {

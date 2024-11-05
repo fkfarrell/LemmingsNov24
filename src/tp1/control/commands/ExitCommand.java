@@ -1,10 +1,11 @@
 package tp1.control.commands;
 
 import tp1.logic.Game;
+import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
 
-public class ExitCommand extends NoParamsCommand{
+public class ExitCommand extends NoParamsCommand {
 
 	// Forman parte de atributos de estado
 	private static final String NAME = Messages.COMMAND_EXIT_NAME;
@@ -13,11 +14,11 @@ public class ExitCommand extends NoParamsCommand{
 	private static final String HELP = Messages.COMMAND_EXIT_HELP;
 
 	public ExitCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP); 
+		super(NAME, SHORTCUT, DETAILS, HELP);
 	}
 
 	@Override
-	public void execute(Game game, GameView view){
+	public void execute(GameModel game, GameView view) {
 		game.exit();
 	}
 

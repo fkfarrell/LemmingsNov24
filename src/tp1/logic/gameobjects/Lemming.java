@@ -13,7 +13,7 @@ public class Lemming extends GameObject {
 
 	public Lemming(Game game, Position pos, Direction dir) {
 		super(game, pos);
-		this.role = WalkerRole();
+		this.role = new WalkerRole();
 		this.dir = dir;
 	}
 
@@ -21,14 +21,10 @@ public class Lemming extends GameObject {
 		return this.dir;
 	}
 
-	private WalkerRole WalkerRole() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	// Not mandatory but recommended
 	public void walkOrFall() {
-		// TODO Auto-generated method stub
+		// should decide whether a move can be made,
+		//
 	}
 
 	/**
@@ -43,13 +39,16 @@ public class Lemming extends GameObject {
 	@Override
 	public String getIcon() {
 		// TODO Auto-generated method stub
-		return role.getIcon(this);
+		if (role != null) {
+			return role.getIcon(this);
+		} else
+			return null;
 	}
 
 	// TODO you should write a toString method to return the string that represents
 	// the object status
 	@Override
 	public String toString() {
-		return null;
+		return role.getIcon(this);
 	}
 }

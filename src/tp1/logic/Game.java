@@ -1,30 +1,96 @@
 package tp1.logic;
 
 import tp1.logic.Position;
+import tp1.logic.gameobjects.ExitDoor;
+import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.Lemming;
+import tp1.logic.gameobjects.Wall;
 
 public class Game implements GameModel, GameStatus { // , GameWorld
 
 	public static final int DIM_X = 10;
 	public static final int DIM_Y = 10;
 
-	private GameObjectContainer conatiner = new GameObjectContainer();
+	private GameObjectContainer container = new GameObjectContainer();
+	private boolean gameFinished = false;
+	private int lemmingsInGame = 0;
+	private int cycleNum = 0;
 
 	public Game(int nLevel) {
 		// TODO Auto-generated constructor stub
+		initLevel(nLevel);
+	}
+
+	public void initLevel(int lvl) {
+
+		switch (lvl) {
+
+			case 1:
+				Position[] lemmingPos = {
+						new Position(1, 1),
+						new Position(2, 1),
+						new Position(3, 1) };
+
+				for (Position pos : lemmingPos) {
+					container.add(new Lemming(this, pos, Direction.RIGHT));
+					lemmingsInGame++;
+				}
+
+				Position[] wallsPos = {
+						new Position(0, 1), new Position(0, 2), new Position(0, 3),
+						new Position(1, 3), new Position(2, 3), new Position(3, 3), new Position(4, 3),
+						new Position(4, 4), new Position(4, 5), new Position(4, 6),
+						new Position(5, 6), new Position(6, 6), new Position(7, 6), new Position(8, 6),
+						new Position(8, 7), new Position(8, 8), new Position(8, 9) };
+
+				for (Position pos : wallsPos) {
+					container.add(new Wall(this, pos));
+				}
+
+				Position ExitDoorPos = new Position(9, 9);
+				container.add(new ExitDoor(this, ExitDoorPos));
+				break;
+			case 2:
+				Position[] lemmingPos2 = {
+						new Position(1, 1),
+						new Position(2, 2),
+						new Position(3, 3) };
+
+				for (Position pos : lemmingPos2) {
+					container.add(new Lemming(this, pos, Direction.RIGHT));
+					lemmingsInGame++;
+				}
+
+				Position[] wallsPos2 = {
+						new Position(0, 2), new Position(1, 2), new Position(2, 2), // Upper left section
+						new Position(3, 3), new Position(3, 4), new Position(3, 5), // Vertical segment in the middle
+						new Position(4, 5), new Position(5, 5), new Position(6, 5), // Horizontal middle row
+						new Position(7, 6), new Position(8, 6), new Position(9, 6), // Bottom segment
+						new Position(9, 7), new Position(9, 8) // Right section near the end
+				};
+
+				for (Position pos : wallsPos2) {
+					container.add(new Wall(this, pos));
+				}
+				Position ExitDoorPos2 = new Position(9, 9);
+				container.add(new ExitDoor(this, ExitDoorPos2));
+				break;
+			default:
+				break;
+		}
 	}
 
 	// GameStatus methods
 	@Override
 	public int getCycle() {
 		// TODO Auto-generated method stub
-		return 0;
+		return cycleNum; // breaking ecapsulation by returning a private int?
 	}
 
 	@Override
 	public int numLemmingsInBoard() {
 		// TODO Auto-generated method stub
-		return 0;
+		return lemmingsInGame;
 	}
 
 	@Override
@@ -48,7 +114,7 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 	@Override
 	public String positionToString(int col, int row) {
 		Position pos = new Position(col, row);
-		return conatiner.getStringAt(pos);
+		return container.getStringAt(pos);
 	}
 
 	@Override
@@ -67,21 +133,25 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 	// @Override
 	public void update() {
 		// TODO Auto-generated method stub
+		System.out.println("UPDATING ...");
+		container.update();
+		cycleNum++;
 	}
 
 	// @Override
 	public void exit() {
-		// TODO Auto-generated method stub
+		gameFinished = true;
 	}
 
 	// @Override
 	public void none() {
-		// TODO Auto-generated method stub
+		update();
 	}
 
 	// @Override
 	public void reset() {
 		// TODO Auto-generated method stub
+
 	}
 
 	// @Override
@@ -90,19 +160,10 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 		return null;
 	}
 
-	// this doesnt feel right . . .
-	@Override
-	public void createLevel(int levelNum) {
-		Levels level1 = new Levels();
-		Position starterPos = new Position(1, 1);
-		Lemming patrick = new Lemming(this, starterPos, Direction.RIGHT);
-		conatiner.add(patrick);
-	}
-
 	// @Override
 	public boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return gameFinished;
 	}
 
 	// TODO Auto-generated method stub
@@ -125,4 +186,14 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 	// the object status
 	// @Override
 	// public String toString()
+	public String toString() {
+		StringBuilder gameString = new StringBuilder();
+		for (int row = 0; row < DIM_Y; row++) {
+			for (int col = 0; col < DIM_X; col++) {
+				gameString.append(positionToString(col, row)).append(" ");
+			}
+			gameString.append("\n");
+		}
+		return gameString.toString();
+	}
 }

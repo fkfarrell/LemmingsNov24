@@ -17,22 +17,29 @@ public class GameObjectContainer {
 		objects.add(object);
 	}
 
-	public String getStringAt(Position position) {
+	public String getStringAt(Position position) { // nothing is being detected??
 		for (GameObject object : objects) {
 			if (object.isInPosition(position)) {
-				return object.getIcon();
+				return object.toString();
 			}
-
 		}
 		return " ";
+	}
+
+	public void update() {
+		for (GameObject object : objects) {
+			object.update();
+		}
 	}
 
 	// TODO you should write a toString method to return the string that represents
 	// the object status
 	@Override
 	public String toString() {
-		// should call to string on the object in container?
-		// would that breach incapsulation
-		return null;
+		StringBuilder containerString = new StringBuilder();
+		for (GameObject object : objects) {
+			containerString.append(object.toString()).append("\n");
+		}
+		return containerString.toString();
 	}
 }

@@ -3,7 +3,7 @@ package tp1.view;
 import tp1.util.MyStringUtils;
 
 public class Messages {
-	
+
 	public static final String VERSION = "2.1";
 
 	public static final String GAME_NAME = "Lemmings";
@@ -21,7 +21,7 @@ public class Messages {
 
 	public static final String DEBUG = "[DEBUG] Executing: %s%n";
 	public static final String ERROR = "[ERROR] Error: %s%n";
-	
+
 	// GAME STATUS
 	public static final String NUMBER_OF_CYCLES = "Number of cycles: %s";
 	public static final String NUM_LEMMINGS = "Lemmings in board: %s";
@@ -45,7 +45,7 @@ public class Messages {
 	public static final String LINE_TAB = TAB + LINE;
 	public static final String LINE_2TABS = TAB + LINE_TAB;
 
-//Commands
+	// Commands
 	// Errores de factorías:
 	public static final String UNKNOWN_COMMAND = "Unknown command: %s";
 	public static final String UNKNOWN_GAME_OBJECT = "Unknown game object: %s";
@@ -66,7 +66,6 @@ public class Messages {
 	public static final String ERROR_INVALID_INIT_CONF = "Unknown invalid init configuration";
 	public static final String ERROR_PARSING_GAME_OBJECT = "Not a correct game object because: %s";
 
-	
 	public static final String HELP_AVAILABLE_COMMANDS = "Available commands:";
 	public static final String COMMAND_HELP_TEXT = "%s: %s";
 
@@ -79,36 +78,41 @@ public class Messages {
 			"[e]xit: end the execution of the game"};
 	/* @formatter:on */
 	@Deprecated
-	public static final String HELP = String.join(LINE_SEPARATOR+"   ", HELP_LINES) + LINE_SEPARATOR;
-
+	public static final String HELP = String.join(LINE_SEPARATOR + "   ", HELP_LINES) + LINE_SEPARATOR;
 
 	// UPDATE (NONE)
 	public static final String COMMAND_UPDATE_NAME = "none";
 	public static final String COMMAND_UPDATE_SHORTCUT = "n";
 	public static final String COMMAND_UPDATE_DETAILS = "[n]one | \"\"";
 	public static final String COMMAND_UPDATE_HELP = "user does not perform any action";
-	
+
 	// EXIT
 	public static final String COMMAND_EXIT_NAME = "exit";
 	public static final String COMMAND_EXIT_SHORTCUT = "e";
 	public static final String COMMAND_EXIT_DETAILS = "[e]xit";
 	public static final String COMMAND_EXIT_HELP = "exits the game";
-	
+
 	// HELP
 	public static final String COMMAND_HELP_NAME = "help";
 	public static final String COMMAND_HELP_SHORTCUT = "h";
 	public static final String COMMAND_HELP_DETAILS = "[h]elp";
 	public static final String COMMAND_HELP_HELP = "print this help message";
-	
-//Roles
+
+	// RESET
+	public static final String COMMAND_RESET_NAME = "reset";
+	public static final String COMMAND_RESET_SHORTCUT = "r";
+	public static final String COMMAND_RESET_DETAILS = "[r]eset";
+	public static final String COMMAND_RESET_HELP = "resets the game level.";
+
+	// Roles
 	public static final String WALKER_ROL_SYMBOL = "W";
 	public static final String WALKER_ROL_NAME = "Walker";
 	public static final String WALKER_ROL_HELP = "[W]alker: Lemming that walks";
 
-//Symbols
+	// Symbols
 	public static final String EMPTY = "";
-	public static final String METALWALL = MyStringUtils.repeat("X",ConsoleView.CELL_SIZE);
-	public static final String WALL = MyStringUtils.repeat("▓",ConsoleView.CELL_SIZE);
+	public static final String METALWALL = MyStringUtils.repeat("X", ConsoleView.CELL_SIZE);
+	public static final String WALL = MyStringUtils.repeat("▓", ConsoleView.CELL_SIZE);
 	public static final String EXIT_DOOR = "🚪";
 	public static final String LEMMING_RIGHT = "B";
 	public static final String LEMMING_LEFT = "ᗺ";
