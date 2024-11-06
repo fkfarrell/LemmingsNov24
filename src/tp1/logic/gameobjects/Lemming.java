@@ -85,11 +85,6 @@ public class Lemming extends GameObject {
 			this.isFalling = true;
 			this.dir = Direction.DOWN;
 		}
-		// } else {
-		// System.out.println("FLOOR FOUND");
-		// this.isFalling = false;
-		// this.dir = Direction.RIGHT;
-		// }
 
 		if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(Messages.WALL)) { //
 			this.isFalling = false;
