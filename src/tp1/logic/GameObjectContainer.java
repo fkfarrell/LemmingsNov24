@@ -17,7 +17,7 @@ public class GameObjectContainer {
 		objects.add(object);
 	}
 
-	public String getStringAt(Position position) { // nothing is being detected??
+	public String getStringAt(Position position) {
 		for (GameObject object : objects) {
 			if (object.isInPosition(position)) {
 				return object.toString();
@@ -30,6 +30,10 @@ public class GameObjectContainer {
 		for (GameObject object : objects) {
 			object.update();
 		}
+	}
+
+	public void clearList() { // encapsulation?
+		objects.clear();
 	}
 
 	// TODO you should write a toString method to return the string that represents

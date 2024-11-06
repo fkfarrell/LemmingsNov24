@@ -17,7 +17,6 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 	private int cycleNum = 0;
 
 	public Game(int nLevel) {
-		// TODO Auto-generated constructor stub
 		initLevel(nLevel);
 	}
 
@@ -40,7 +39,7 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 						new Position(0, 1), new Position(0, 2), new Position(0, 3),
 						new Position(1, 3), new Position(2, 3), new Position(3, 3), new Position(4, 3),
 						new Position(4, 4), new Position(4, 5), new Position(4, 6),
-						new Position(5, 6), new Position(6, 6), new Position(7, 6), new Position(8, 6),
+						new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9),
 						new Position(8, 7), new Position(8, 8), new Position(8, 9) };
 
 				for (Position pos : wallsPos) {
@@ -83,13 +82,11 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 	// GameStatus methods
 	@Override
 	public int getCycle() {
-		// TODO Auto-generated method stub
 		return cycleNum; // breaking ecapsulation by returning a private int?
 	}
 
 	@Override
 	public int numLemmingsInBoard() {
-		// TODO Auto-generated method stub
 		return lemmingsInGame;
 	}
 
@@ -132,8 +129,6 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 	// GameModel methods
 	// @Override
 	public void update() {
-		// TODO Auto-generated method stub
-		System.out.println("UPDATING ...");
 		container.update();
 		cycleNum++;
 	}
@@ -150,7 +145,11 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 
 	// @Override
 	public void reset() {
-		// container.clear();
+		// reset all necesary game attributes
+		lemmingsInGame = 0;
+		cycleNum = 0;
+		container.clearList();
+		initLevel(1);
 
 	}
 
@@ -162,7 +161,6 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 
 	// @Override
 	public boolean isFinished() {
-		// TODO Auto-generated method stub
 		return gameFinished;
 	}
 

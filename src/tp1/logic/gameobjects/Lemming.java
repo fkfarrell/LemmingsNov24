@@ -89,6 +89,10 @@ public class Lemming extends GameObject {
 		if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(Messages.WALL)) { //
 			this.isFalling = false;
 			this.dir = Direction.RIGHT;
+
+			if (this.fallForce >= MAX_FALL) {
+				this.isAlive = false;
+			}
 		}
 
 	}
@@ -100,6 +104,11 @@ public class Lemming extends GameObject {
 			this.dir = Direction.RIGHT;
 		}
 	}
+
+	// @Override
+	// private boolean isAlive(){
+	// return
+	// }
 
 	/**
 	 * Implements the automatic update
