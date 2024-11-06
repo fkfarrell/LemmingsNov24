@@ -21,44 +21,6 @@ public class Controller {
 		this.view = view;
 	}
 
-	/**
-	 * Runs the game logic, coordinate Model(game) and View(view)
-	 */
-	// public void run() {
-	// String[] words = null;
-
-	// view.showWelcome();
-
-	// view.showGame();
-
-	// while (!game.isFinished()) {
-	// words = view.getPrompt();
-	// Command command = CommandGenerator.parse(words);
-
-	// if (words[0].isEmpty()) {
-	// System.out.println("RETURN KEY DOG");
-	// // create a nuw Update command here??
-	// Command runUpdate = new UpdateCommand();
-	// runUpdate.execute(game, view);
-
-	// view.showGame();
-	// }
-
-	// if (command != null) {
-
-	// command.execute(game, view);
-
-	// if (command.showBoard()) {
-	// view.showGame();
-	// }
-
-	// } else
-	// view.showError(Messages.UNKNOWN_COMMAND.formatted(words[0]));
-
-	// }
-	// view.showEndMessage();
-	// }
-
 	public void run() {
 		String[] words = null;
 

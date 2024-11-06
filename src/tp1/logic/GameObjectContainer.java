@@ -32,10 +32,6 @@ public class GameObjectContainer {
 		}
 	}
 
-	public void clearList() { // encapsulation?
-		objects.clear();
-	}
-
 	// TODO you should write a toString method to return the string that represents
 	// the object status
 	@Override

@@ -3,10 +3,11 @@ package tp1.logic;
 import tp1.logic.Position;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameObject;
+import tp1.logic.gameobjects.GameWorld;
 import tp1.logic.gameobjects.Lemming;
 import tp1.logic.gameobjects.Wall;
 
-public class Game implements GameModel, GameStatus { // , GameWorld
+public class Game implements GameModel, GameStatus, GameWorld {
 
 	public static final int DIM_X = 10;
 	public static final int DIM_Y = 10;
@@ -82,7 +83,7 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 	// GameStatus methods
 	@Override
 	public int getCycle() {
-		return cycleNum; // breaking ecapsulation by returning a private int?
+		return cycleNum;
 	}
 
 	@Override
@@ -148,7 +149,8 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 		// reset all necesary game attributes
 		lemmingsInGame = 0;
 		cycleNum = 0;
-		container.clearList();
+		// container.clearList();
+		container = new GameObjectContainer();
 		initLevel(1);
 
 	}

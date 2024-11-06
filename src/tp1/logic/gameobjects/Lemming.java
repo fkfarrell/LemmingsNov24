@@ -48,7 +48,7 @@ public class Lemming extends GameObject {
 
 	}
 
-	private boolean canMove() {
+	public boolean canMove() {
 		Direction movDirection = this.getDirection();
 		Position currePosition = this.pos;
 		final int WALL_RIGHT = 10;
