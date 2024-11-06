@@ -27,6 +27,7 @@ public abstract class GameObject {
 	public boolean isAlive() {
 		return isAlive;
 	}
+	
 
 	// TODO implement and decide, Which one is abstract?
 	// public boolean isSolid()
@@ -44,7 +45,7 @@ public abstract class GameObject {
         return false;  
     }
 	public boolean isDead() {
-        return false;
+        return !isAlive;
     }
-	protected abstract Object getPosition();
+	protected abstract Position getPosition();
 }

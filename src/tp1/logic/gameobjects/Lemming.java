@@ -24,6 +24,10 @@ public class Lemming extends GameObject {
 		return this.dir;
 	}
 
+	public Position getPosition() {
+		return this.pos;
+	}
+
 	// Not mandatory but recommended
 	public void walkOrFall() {
 
@@ -129,7 +133,8 @@ public class Lemming extends GameObject {
 	}
 
 	// TODO you should write a toString method to return the string that represents
-	// the object status
+
+
 	@Override
 	public String toString() {
 		return role.getIcon(this);

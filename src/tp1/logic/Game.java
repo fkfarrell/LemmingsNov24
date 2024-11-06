@@ -15,6 +15,7 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 	private boolean gameFinished = false;
 	private int lemmingsInGame = 0;
 	private int cycleNum = 0;
+	private boolean playerWins;
 
 	public Game(int nLevel) {
 		initLevel(nLevel);
@@ -83,10 +84,6 @@ public class Game implements GameModel, GameStatus { // , GameWorld
         return this.container;  // Return the container of game objects
     }
 
-	public GameObjectContainer getContainer() {
-        return this.container;  // Return the container of game objects
-    }
-
 	// GameStatus methods
 	@Override
 	public int getCycle() {
@@ -111,14 +108,19 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 
 	@Override
 	public int numLemmingsExit() {
-		// TODO Auto-generated method stub
-		return 0;
+		int numLemmingsExit = 0;
+		for(GameObject obj : container){
+			if(obj.isExit()){
+				numLemmingsExit++;
+			}
+		}
+		return numLemmingsExit;
 	}
 
 	@Override
 	public int numLemmingsToWin() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override
@@ -129,13 +131,18 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 
 	@Override
 	public boolean playerWins() {
-		// TODO Auto-generated method stub
+		if(numLemmingsToWin()==numLemmingsExit()){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean playerLooses() {
-		// TODO Auto-generated method stub
+		if(numLemmingsInBoard()==0){
+			gameFinished=true;
+			return true;
+		}
 		return false;
 	}
 
