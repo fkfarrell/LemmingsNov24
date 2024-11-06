@@ -22,4 +22,9 @@ public class ExitCommand extends NoParamsCommand {
 		game.exit();
 	}
 
+	@Override
+	public boolean showBoard() {
+		return false;
+	}
+
 }

@@ -20,4 +20,9 @@ public class UpdateCommand extends NoParamsCommand {
     public void execute(GameModel game, GameView view) {
         game.update();
     }
+
+    @Override
+    public boolean showBoard() {
+        return true;
+    }
 }

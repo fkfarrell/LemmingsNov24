@@ -18,4 +18,9 @@ public class ExitDoor extends GameObject {
     public String getIcon() {
         return "D";
     }
+
+    @Override
+    public String toString() {
+        return "D";
+    }
 }

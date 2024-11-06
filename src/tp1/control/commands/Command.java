@@ -40,6 +40,8 @@ public abstract class Command {
 
 	public abstract Command parse(String[] commandWords);
 
+	public abstract boolean showBoard();
+
 	protected boolean matchCommandName(String name) {
 		return getShortcut().equalsIgnoreCase(name) ||
 				getName().equalsIgnoreCase(name);

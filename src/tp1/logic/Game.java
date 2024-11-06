@@ -27,9 +27,9 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 
 			case 1:
 				Position[] lemmingPos = {
-						new Position(1, 1),
-						new Position(2, 1),
-						new Position(3, 1) };
+						// new Position(1, 1),
+						// new Position(2, 2),
+						new Position(2, 2) };
 
 				for (Position pos : lemmingPos) {
 					container.add(new Lemming(this, pos, Direction.RIGHT));
@@ -150,7 +150,7 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 
 	// @Override
 	public void reset() {
-		// TODO Auto-generated method stub
+		// container.clear();
 
 	}
 

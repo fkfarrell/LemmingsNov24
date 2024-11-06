@@ -20,4 +20,9 @@ public class ResetCommand extends NoParamsCommand {
     public void execute(GameModel game, GameView view) {
         game.reset();
     }
+
+    @Override
+    public boolean showBoard() {
+        return true;
+    }
 }

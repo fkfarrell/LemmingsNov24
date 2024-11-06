@@ -24,7 +24,15 @@ public class Position {
 		return this.COL == pos.COL && this.ROW == pos.ROW;
 	}
 
+	public int getCol() {
+		return this.COL;
+	}
+
+	public int getRow() {
+		return this.ROW;
+	}
+
 	public String toString() {
-		return "(" + ")";
+		return "(" + COL + " , " + ROW + ")";
 	}
 }

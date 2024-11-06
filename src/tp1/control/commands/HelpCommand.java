@@ -22,4 +22,9 @@ public class HelpCommand extends NoParamsCommand {
 		view.showMessage(CommandGenerator.commandHelp());
 	}
 
+	@Override
+	public boolean showBoard() {
+		return false;
+	}
+
 }
