@@ -80,6 +80,10 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 		}
 	}
 
+	public GameObjectContainer getContainer() {
+        return this.container;  // Return the container of game objects
+    }
+
 	// GameStatus methods
 	@Override
 	public int getCycle() {
@@ -89,15 +93,19 @@ public class Game implements GameModel, GameStatus { // , GameWorld
 
 	@Override
 	public int numLemmingsInBoard() {
-		// TODO Auto-generated method stub
-		return lemmingsInGame;
+		return lemmingsInGame-numLemmingsDead();
 	}
 
 	@Override
 	public int numLemmingsDead() {
-		// TODO Auto-generated method stub
-		return 0;
+	int deadLemmingCount = 0;
+    for (GameObject obj : container) {
+            if (obj.isDead()) {  // Polymorphic call to isDead
+                deadLemmingCount++;
+        }
 	}
+	return deadLemmingCount;
+}
 
 	@Override
 	public int numLemmingsExit() {

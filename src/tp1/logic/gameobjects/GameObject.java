@@ -37,4 +37,14 @@ public abstract class GameObject {
 
 	public abstract void update();
 
+	public boolean isLemming() {
+		return false;
+	}
+	public boolean isExit() {
+        return false;  
+    }
+	public boolean isDead() {
+        return false;
+    }
+	protected abstract Object getPosition();
 }
