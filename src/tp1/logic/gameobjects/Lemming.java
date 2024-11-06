@@ -1,7 +1,5 @@
 package tp1.logic.gameobjects;
 
-import java.util.List;
-
 import tp1.logic.Direction;
 import tp1.logic.Game;
 import tp1.logic.Position;
@@ -15,7 +13,6 @@ public class Lemming extends GameObject {
 	private Direction dir;
 	private final int MAX_FALL = 3;
 	private boolean isFalling = false;
-	private boolean exited=false;
 
 	public Lemming(Game game, Position pos, Direction dir) {
 		super(game, pos);
@@ -26,10 +23,6 @@ public class Lemming extends GameObject {
 	public Direction getDirection() {
 		return this.dir;
 	}
-	
-	public Position getPosition() {
-        return this.pos;
-    }
 
 	// Not mandatory but recommended
 	public void walkOrFall() {
@@ -74,7 +67,6 @@ public class Lemming extends GameObject {
 			if (nextCol == WALL_LEFT || game.positionToString(nextCol, currePosition.getRow()).equals(Messages.WALL)) {
 				reverseDir();
 			}
-			checkFloor();
 			return true;
 		} else if (this.dir == Direction.DOWN) {
 			checkFloor();
@@ -97,6 +89,10 @@ public class Lemming extends GameObject {
 		if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(Messages.WALL)) { //
 			this.isFalling = false;
 			this.dir = Direction.RIGHT;
+
+			if (this.fallForce >= MAX_FALL) {
+				this.isAlive = false;
+			}
 		}
 
 	}
@@ -109,17 +105,11 @@ public class Lemming extends GameObject {
 		}
 	}
 
-	public void checkExit() {
-        List<GameObject> exitDoors = game.getContainer().getExitDoors();  // Get all exit doors in the game
-        
-        for (GameObject exitDoor : exitDoors) {
-            if (exitDoor.getPosition().equals(this.pos)) {
-                this.exited = true; // Lemming has exited
-                this.dir = Direction.NONE;  // Stop the Lemming from moving
-                break;  // No need to check further once the Lemming has exited
-            }
-        }
-    }
+	// @Override
+	// private boolean isAlive(){
+	// return
+	// }
+
 	/**
 	 * Implements the automatic update
 	 */
@@ -144,5 +134,4 @@ public class Lemming extends GameObject {
 	public String toString() {
 		return role.getIcon(this);
 	}
-
 }
