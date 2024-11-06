@@ -1,11 +1,13 @@
 package tp1.logic;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import tp1.logic.gameobjects.GameObject;
 
-public class GameObjectContainer {
+public class GameObjectContainer implements Iterable<GameObject> {
 	private List<GameObject> objects;
 
 	public GameObjectContainer() {
@@ -31,6 +33,35 @@ public class GameObjectContainer {
 			object.update();
 		}
 	}
+	public List<GameObject> getExitDoors() {
+        List<GameObject> exitDoors = new ArrayList<>();
+        for (GameObject obj : objects) {
+            if (obj.isExit()) {  
+                exitDoors.add(obj);  
+            }
+        }
+        return exitDoors;  
+    }
+
+	@Override
+	public Iterator<GameObject> iterator() {
+		return new Iterator<GameObject>() {
+        private int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < objects.size();
+        }
+
+        @Override
+        public GameObject next() {
+            if (!hasNext()) { // Ensure there's a next element
+                throw new NoSuchElementException(); // Throw exception if no elements left
+            }
+            return objects.get(index++);  // Return the object and increment the index
+        }
+    };
+}
 
 	public void clearList() { // encapsulation?
 		objects.clear();
