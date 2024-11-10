@@ -12,10 +12,12 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public static final int DIM_X = 10;
 	public static final int DIM_Y = 10;
 
-	private GameObjectContainer container = new GameObjectContainer();
+	private GameObjectContainer container = new GameObjectContainer(this);
 	private boolean gameFinished = false;
 	private int lemmingsInGame = 0;
 	private int cycleNum = 0;
+	public boolean playerWins;
+	private int numLemmingsExit = 0;
 
 	public Game(int nLevel) {
 		initLevel(nLevel);
@@ -28,7 +30,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			case 1:
 				Position[] lemmingPos = {
 						// new Position(1, 1),
-						// new Position(2, 2),
+						new Position(4, 2),
 						new Position(2, 2) };
 
 				for (Position pos : lemmingPos) {
@@ -40,14 +42,14 @@ public class Game implements GameModel, GameStatus, GameWorld {
 						new Position(0, 1), new Position(0, 2), new Position(0, 3),
 						new Position(1, 3), new Position(2, 3), new Position(3, 3), new Position(4, 3),
 						new Position(4, 4), new Position(4, 5), new Position(4, 6),
-						new Position(5, 9), new Position(6, 9), new Position(7, 9), new Position(8, 9),
+						new Position(5, 5), new Position(6, 5), new Position(7, 5), new Position(8, 5),
 						new Position(8, 7), new Position(8, 8), new Position(8, 9) };
 
 				for (Position pos : wallsPos) {
 					container.add(new Wall(this, pos));
 				}
 
-				Position ExitDoorPos = new Position(9, 9);
+				Position ExitDoorPos = new Position(7, 4);
 				container.add(new ExitDoor(this, ExitDoorPos));
 				break;
 			case 2:
@@ -72,7 +74,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				for (Position pos : wallsPos2) {
 					container.add(new Wall(this, pos));
 				}
-				Position ExitDoorPos2 = new Position(9, 9);
+				Position ExitDoorPos2 = new Position(7, 5);
 				container.add(new ExitDoor(this, ExitDoorPos2));
 				break;
 			default:
@@ -99,14 +101,13 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public int numLemmingsExit() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return numLemmingsExit;
 	}
 
 	@Override
 	public int numLemmingsToWin() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 2;
 	}
 
 	@Override
@@ -117,13 +118,19 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public boolean playerWins() {
-		// TODO Auto-generated method stub
+		if (numLemmingsExit() >= numLemmingsToWin()) {
+			gameFinished = true;
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean playerLooses() {
-		// TODO Auto-generated method stub
+		if (numLemmingsInBoard() == 0) {
+			gameFinished = true;
+			return true;
+		}
 		return false;
 	}
 
@@ -132,6 +139,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public void update() {
 		container.update();
 		cycleNum++;
+		// lemmingArrived();
+
 	}
 
 	// @Override
@@ -146,11 +155,11 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	// @Override
 	public void reset() {
-		// reset all necesary game attributes
 		lemmingsInGame = 0;
 		cycleNum = 0;
-		// container.clearList();
-		container = new GameObjectContainer();
+		playerWins = false;
+		numLemmingsExit = 0;
+		container = new GameObjectContainer(this);
 		initLevel(1);
 
 	}
@@ -166,8 +175,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		return gameFinished;
 	}
 
-	// TODO Auto-generated method stub
-
 	// GameWorld methods (callbacks)
 	// @Override
 	public boolean isInAir(Position pos) {
@@ -175,11 +182,34 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		return false;
 	}
 
-	// @Override
+	//// @Override
 	public void lemmingArrived() {
-		// TODO Auto-generated method stub
+		if (container.checkExit() != 0) {
+			numLemmingsExit += container.checkExit();
+			lemmingsInGame -= container.checkExit();
+		}
+		playerWins();
+		playerLooses();
 	}
-	// TODO Auto-generated method stub
+
+	// public void updateExitCount(int count) {
+	// numLemmingsExit += count;
+	// lemmingsInGame -= count;
+	// if (numLemmingsExit >= numLemmingsToWin()) {
+	// playerWins = true;
+	// gameFinished = true;
+	// }
+	// }
+	public void updateLemmingStatus(int exitedCount) {
+		numLemmingsExit += exitedCount;
+		lemmingsInGame -= exitedCount;
+		if (numLemmingsExit >= numLemmingsToWin()) {
+			playerWins = true;
+			gameFinished = true;
+		} else if (lemmingsInGame == 0) {
+			gameFinished = true; // Check if all lemmings are exhausted
+		}
+	}
 
 	// Other methods
 	// TODO you should write a toString method to return the string that represents

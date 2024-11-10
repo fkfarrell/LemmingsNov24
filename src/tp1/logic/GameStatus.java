@@ -21,4 +21,6 @@ public interface GameStatus {
 	public boolean playerWins();
 
 	public boolean playerLooses();
+
+	public void updateLemmingStatus(int exitedCount);
 }

@@ -15,13 +15,16 @@ public class WalkerRole {
 	}
 
 	public String getIcon(Lemming lemming) {
-		if (lemming.getDirection() == Direction.RIGHT) {
-			return ICON_RIGHT;
-		} else if (lemming.getDirection() == Direction.DOWN) {
-			return ICON_RIGHT;
-		} else {
-			return ICON_LEFT;
-		}
+		if (lemming.isAlive()) {
+			if (lemming.getDirection() == Direction.RIGHT) {
+				return ICON_RIGHT;
+			} else if (lemming.getDirection() == Direction.DOWN) {
+				return ICON_RIGHT;
+			} else {
+				return ICON_LEFT;
+			}
+		} else
+			return " ";
 	}
 
 	private String getName() {

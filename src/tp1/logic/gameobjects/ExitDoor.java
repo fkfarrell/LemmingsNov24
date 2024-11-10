@@ -23,4 +23,13 @@ public class ExitDoor extends GameObject {
     public String toString() {
         return "D";
     }
+
+    @Override
+    public void makeInvisible() {
+    }
+
+    // @Override
+    // public Position getPosition(){
+    // return this.pos;
+    // }
 }

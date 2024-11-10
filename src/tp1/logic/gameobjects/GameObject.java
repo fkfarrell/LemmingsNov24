@@ -4,7 +4,6 @@ import tp1.logic.Game;
 import tp1.logic.Position;
 
 public abstract class GameObject {
-
 	protected Position pos;
 	protected boolean isAlive;
 	protected Game game;
@@ -16,25 +15,33 @@ public abstract class GameObject {
 	}
 
 	public boolean isInPosition(Position p) {
-		// TODO fill your code here, it should depends on the status of the object
 		if (this.isAlive && this.pos.isEqual(p)) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public boolean isAlive() {
 		return isAlive;
 	}
 
-	// TODO implement and decide, Which one is abstract?
-	// public boolean isSolid()
-	// public boolean isExit()
-	// public void update()
+	public boolean isDead() {
+		return !isAlive;
+	}
+
+	public boolean isExit() {
+		return false;
+	}
 
 	public abstract String getIcon();
 
+	public Position getPosition() {
+		return this.pos;
+	}
+
 	public abstract void update();
 
+	public void makeInvisible() {
+		this.isAlive = false;
+	}
 }

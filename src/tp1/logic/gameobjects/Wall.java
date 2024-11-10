@@ -25,4 +25,12 @@ public class Wall extends GameObject {
         return Messages.WALL;
     }
 
+    @Override
+    public Position getPosition() {
+        return null;
+    }
+
+    @Override
+    public void makeInvisible() {
+    }
 }
