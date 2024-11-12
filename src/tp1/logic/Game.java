@@ -107,7 +107,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public int numLemmingsExit() {
-
+		// TODO Auto-generated method stub
 		return numLemmingsExit;
 	}
 
