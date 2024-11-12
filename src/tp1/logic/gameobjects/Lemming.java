@@ -41,26 +41,34 @@ public class Lemming extends GameObject {
 	public boolean canMove() {
 		Direction movDirection = this.getDirection();
 		Position currePosition = this.pos;
-		final int WALL_RIGHT = 10;
+		final int WALL_RIGHT = 9;
 		final int WALL_LEFT = 0;
 
 		if (this.dir == Direction.RIGHT) {
 			int nextCol = currePosition.getCol() + movDirection.getX();
-			if (nextCol == WALL_RIGHT || game.positionToString(nextCol, currePosition.getRow()).equals(Messages.WALL)) {
-				reverseDir();
+			if (nextCol >= WALL_RIGHT || game.positionToString(nextCol,
+					currePosition.getRow()).equals(Messages.WALL)) {
+				System.out.println("WWWAAAALLLLLLL");
+				this.reverseDir();
 			}
 			checkFloor();
+			this.fallForce = 0;
 			return true;
 		} else if (this.dir == Direction.LEFT) {
 			int nextCol = currePosition.getCol() + movDirection.getX();
-			if (nextCol == WALL_LEFT || game.positionToString(nextCol, currePosition.getRow()).equals(Messages.WALL)) {
-				reverseDir();
+			if (nextCol == WALL_LEFT || game.positionToString(nextCol,
+					currePosition.getRow()).equals(Messages.WALL)) {
+				System.out.println("WWWAAAALLLLLLL");
+				this.reverseDir();
 			}
+			checkFloor();
+			this.fallForce = 0;
 			return true;
 		} else if (this.dir == Direction.DOWN) {
 			checkFloor();
 			int nextRow = currePosition.getCol() + movDirection.getX();
-			if (nextRow == WALL_RIGHT || game.positionToString(currePosition.getCol(), nextRow).equals(Messages.WALL)) {
+			if (nextRow == WALL_RIGHT || game.positionToString(currePosition.getCol(),
+					nextRow).equals(Messages.WALL)) {
 				// Handle wall collision while falling
 			}
 			return true;

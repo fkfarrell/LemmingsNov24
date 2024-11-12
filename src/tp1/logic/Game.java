@@ -54,9 +54,9 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				break;
 			case 2:
 				Position[] lemmingPos2 = {
-						new Position(1, 1),
-						new Position(2, 2),
-						new Position(3, 3) };
+						new Position(0, 0),
+						new Position(2, 0),
+						new Position(4, 0) };
 
 				for (Position pos : lemmingPos2) {
 					container.add(new Lemming(this, pos, Direction.RIGHT));
@@ -64,17 +64,23 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				}
 
 				Position[] wallsPos2 = {
-						new Position(0, 2), new Position(1, 2), new Position(2, 2), // Upper left section
-						new Position(3, 3), new Position(3, 4), new Position(3, 5), // Vertical segment in the middle
-						new Position(4, 5), new Position(5, 5), new Position(6, 5), // Horizontal middle row
-						new Position(7, 6), new Position(8, 6), new Position(9, 6), // Bottom segment
-						new Position(9, 7), new Position(9, 8) // Right section near the end
+						new Position(0, 1), new Position(1, 1), new Position(2, 1),
+						new Position(2, 3), new Position(3, 3), new Position(4, 3),
+						new Position(4, 5), new Position(5, 5), new Position(6, 5),
+						new Position(7, 5), new Position(8, 5), new Position(9, 5),
+
+						new Position(10, 5),
+
+						new Position(9, 4),
+
+						new Position(4, 8), new Position(5, 8), new Position(6, 8),
+						new Position(1, 8), new Position(2, 8), new Position(3, 8),
 				};
 
 				for (Position pos : wallsPos2) {
 					container.add(new Wall(this, pos));
 				}
-				Position ExitDoorPos2 = new Position(7, 5);
+				Position ExitDoorPos2 = new Position(1, 7);
 				container.add(new ExitDoor(this, ExitDoorPos2));
 				break;
 			default:
@@ -192,14 +198,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		playerLooses();
 	}
 
-	// public void updateExitCount(int count) {
-	// numLemmingsExit += count;
-	// lemmingsInGame -= count;
-	// if (numLemmingsExit >= numLemmingsToWin()) {
-	// playerWins = true;
-	// gameFinished = true;
-	// }
-	// }
 	public void updateLemmingStatus(int exitedCount) {
 		numLemmingsExit += exitedCount;
 		lemmingsInGame -= exitedCount;
@@ -207,7 +205,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			playerWins = true;
 			gameFinished = true;
 		} else if (lemmingsInGame == 0) {
-			gameFinished = true; // Check if all lemmings are exhausted
+			gameFinished = true;
 		}
 	}
 
