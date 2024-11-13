@@ -2,6 +2,7 @@ package tp1.logic.gameobjects;
 
 import tp1.logic.Game;
 import tp1.logic.Position;
+import tp1.logic.lemmingRoles.LemmingRole;
 
 public abstract class GameObject {
 	protected Position pos;
@@ -43,5 +44,9 @@ public abstract class GameObject {
 
 	public void makeInvisible() {
 		this.isAlive = false;
+	}
+
+	public boolean setRole(LemmingRole role) {
+		return false;
 	}
 }

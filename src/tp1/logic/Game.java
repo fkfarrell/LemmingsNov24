@@ -6,6 +6,8 @@ import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameWorld;
 import tp1.logic.gameobjects.Lemming;
 import tp1.logic.gameobjects.Wall;
+import tp1.logic.lemmingRoles.ParachuterRole;
+import tp1.logic.lemmingRoles.WalkerRole;
 
 public class Game implements GameModel, GameStatus, GameWorld {
 
@@ -18,6 +20,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private int cycleNum = 0;
 	public boolean playerWins;
 	private int numLemmingsExit = 0;
+	private int deadLemmings = 0;
 
 	public Game(int nLevel) {
 		initLevel(nLevel);
@@ -34,7 +37,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 						new Position(2, 2) };
 
 				for (Position pos : lemmingPos) {
-					container.add(new Lemming(this, pos, Direction.RIGHT));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
 					lemmingsInGame++;
 				}
 
@@ -59,7 +62,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 						new Position(4, 0) };
 
 				for (Position pos : lemmingPos2) {
-					container.add(new Lemming(this, pos, Direction.RIGHT));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
 					lemmingsInGame++;
 				}
 
@@ -83,6 +86,39 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				Position ExitDoorPos2 = new Position(1, 7);
 				container.add(new ExitDoor(this, ExitDoorPos2));
 				break;
+
+			case 3:
+				Position[] lemmingPos3 = {
+						// new Position(0, 0),
+						new Position(2, 0),
+						new Position(4, 1)
+				};
+
+				// for (Position pos : lemmingPos3) {
+				// container.add(new Lemming(this, pos, Direction.RIGHT, new ParachuterRole()));
+				// lemmingsInGame++;
+				// }
+				for (Position pos : lemmingPos3) {
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					lemmingsInGame++;
+				}
+
+				Position paraPos = new Position(6, 1);
+				container.add(new Lemming(this, paraPos, Direction.RIGHT, new ParachuterRole()));
+
+				Position[] wallsPos3 = {
+
+						new Position(4, 8), new Position(5, 8), new Position(6, 8),
+						new Position(1, 8), new Position(2, 8), new Position(3, 8),
+				};
+
+				for (Position pos : wallsPos3) {
+					container.add(new Wall(this, pos));
+				}
+				Position ExitDoorPos3 = new Position(1, 7);
+				container.add(new ExitDoor(this, ExitDoorPos3));
+				break;
+
 			default:
 				break;
 		}
@@ -100,9 +136,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 
 	@Override
-	public int numLemmingsDead() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int numLemmingsDead() { // does this break encapsulation??
+		return container.deadLemmings();
 	}
 
 	@Override
@@ -133,7 +168,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public boolean playerLooses() {
-		if (numLemmingsInBoard() == 0) {
+
+		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 2)) { // does cintainer.deadLemmings
 			gameFinished = true;
 			return true;
 		}
@@ -145,7 +181,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public void update() {
 		container.update();
 		cycleNum++;
-		// lemmingArrived();
+		playerWins();
+		playerLooses();
 
 	}
 
@@ -165,6 +202,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		cycleNum = 0;
 		playerWins = false;
 		numLemmingsExit = 0;
+		deadLemmings = 0;
 		container = new GameObjectContainer(this);
 		initLevel(1);
 
@@ -194,8 +232,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			numLemmingsExit += container.checkExit();
 			lemmingsInGame -= container.checkExit();
 		}
-		playerWins();
-		playerLooses();
 	}
 
 	public void updateLemmingStatus(int exitedCount) {

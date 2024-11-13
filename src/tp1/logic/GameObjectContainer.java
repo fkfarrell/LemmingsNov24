@@ -72,6 +72,16 @@ public class GameObjectContainer {
 		return exitDoorPositions;
 	}
 
+	public int deadLemmings() {
+		int deadLemmings = 0;
+		for (GameObject object : objects) {
+			if (!object.isAlive()) {
+				deadLemmings++;
+			}
+		}
+		return deadLemmings;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder containerString = new StringBuilder();
