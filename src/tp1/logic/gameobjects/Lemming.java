@@ -3,21 +3,35 @@ package tp1.logic.gameobjects;
 import tp1.logic.Direction;
 import tp1.logic.Game;
 import tp1.logic.Position;
+import tp1.logic.lemmingRoles.LemmingRole;
+import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
 import tp1.view.Messages;
 
 public class Lemming extends GameObject {
-	private WalkerRole role;
+	private LemmingRole role;
+	private WalkerRole walkerRole;
+	// private WalkerRole role;
 	private int fallForce = 0;
 	private Direction dir;
 	private final int MAX_FALL = 3;
 	private boolean isFalling = false;
 
-	public Lemming(Game game, Position pos, Direction dir) {
+	public Lemming(Game game, Position pos, Direction dir, LemmingRole role) {
 		super(game, pos);
-		this.role = new WalkerRole();
+		this.role = role;
 		this.dir = dir;
 	}
+
+	@Override
+	public boolean setRole(LemmingRole role) {
+		this.role = role;
+		return true;
+	};
+
+	public void disableRole() {
+		this.role = new WalkerRole();
+	};
 
 	public Direction getDirection() {
 		return this.dir;
@@ -80,14 +94,21 @@ public class Lemming extends GameObject {
 		if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(" ")) {
 			this.isFalling = true;
 			this.dir = Direction.DOWN;
-		}
-
-		if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(Messages.WALL)) {
+		} else {
 			this.isFalling = false;
 			this.dir = Direction.RIGHT;
 
-			if (this.fallForce >= MAX_FALL) {
+			this.role = new WalkerRole(); // LEMMING MOVEMENT (2.2)
+			this.disableRole();
+
+			if (this.fallForce >= MAX_FALL && (this.getIcon() == LemmingRole.WALKER_ICON_LEFT
+					|| this.getIcon() == LemmingRole.WALKER_ICON_RIGHT)) { // && (this.role !=
+				// ParachuterRole(), none
+				// parachuters will die from
+				// a
+				// fall
 				this.isAlive = false;
+
 			}
 		}
 	}
@@ -116,7 +137,7 @@ public class Lemming extends GameObject {
 	@Override
 	public void update() {
 		if (this.isAlive()) {
-			role.play(this);
+			role.advance(this);
 			checkExit();
 		}
 	}

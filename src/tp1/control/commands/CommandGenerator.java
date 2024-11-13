@@ -11,9 +11,10 @@ public class CommandGenerator {
 			new HelpCommand(),
 			new ExitCommand(),
 			new UpdateCommand(),
-			new ResetCommand());
+			new ResetCommand(),
+			new SetRoleCommand());
 
-	public static Command parse(String[] commandWords) { // should take in a blank return as "[n]one"
+	public static Command parse(String[] commandWords) {
 
 		Command cmd = null;
 
