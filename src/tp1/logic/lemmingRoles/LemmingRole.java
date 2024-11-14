@@ -17,4 +17,8 @@ public interface LemmingRole {
 
     public void advance(Lemming lemming);
 
+    public String helpText();
+
+    public String getShortcut();
+
 }

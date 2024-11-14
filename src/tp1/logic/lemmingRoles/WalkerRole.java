@@ -34,7 +34,8 @@ public class WalkerRole implements LemmingRole {
 		return NAME;
 	}
 
-	public String getHelp() {
+	@Override
+	public String helpText() {
 		return HELP;
 	}
 
@@ -47,6 +48,11 @@ public class WalkerRole implements LemmingRole {
 
 	@Override
 	public void play(Lemming lemming) {
+	}
+
+	@Override
+	public String getShortcut() {
+		return "w";
 	}
 
 }

@@ -2,6 +2,7 @@ package tp1.control.commands;
 
 import tp1.logic.Game;
 import tp1.logic.GameModel;
+import tp1.logic.lemmingRoles.LemmingRoleFactory;
 import tp1.view.GameView;
 import tp1.view.Messages;
 
@@ -20,6 +21,8 @@ public class HelpCommand extends NoParamsCommand {
 	public void execute(GameModel game, GameView view) {
 		view.showMessage(Messages.HELP_AVAILABLE_COMMANDS + Messages.LINE_SEPARATOR);
 		view.showMessage(CommandGenerator.commandHelp());
+		view.showMessage(LemmingRoleFactory.roleHelp());
+
 	}
 
 	@Override

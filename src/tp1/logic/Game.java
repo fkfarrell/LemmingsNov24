@@ -6,6 +6,7 @@ import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameWorld;
 import tp1.logic.gameobjects.Lemming;
 import tp1.logic.gameobjects.Wall;
+import tp1.logic.lemmingRoles.LemmingRole;
 import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
 
@@ -136,7 +137,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 
 	@Override
-	public int numLemmingsDead() { // does this break encapsulation??
+	public int numLemmingsDead() {
 		return container.deadLemmings();
 	}
 
@@ -242,6 +243,24 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			gameFinished = true;
 		} else if (lemmingsInGame == 0) {
 			gameFinished = true;
+		}
+	}
+
+	public boolean checkLemmingPosition(Position pos) {
+		if (container.checkLemmingPosition(pos)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean setLemmingRole(Position pos, LemmingRole role) {
+		// System.out.println("Role : " + role + " @ " + pos);
+		if (container.setLemmingRole(pos, role)) {
+			return true;
+		} else {
+			System.out.println("ERROR");
+			return false;
 		}
 	}
 

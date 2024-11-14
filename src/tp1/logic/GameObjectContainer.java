@@ -3,6 +3,7 @@ package tp1.logic;
 import java.util.ArrayList;
 import java.util.List;
 import tp1.logic.gameobjects.GameObject;
+import tp1.logic.lemmingRoles.LemmingRole;
 
 public class GameObjectContainer {
 	private List<GameObject> objects;
@@ -70,6 +71,29 @@ public class GameObjectContainer {
 			}
 		}
 		return exitDoorPositions;
+	}
+
+	public boolean checkLemmingPosition(Position pos) {
+
+		for (GameObject object : objects) {
+			if (object.isInPosition(pos)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean setLemmingRole(Position pos, LemmingRole role) {
+
+		for (GameObject object : objects) {
+			if (object.isInPosition(pos)) {
+				// System.out.println("SETTING " + role + " AT " + pos.toString());
+				object.setRole(role);
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public int deadLemmings() {

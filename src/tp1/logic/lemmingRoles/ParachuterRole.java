@@ -6,8 +6,8 @@ import tp1.logic.gameobjects.Lemming;
 import tp1.view.Messages;
 
 public class ParachuterRole implements LemmingRole {
-    private static final String NAME = Messages.WALKER_ROL_NAME;
-    private static final String HELP = Messages.WALKER_ROL_HELP;
+    private static final String NAME = Messages.PARACHUTER_ROL_NAME;
+    private static final String HELP = Messages.PARACHUTER_ROL_HELP;
 
     private static final String ICON = Messages.LEMMING_PARACHUTE;
 
@@ -26,6 +26,25 @@ public class ParachuterRole implements LemmingRole {
 
     @Override
     public void play(Lemming lemming) {
+    }
+
+    @Override
+    public String helpText() {
+        return HELP;
+    }
+
+    private String getName() {
+        return NAME;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    @Override
+    public String getShortcut() {
+        return "p";
     }
 
 }
