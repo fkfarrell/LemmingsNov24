@@ -47,6 +47,8 @@ public abstract class GameObject {
 	}
 
 	public boolean setRole(LemmingRole role) {
+		System.out.println(
+				"[ERROR] Error: SetRoleCommand error (Incorrect position or no object in that position admits that role)");
 		return false;
 	}
 }
