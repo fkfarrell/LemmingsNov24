@@ -22,9 +22,5 @@ public enum Direction {
 	public int getY() {
 		return y;
 	}
-
-
-	//TODO fill your code
-	
 	
 }

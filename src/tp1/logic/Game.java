@@ -59,11 +59,11 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			case 2:
 				Position[] lemmingPos2 = {
 						new Position(0, 0),
-						new Position(2, 0),
-						new Position(4, 0) };
+						new Position(1, 7),
+						new Position(3, 4) };
 
 				for (Position pos : lemmingPos2) {
-					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.LEFT, new WalkerRole()));
 					lemmingsInGame++;
 				}
 
@@ -84,7 +84,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				for (Position pos : wallsPos2) {
 					container.add(new Wall(this, pos));
 				}
-				Position ExitDoorPos2 = new Position(1, 7);
+				Position ExitDoorPos2 = new Position(5, 7);
 				container.add(new ExitDoor(this, ExitDoorPos2));
 				break;
 
@@ -100,7 +100,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				// lemmingsInGame++;
 				// }
 				for (Position pos : lemmingPos3) {
-					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.LEFT, new WalkerRole()));
 					lemmingsInGame++;
 				}
 
@@ -170,7 +170,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	@Override
 	public boolean playerLooses() {
 
-		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 2)) { // does cintainer.deadLemmings
+		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 3)) { // does container.deadLemmings
 			gameFinished = true;
 			return true;
 		}
