@@ -111,7 +111,7 @@ public class Lemming extends GameObject {
 			this.disableRole();
 		}
 
-		if (this.fallForce >= MAX_FALL) { // && (this.role !=
+		if (this.fallForce >= MAX_FALL && !this.role.equals(new ParachuterRole())) { // && (this.role !=
 			// ParachuterRole(), none
 			// parachuters will die from
 			// a

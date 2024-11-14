@@ -45,6 +45,11 @@ public class SetRoleCommand extends Command {
     public Command parse(String[] commandWords) {
         // parse info taken in and return cmd.
 
+        if (commandWords.length < 4) {
+            System.err.println("[ERROR] Error: SetRoleCommand requires a role, a row, and a column.");
+            return null;
+        }
+
         // LEMMING ROLE
         LemmingRole role = LemmingRoleFactory.parse(commandWords);
         gameRole = role;
@@ -52,7 +57,15 @@ public class SetRoleCommand extends Command {
             System.err.println("[ERROR] Error: Unknown Role");
         }
 
-        try {
+        // configure for null commands
+        if (commandWords[2] == null) {
+            System.err.println(
+                    "[ERROR] Error: SetRoleCommand error (Incorrect position or no object in that position admits that role)");
+        }
+
+        try
+
+        {
             String rowPos = commandWords[2].toLowerCase();
             if (rowPos.length() != 1 || rowPos.charAt(0) < 'a' || rowPos.charAt(0) > 'j') {
                 System.err.println("[ERROR] Error: Row position out of board bounds");
