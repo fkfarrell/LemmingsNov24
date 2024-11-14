@@ -14,6 +14,7 @@ public class ParachuterRole implements LemmingRole {
     @Override
     public void advance(Lemming lemming) {
         lemming.walkOrFall();
+        System.out.println("advanced lemming");
     }
 
     @Override
