@@ -59,11 +59,11 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			case 2:
 				Position[] lemmingPos2 = {
 						new Position(0, 0),
-						new Position(1, 7),
-						new Position(3, 4) };
+						new Position(2, 0),
+						new Position(4, 0) };
 
 				for (Position pos : lemmingPos2) {
-					container.add(new Lemming(this, pos, Direction.LEFT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
 					lemmingsInGame++;
 				}
 
@@ -84,7 +84,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				for (Position pos : wallsPos2) {
 					container.add(new Wall(this, pos));
 				}
-				Position ExitDoorPos2 = new Position(5, 7);
+				Position ExitDoorPos2 = new Position(1, 7);
 				container.add(new ExitDoor(this, ExitDoorPos2));
 				break;
 
@@ -100,7 +100,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				// lemmingsInGame++;
 				// }
 				for (Position pos : lemmingPos3) {
-					container.add(new Lemming(this, pos, Direction.LEFT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
 					lemmingsInGame++;
 				}
 
@@ -137,7 +137,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 
 	@Override
-	public int numLemmingsDead() {
+	public int numLemmingsDead() { // does this break encapsulation??
 		return container.deadLemmings();
 	}
 
@@ -170,7 +170,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	@Override
 	public boolean playerLooses() {
 
-		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 3)) { // does container.deadLemmings
+		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 2)) { // does cintainer.deadLemmings
 			gameFinished = true;
 			return true;
 		}
@@ -246,6 +246,22 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 	}
 
+	// Other methods
+	// TODO you should write a toString method to return the string that represents
+	// the object status
+	// @Override
+	// public String toString()
+	public String toString() {
+		StringBuilder gameString = new StringBuilder();
+		for (int row = 0; row < DIM_Y; row++) {
+			for (int col = 0; col < DIM_X; col++) {
+				gameString.append(positionToString(col, row)).append(" ");
+			}
+			gameString.append("\n");
+		}
+		return gameString.toString();
+	}
+
 	public boolean checkLemmingPosition(Position pos) {
 		if (container.checkLemmingPosition(pos)) {
 			return true;
@@ -262,21 +278,5 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			System.out.println("ERROR");
 			return false;
 		}
-	}
-
-	// Other methods
-	// TODO you should write a toString method to return the string that represents
-	// the object status
-	// @Override
-	// public String toString()
-	public String toString() {
-		StringBuilder gameString = new StringBuilder();
-		for (int row = 0; row < DIM_Y; row++) {
-			for (int col = 0; col < DIM_X; col++) {
-				gameString.append(positionToString(col, row)).append(" ");
-			}
-			gameString.append("\n");
-		}
-		return gameString.toString();
 	}
 }
