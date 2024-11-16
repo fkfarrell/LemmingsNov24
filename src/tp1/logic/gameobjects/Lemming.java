@@ -26,15 +26,15 @@ public class Lemming extends GameObject {
 	public boolean setRole(LemmingRole role) {
 		if (this.role.equals(role)) {
 			System.out.println("SAME ROLE");
+			game.update();
+			return false;
+		} else if (!this.isFalling && role.toString().equals(new ParachuterRole().toString())) {
+			game.update();
 			return false;
 		} else {
 			this.role = role;
 			return true;
 		}
-
-		// if(!this.isFalling)}
-		// {}
-
 	};
 
 	public void disableRole() {
@@ -46,6 +46,8 @@ public class Lemming extends GameObject {
 	}
 
 	public void walkOrFall() {
+
+		this.checkOffBoard();
 		if (this.canMove()) {
 			if (this.dir == Direction.LEFT) {
 				this.pos = new Position(this.pos.getCol() - 1, this.pos.getRow());
@@ -104,21 +106,25 @@ public class Lemming extends GameObject {
 			this.dir = Direction.DOWN;
 
 		} else if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(Messages.WALL) && isFalling) {
+
+			if (this.fallForce >= MAX_FALL && !this.role.getIcon(this).equals(Messages.LEMMING_PARACHUTE)) {
+				this.isAlive = false;
+			}
 			this.dir = Direction.RIGHT;
 			this.isFalling = false;
-
+			this.fallForce = 0;
 			this.role = new WalkerRole();
 			this.disableRole();
+
 		}
 
-		if (this.fallForce >= MAX_FALL && !this.role.equals(new ParachuterRole())) { // && (this.role !=
-			// ParachuterRole(), none
-			// parachuters will die from
-			// a
-			// fall
-			this.isAlive = false;
-		}
+	}
 
+	private void checkOffBoard() {
+		if (this.pos.getCol() < 0 || this.pos.getCol() > Game.DIM_X ||
+				this.pos.getRow() < 0 || this.pos.getRow() > Game.DIM_Y - 2) {
+			this.makeInvisible();
+		}
 	}
 
 	private void checkExit() {
@@ -127,7 +133,6 @@ public class Lemming extends GameObject {
 			game.lemmingArrived();
 		}
 	}
-	/// //////////////////////////////////////////////////////////////////////////////////////
 
 	private void reverseDir() {
 		if (this.dir == Direction.RIGHT) {
