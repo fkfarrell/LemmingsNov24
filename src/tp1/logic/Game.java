@@ -21,7 +21,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private int cycleNum = 0;
 	public boolean playerWins;
 	private int numLemmingsExit = 0;
-	private int deadLemmings = 0;
+	private int currentLvl=1;
+	private int deadLemmings;
 
 	public Game(int nLevel) {
 		initLevel(nLevel);
@@ -161,7 +162,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	@Override
 	public boolean playerWins() {
 		if (numLemmingsExit() >= numLemmingsToWin()) {
-			gameFinished = true;
 			return true;
 		}
 		return false;
@@ -169,9 +169,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public boolean playerLooses() {
-
 		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 3)) { // does container.deadLemmings
-			gameFinished = true;
 			return true;
 		}
 		return false;
@@ -184,6 +182,15 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		cycleNum++;
 		playerWins();
 		playerLooses();
+
+		if(playerWins()){
+			if(currentLvl<3)currentLvl++;
+			reset();
+		}
+
+		if(playerLooses()){
+			reset();
+		}
 
 	}
 
@@ -205,7 +212,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		numLemmingsExit = 0;
 		deadLemmings = 0;
 		container = new GameObjectContainer(this);
-		initLevel(1);
+		initLevel(currentLvl);
 
 	}
 
@@ -240,7 +247,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		lemmingsInGame -= exitedCount;
 		if (numLemmingsExit >= numLemmingsToWin()) {
 			playerWins = true;
-			gameFinished = true;
 		} else if (lemmingsInGame == 0) {
 			gameFinished = true;
 		}
