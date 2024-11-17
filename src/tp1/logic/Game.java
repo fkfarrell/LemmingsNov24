@@ -127,7 +127,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				for (Position pos : wallsPos3) {
 					container.add(new Wall(this, pos));
 				}
-				Position ExitDoorPos3 = new Position(1, 7);
+				Position ExitDoorPos3 = new Position(7, 7);
 				container.add(new ExitDoor(this, ExitDoorPos3));
 				break;
 
@@ -181,7 +181,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public boolean playerLooses() {
 
 		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 2)) {
-			gameFinished = true;
+			
 
 			return true;
 		}
@@ -199,7 +199,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		if(playerWins()){
 			if(currentLvl<3)currentLvl++;
 			reset();
-			if(currentLvl==3)gameFinished=true;
+			//if(currentLvl==3)gameFinished=true;
 		}
 
 		if(playerLooses()){
