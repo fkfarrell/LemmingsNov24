@@ -168,12 +168,13 @@ public class Lemming extends GameObject {
 				// fall
 				this.isAlive = false;
 			}
-
-			this.dir = Direction.RIGHT;
-			this.isFalling = false;
+			else if(isFalling==true){
+				this.dir = Direction.RIGHT;
+				this.isFalling = false;
+				this.disableRole();
 
 			// this.role = new WalkerRole();
-			this.disableRole();
+			}
 		} else {
 			System.out.println("NULL");
 		}
