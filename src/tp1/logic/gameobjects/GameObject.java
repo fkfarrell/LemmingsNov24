@@ -4,7 +4,7 @@ import tp1.logic.Game;
 import tp1.logic.Position;
 import tp1.logic.lemmingRoles.LemmingRole;
 
-public abstract class GameObject {
+public abstract class GameObject implements GameItem {
 	protected Position pos;
 	protected boolean isAlive;
 	protected Game game;
@@ -51,4 +51,6 @@ public abstract class GameObject {
 				"[ERROR] Error: SetRoleCommand error (Incorrect position or no object in that position admits that role)");
 		return false;
 	}
+
+	public abstract boolean receiveInteraction(GameItem other);
 }

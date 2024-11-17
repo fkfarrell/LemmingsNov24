@@ -2,9 +2,11 @@ package tp1.logic;
 
 import tp1.logic.Position;
 import tp1.logic.gameobjects.ExitDoor;
+import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameWorld;
 import tp1.logic.gameobjects.Lemming;
+import tp1.logic.gameobjects.MetalWall;
 import tp1.logic.gameobjects.Wall;
 import tp1.logic.lemmingRoles.LemmingRole;
 import tp1.logic.lemmingRoles.ParachuterRole;
@@ -64,13 +66,13 @@ public class Game implements GameModel, GameStatus, GameWorld {
 						new Position(3, 4) };
 
 				for (Position pos : lemmingPos2) {
-					container.add(new Lemming(this, pos, Direction.LEFT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
 					lemmingsInGame++;
 				}
 
 				Position[] wallsPos2 = {
 						new Position(0, 1), new Position(1, 1), new Position(2, 1),
-						new Position(2, 3), new Position(3, 3), new Position(4, 3),
+						// new Position(2, 3), new Position(3, 3), new Position(4, 3),
 						new Position(4, 5), new Position(5, 5), new Position(6, 5),
 						new Position(7, 5), new Position(8, 5), new Position(9, 5),
 
@@ -78,13 +80,21 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 						new Position(9, 4),
 
-						new Position(4, 8), new Position(5, 8), new Position(6, 8),
-						new Position(1, 8), new Position(2, 8), new Position(3, 8),
 				};
-
 				for (Position pos : wallsPos2) {
 					container.add(new Wall(this, pos));
 				}
+
+				Position[] metalWalls = {
+						new Position(2, 3), new Position(3, 3), new Position(4, 3),
+
+						new Position(4, 8), new Position(5, 8), new Position(6, 8),
+						new Position(1, 8), new Position(2, 8), new Position(3, 8), };
+
+				for (Position pos : metalWalls) {
+					container.add(new MetalWall(this, pos));
+				}
+
 				Position ExitDoorPos2 = new Position(5, 7);
 				container.add(new ExitDoor(this, ExitDoorPos2));
 				break;
@@ -101,7 +111,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				// lemmingsInGame++;
 				// }
 				for (Position pos : lemmingPos3) {
-					container.add(new Lemming(this, pos, Direction.LEFT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
 					lemmingsInGame++;
 				}
 
@@ -139,7 +149,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public int numLemmingsDead() {
-		return container.deadLemmings();
+		return container.deadLemmings() - numLemmingsExit();
 	}
 
 	@Override
@@ -169,7 +179,10 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public boolean playerLooses() {
-		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 3)) { // does container.deadLemmings
+
+		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 2)) {
+			gameFinished = true;
+
 			return true;
 		}
 		return false;
@@ -271,6 +284,11 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 	}
 
+	@Override
+	public boolean receiveInteractionsFrom(GameItem obj) {
+		return container.receiveInteractionsFrom(obj);
+	}
+
 	// Other methods
 	// TODO you should write a toString method to return the string that represents
 	// the object status
@@ -286,4 +304,5 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 		return gameString.toString();
 	}
+
 }
