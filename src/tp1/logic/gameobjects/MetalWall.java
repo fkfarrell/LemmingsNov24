@@ -2,36 +2,11 @@ package tp1.logic.gameobjects;
 
 import tp1.logic.Game;
 import tp1.logic.Position;
-import tp1.view.Messages;
 
-public class Wall extends GameObject {
+public class MetalWall extends GameObject {
 
-    public Wall(Game game, Position pos) {
+    public MetalWall(Game game, Position pos) {
         super(game, pos);
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public String getIcon() {
-        return "W";
-    }
-
-    @Override
-    public String toString() {
-        return Messages.WALL;
-    }
-
-    @Override
-    public Position getPosition() {
-        return null;
-    }
-
-    @Override
-    public void makeInvisible() {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +24,7 @@ public class Wall extends GameObject {
 
     @Override
     public boolean interactWith(Lemming lemming) {
-        return true;
+        return false;
     }
 
     @Override
@@ -64,12 +39,25 @@ public class Wall extends GameObject {
 
     @Override
     public boolean isSolid() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean interactWith(MetalWall metalWall) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
+        return false;
+    }
+
+    @Override
+    public String getIcon() {
+        return "[]";
+    }
+
+    @Override
+    public String toString() {
+        return "[]";
+    }
+
+    @Override
+    public void update() {
     }
 }

@@ -2,6 +2,8 @@ package tp1.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.lemmingRoles.LemmingRole;
 
@@ -104,6 +106,16 @@ public class GameObjectContainer {
 			}
 		}
 		return deadLemmings;
+	}
+
+	public boolean receiveInteractionsFrom(GameItem obj) {
+		// returns true for each interaction that an obkject can have?
+		for (GameObject object : objects) {
+			if (object.receiveInteraction(obj)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
