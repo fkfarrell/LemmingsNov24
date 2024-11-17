@@ -119,6 +119,10 @@ public class Messages {
 	public static final String PARACHUTER_ROL_NAME = "Parachuter";
 	public static final String PARACHUTER_ROL_HELP = "[P]arachuter: Lemming that falls with a parachute";
 
+	public static final String DOWN_CAVER_ROL_SYMBOL = "w";
+	public static final String DOWN_CAVER_ROL_NAME = "DownCaver";
+	public static final String DOWN_CAVER_ROL_HELP = "[D]own[C]aver: Lemming caves downwards";
+
 	// Symbols
 	public static final String EMPTY = "";
 	public static final String METALWALL = MyStringUtils.repeat("X", ConsoleView.CELL_SIZE);

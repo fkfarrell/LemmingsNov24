@@ -10,7 +10,8 @@ public class LemmingRoleFactory {
 
     private static final List<LemmingRole> availableRoles = Arrays.asList(
             new WalkerRole(),
-            new ParachuterRole());
+            new ParachuterRole(),
+            new DownCaverRole());
 
     public static LemmingRole parse(String input[]) {
 

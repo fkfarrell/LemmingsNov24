@@ -9,4 +9,6 @@ public interface GameWorld {
 
     public void lemmingArrived();
 
+    public boolean receiveInteractionsFrom(GameItem obj);
+
 }
