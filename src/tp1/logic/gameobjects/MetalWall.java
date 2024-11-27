@@ -2,6 +2,7 @@ package tp1.logic.gameobjects;
 
 import tp1.logic.Game;
 import tp1.logic.Position;
+import tp1.view.Messages;
 
 public class MetalWall extends GameObject {
 
@@ -9,7 +10,6 @@ public class MetalWall extends GameObject {
         super(game, pos);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean receiveInteraction(GameItem other) {
         try {
@@ -49,12 +49,12 @@ public class MetalWall extends GameObject {
 
     @Override
     public String getIcon() {
-        return "[]";
+        return Messages.METALWALL;
     }
 
     @Override
     public String toString() {
-        return "[]";
+        return Messages.METALWALL;
     }
 
     @Override

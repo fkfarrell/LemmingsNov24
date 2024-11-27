@@ -41,7 +41,6 @@ public class DownCaverRole implements LemmingRole {
         return "d";
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean receiveInteraction(GameItem other, Lemming lemming) {
         // TODO Auto-generated method stub

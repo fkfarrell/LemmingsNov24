@@ -2,6 +2,7 @@ package tp1.logic.gameobjects;
 
 import tp1.logic.Game;
 import tp1.logic.Position;
+import tp1.view.Messages;
 
 public class ExitDoor extends GameObject {
 
@@ -16,12 +17,12 @@ public class ExitDoor extends GameObject {
 
     @Override
     public String getIcon() {
-        return "D";
+        return Messages.EXIT_DOOR;
     }
 
     @Override
     public String toString() {
-        return "D";
+        return Messages.EXIT_DOOR;
     }
 
     @Override
