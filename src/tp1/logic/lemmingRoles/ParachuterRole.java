@@ -18,7 +18,6 @@ public class ParachuterRole implements LemmingRole {
     @Override
     public void advance(Lemming lemming) {
         lemming.walkOrFall();
-        System.out.println("advanced lemming");
     }
 
     @Override
@@ -52,7 +51,6 @@ public class ParachuterRole implements LemmingRole {
         return "p";
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean receiveInteraction(GameItem other, Lemming lemming) {
         // TODO Auto-generated method stub

@@ -17,7 +17,7 @@ public class Wall extends GameObject {
 
     @Override
     public String getIcon() {
-        return "W";
+        return Messages.WALL;
     }
 
     @Override
@@ -34,7 +34,6 @@ public class Wall extends GameObject {
     public void makeInvisible() {
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean receiveInteraction(GameItem other) {
         try {

@@ -23,7 +23,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private int cycleNum = 0;
 	public boolean playerWins;
 	private int numLemmingsExit = 0;
-	private int currentLvl=1;
+	private int currentLvl = 1;
 	private int deadLemmings;
 
 	public Game(int nLevel) {
@@ -100,35 +100,25 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				break;
 
 			case 3:
-				Position[] lemmingPos3 = {
-						// new Position(0, 0),
-						new Position(2, 0),
-						new Position(4, 1)
-				};
-
-				// for (Position pos : lemmingPos3) {
-				// container.add(new Lemming(this, pos, Direction.RIGHT, new ParachuterRole()));
-				// lemmingsInGame++;
-				// }
-				for (Position pos : lemmingPos3) {
-					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
-					lemmingsInGame++;
-				}
-
-				Position paraPos = new Position(6, 1);
-				container.add(new Lemming(this, paraPos, Direction.RIGHT, new ParachuterRole()));
 
 				Position[] wallsPos3 = {
+						new Position(1, 3), new Position(1, 4), new Position(1, 5), new Position(1, 6),
+						new Position(1, 7),
+						new Position(2, 3),
+						new Position(2, 5),
 
-						new Position(4, 8), new Position(5, 8), new Position(6, 8),
-						new Position(1, 8), new Position(2, 8), new Position(3, 8),
+						new Position(4, 3), new Position(4, 5), new Position(4, 6),
+						new Position(4, 7),
+
+						new Position(6, 7), new Position(6, 5), new Position(6, 6),
+						new Position(7, 5),
+						new Position(8, 7), new Position(8, 5), new Position(8, 6),
+
 				};
 
 				for (Position pos : wallsPos3) {
 					container.add(new Wall(this, pos));
 				}
-				Position ExitDoorPos3 = new Position(7, 7);
-				container.add(new ExitDoor(this, ExitDoorPos3));
 				break;
 
 			default:
@@ -181,8 +171,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public boolean playerLooses() {
 
 		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 2)) {
-			
-
 			return true;
 		}
 		return false;
@@ -196,13 +184,17 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		playerWins();
 		playerLooses();
 
-		if(playerWins()){
-			if(currentLvl<3)currentLvl++;
-			reset();
-			//if(currentLvl==3)gameFinished=true;
+		if (playerWins()) {
+			if (currentLvl < 4) {
+				currentLvl++;
+				reset();
+			}
+			if (currentLvl == 3)
+				gameFinished = true;
+
 		}
 
-		if(playerLooses()){
+		if (playerLooses()) {
 			reset();
 		}
 
@@ -289,11 +281,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		return container.receiveInteractionsFrom(obj);
 	}
 
-	// Other methods
-	// TODO you should write a toString method to return the string that represents
-	// the object status
-	// @Override
-	// public String toString()
 	public String toString() {
 		StringBuilder gameString = new StringBuilder();
 		for (int row = 0; row < DIM_Y; row++) {
