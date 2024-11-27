@@ -191,6 +191,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			}
 			if (currentLvl == 3)
 				gameFinished = true;
+
 		}
 
 		if (playerLooses()) {
