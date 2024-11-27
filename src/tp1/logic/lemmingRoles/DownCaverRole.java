@@ -1,24 +1,17 @@
 package tp1.logic.lemmingRoles;
 
-import tp1.logic.Direction;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameItem;
-import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.Lemming;
 import tp1.logic.gameobjects.MetalWall;
 import tp1.logic.gameobjects.Wall;
 import tp1.view.Messages;
 
-public class ParachuterRole implements LemmingRole {
-    private static final String NAME = Messages.PARACHUTER_ROL_NAME;
-    private static final String HELP = Messages.PARACHUTER_ROL_HELP;
+public class DownCaverRole implements LemmingRole {
 
-    private static final String ICON = Messages.LEMMING_PARACHUTE;
-
-    @Override
-    public void advance(Lemming lemming) {
-        lemming.walkOrFall();
-    }
+    private static final String NAME = Messages.DOWN_CAVER_ROL_NAME;
+    private static final String HELP = Messages.DOWN_CAVER_ROL_HELP;
+    private static final String ICON = Messages.LEMMING_DOWN_CAVER;
 
     @Override
     public String getIcon(Lemming lemming) {
@@ -30,6 +23,12 @@ public class ParachuterRole implements LemmingRole {
 
     @Override
     public void play(Lemming lemming) {
+
+    }
+
+    @Override
+    public void advance(Lemming lemming) {
+        lemming.dig();
     }
 
     @Override
@@ -37,18 +36,9 @@ public class ParachuterRole implements LemmingRole {
         return HELP;
     }
 
-    private String getName() {
-        return NAME;
-    }
-
-    @Override
-    public String toString() {
-        return getName();
-    }
-
     @Override
     public String getShortcut() {
-        return "p";
+        return "d";
     }
 
     @Override
@@ -59,17 +49,19 @@ public class ParachuterRole implements LemmingRole {
 
     @Override
     public boolean interactWith(Lemming receiver, Lemming lemming) {
-        return true;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
     }
 
     @Override
     public boolean interactWith(Wall wall, Lemming lemming) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean interactWith(ExitDoor door, Lemming lemming) {
-        return true;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
     }
 
     @Override

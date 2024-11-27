@@ -30,7 +30,7 @@ public class Controller {
 		while (!game.isFinished()) {
 			words = view.getPrompt();
 
-			// runs update if "" is input.
+			
 			if (words.length == 1 && words[0].isEmpty()) {
 				Command runUpdate = new UpdateCommand();
 				runUpdate.execute(game, view);

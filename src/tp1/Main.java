@@ -17,7 +17,7 @@ public class Main {
 
 		try {
 
-			int nLevel = 3;
+			int nLevel = 1;
 			if (args.length != 0)
 				nLevel = Integer.parseInt(args[0]);
 

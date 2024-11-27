@@ -25,16 +25,15 @@ public class Lemming extends GameObject {
 	@Override
 	public boolean setRole(LemmingRole role) {
 		if (this.role.equals(role)) {
-			System.out.println("SAME ROLE");
+			game.update();
+			return false;
+		} else if (!this.isFalling && role.toString().equals(new ParachuterRole().toString())) {
+			game.update();
 			return false;
 		} else {
 			this.role = role;
 			return true;
 		}
-
-		// if(!this.isFalling)}
-		// {}
-
 	};
 
 	public void disableRole() {
@@ -43,6 +42,20 @@ public class Lemming extends GameObject {
 
 	public Direction getDirection() {
 		return this.dir;
+	}
+
+	public void dig() {
+		this.checkOffBoard();
+		Position wallPos = new Position(this.pos.getCol(), this.pos.getRow() + 1);
+		MetalWall metalWall = new MetalWall(game, wallPos);
+
+		if (!game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(metalWall.getIcon())) {
+			this.pos = new Position(this.pos.getCol(), this.pos.getRow() + 1);
+			this.fallForce++;
+		} else {
+			this.checkFloor();
+			this.disableRole();
+		}
 	}
 
 	public void walkOrFall() {
@@ -59,6 +72,7 @@ public class Lemming extends GameObject {
 	}
 
 	public boolean canMove() {
+		this.checkOffBoard();
 
 		Direction movDirection = this.getDirection();
 		Position currentPosition = this.pos;
@@ -81,17 +95,23 @@ public class Lemming extends GameObject {
 
 		else if (this.dir == Direction.LEFT) {
 			if (nextCol <= WALL_LEFT
-					|| game.positionToString(nextCol, currentPosition.getRow()).equals(Messages.WALL)) {
+					|| game.positionToString(nextCol,
+							currentPosition.getRow()).equals(Messages.WALL)
+					||
+					game.positionToString(nextCol,
+							currentPosition.getRow()).equals(Messages.METALWALL)) {
 				this.reverseDir();
 				return false;
-
 			}
+			checkFloor();
+			this.fallForce = 0;
 			checkFloor();
 			this.fallForce = 0;
 			return true;
 		} else if (this.dir == Direction.DOWN) {
 			checkFloor();
-			if (game.positionToString(currentPosition.getCol(), nextRow).equals(Messages.WALL)) {
+			if (game.positionToString(currentPosition.getCol(),
+					nextRow).equals(Messages.WALL)) {
 			}
 			return true;
 		}
@@ -103,31 +123,45 @@ public class Lemming extends GameObject {
 			this.isFalling = true;
 			this.dir = Direction.DOWN;
 
-		} else if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(Messages.WALL) && isFalling) {
-			this.dir = Direction.RIGHT;
-			this.isFalling = false;
 		}
 
-		this.role = new WalkerRole();
-		this.disableRole();
+		else if (game.positionToString(this.pos.getCol(), this.pos.getRow() +
+				1).equals(Messages.WALL)
+				|| (game.positionToString(this.pos.getCol(), this.pos.getRow() +
+						1).equals(Messages.METALWALL) && isFalling))
 
-		if (this.fallForce >= MAX_FALL) { // && (this.role !=
-			// ParachuterRole(), none
-			// parachuters will die from
-			// a
-			// fall
-			this.isAlive = false;
+		{
+
+			if (this.fallForce >= MAX_FALL
+					&& (this.getIcon().equals(Messages.LEMMING_RIGHT)
+							|| this.getIcon().equals(Messages.DOWN_CAVER_ROL_SYMBOL)
+							|| this.getIcon().equals(Messages.LEMMING_LEFT))) {
+				this.isAlive = false;
+			} else if (this.isFalling) {
+				this.dir = Direction.RIGHT;
+				this.isFalling = false;
+				this.disableRole();
+			}
+		} else {
+			System.out.println("NULL @ " + this.pos.toString());
+
 		}
 
 	}
 
+	private void checkOffBoard() {
+		if (this.pos.getCol() < 0 || this.pos.getCol() > Game.DIM_X ||
+				this.pos.getRow() < 0 || this.pos.getRow() > Game.DIM_Y - 2) {
+			this.makeInvisible();
+		}
+	}
+
 	private void checkExit() {
-		if (game.positionToString(this.pos.getCol(), this.pos.getRow()).equals("D")) {
+		if (game.positionToString(this.pos.getCol(), this.pos.getRow()).equals(Messages.EXIT_DOOR)) {
 			this.makeInvisible();
 			game.lemmingArrived();
 		}
 	}
-	/// //////////////////////////////////////////////////////////////////////////////////////
 
 	private void reverseDir() {
 		if (this.dir == Direction.RIGHT) {
@@ -162,5 +196,42 @@ public class Lemming extends GameObject {
 	@Override
 	public String toString() {
 		return role.getIcon(this);
+	}
+
+	@Override
+	public boolean receiveInteraction(GameItem other) {
+		try {
+			boolean result = other.interactWith(this);
+			System.out.println(other.toString() + " interacts with " + this.toString() + " : " + result);
+			return result;
+		} catch (Exception e) {
+			System.err.println("Error during interaction: " + e.getMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public boolean interactWith(Lemming lemming) {
+		return true;
+	}
+
+	@Override
+	public boolean interactWith(Wall wall) {
+		return true;
+	}
+
+	@Override
+	public boolean interactWith(ExitDoor door) {
+		return true;
+	}
+
+	@Override
+	public boolean isSolid() {
+		return false;
+	}
+
+	@Override
+	public boolean interactWith(MetalWall metalWall) {
+		return false;
 	}
 }

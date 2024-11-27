@@ -2,8 +2,11 @@ package tp1.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.lemmingRoles.LemmingRole;
+import tp1.view.Messages;
 
 public class GameObjectContainer {
 	private List<GameObject> objects;
@@ -44,7 +47,7 @@ public class GameObjectContainer {
 		for (Position exit : getExitDoorPositions()) {
 			for (GameObject object : objects) {
 				if (object.isAlive() && object.getPosition() != null && object.getPosition().isEqual(exit)
-						&& !object.getIcon().equals("D")) {
+						&& !object.getIcon().equals(Messages.EXIT_DOOR)) {
 					numArrived++;
 					object.makeInvisible();
 				}
@@ -56,7 +59,7 @@ public class GameObjectContainer {
 	public Position[] getExitDoorPositions() {
 		int numDoors = 0;
 		for (GameObject object : objects) {
-			if (object.getIcon().equals("D")) {
+			if (object.getIcon().equals(Messages.EXIT_DOOR)) {
 				object.getPosition();
 				numDoors++;
 			}
@@ -65,7 +68,7 @@ public class GameObjectContainer {
 		Position[] exitDoorPositions = new Position[numDoors];
 		int index = 0;
 		for (GameObject object : objects) {
-			if (object.getIcon().equals("D")) {
+			if (object.getIcon().equals(Messages.EXIT_DOOR)) {
 				exitDoorPositions[index] = object.getPosition();
 				index++;
 			}
@@ -104,6 +107,16 @@ public class GameObjectContainer {
 			}
 		}
 		return deadLemmings;
+	}
+
+	public boolean receiveInteractionsFrom(GameItem obj) {
+		// returns true for each interaction that an obkject can have?
+		for (GameObject object : objects) {
+			if (object.receiveInteraction(obj)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

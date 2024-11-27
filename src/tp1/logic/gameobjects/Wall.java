@@ -17,7 +17,7 @@ public class Wall extends GameObject {
 
     @Override
     public String getIcon() {
-        return "W";
+        return Messages.WALL;
     }
 
     @Override
@@ -32,5 +32,43 @@ public class Wall extends GameObject {
 
     @Override
     public void makeInvisible() {
+    }
+
+    @Override
+    public boolean receiveInteraction(GameItem other) {
+        try {
+            boolean result = other.interactWith(this);
+            System.out.println(other.toString() + " interacts with " + this.toString() + " : " + result);
+            return result;
+        } catch (Exception e) {
+            System.err.println("Error during interaction: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean interactWith(Lemming lemming) {
+        return true;
+    }
+
+    @Override
+    public boolean interactWith(Wall wall) {
+        return false;
+    }
+
+    @Override
+    public boolean interactWith(ExitDoor door) {
+        return false;
+    }
+
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
+
+    @Override
+    public boolean interactWith(MetalWall metalWall) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
     }
 }

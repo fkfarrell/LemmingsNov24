@@ -2,9 +2,11 @@ package tp1.logic;
 
 import tp1.logic.Position;
 import tp1.logic.gameobjects.ExitDoor;
+import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameWorld;
 import tp1.logic.gameobjects.Lemming;
+import tp1.logic.gameobjects.MetalWall;
 import tp1.logic.gameobjects.Wall;
 import tp1.logic.lemmingRoles.LemmingRole;
 import tp1.logic.lemmingRoles.ParachuterRole;
@@ -21,7 +23,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	private int cycleNum = 0;
 	public boolean playerWins;
 	private int numLemmingsExit = 0;
-	private int deadLemmings = 0;
+	private int currentLvl = 1;
+	private int deadLemmings;
 
 	public Game(int nLevel) {
 		initLevel(nLevel);
@@ -69,7 +72,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 				Position[] wallsPos2 = {
 						new Position(0, 1), new Position(1, 1), new Position(2, 1),
-						new Position(2, 3), new Position(3, 3), new Position(4, 3),
+						// new Position(2, 3), new Position(3, 3), new Position(4, 3),
 						new Position(4, 5), new Position(5, 5), new Position(6, 5),
 						new Position(7, 5), new Position(8, 5), new Position(9, 5),
 
@@ -77,47 +80,45 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 						new Position(9, 4),
 
-						new Position(4, 8), new Position(5, 8), new Position(6, 8),
-						new Position(1, 8), new Position(2, 8), new Position(3, 8),
 				};
-
 				for (Position pos : wallsPos2) {
 					container.add(new Wall(this, pos));
 				}
-				Position ExitDoorPos2 = new Position(1, 7);
+
+				Position[] metalWalls = {
+						new Position(2, 3), new Position(3, 3), new Position(4, 3),
+
+						new Position(4, 8), new Position(5, 8), new Position(6, 8),
+						new Position(1, 8), new Position(2, 8), new Position(3, 8), };
+
+				for (Position pos : metalWalls) {
+					container.add(new MetalWall(this, pos));
+				}
+
+				Position ExitDoorPos2 = new Position(5, 7);
 				container.add(new ExitDoor(this, ExitDoorPos2));
 				break;
 
 			case 3:
-				Position[] lemmingPos3 = {
-						// new Position(0, 0),
-						new Position(2, 0),
-						new Position(4, 1)
-				};
-
-				// for (Position pos : lemmingPos3) {
-				// container.add(new Lemming(this, pos, Direction.RIGHT, new ParachuterRole()));
-				// lemmingsInGame++;
-				// }
-				for (Position pos : lemmingPos3) {
-					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
-					lemmingsInGame++;
-				}
-
-				Position paraPos = new Position(6, 1);
-				container.add(new Lemming(this, paraPos, Direction.RIGHT, new ParachuterRole()));
 
 				Position[] wallsPos3 = {
+						new Position(1, 3), new Position(1, 4), new Position(1, 5), new Position(1, 6),
+						new Position(1, 7),
+						new Position(2, 3),
+						new Position(2, 5),
 
-						new Position(4, 8), new Position(5, 8), new Position(6, 8),
-						new Position(1, 8), new Position(2, 8), new Position(3, 8),
+						new Position(4, 3), new Position(4, 5), new Position(4, 6),
+						new Position(4, 7),
+
+						new Position(6, 7), new Position(6, 5), new Position(6, 6),
+						new Position(7, 5),
+						new Position(8, 7), new Position(8, 5), new Position(8, 6),
+
 				};
 
 				for (Position pos : wallsPos3) {
 					container.add(new Wall(this, pos));
 				}
-				Position ExitDoorPos3 = new Position(1, 7);
-				container.add(new ExitDoor(this, ExitDoorPos3));
 				break;
 
 			default:
@@ -137,8 +138,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 
 	@Override
-	public int numLemmingsDead() { // does this break encapsulation??
-		return container.deadLemmings();
+	public int numLemmingsDead() {
+		return container.deadLemmings() - numLemmingsExit();
 	}
 
 	@Override
@@ -161,7 +162,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	@Override
 	public boolean playerWins() {
 		if (numLemmingsExit() >= numLemmingsToWin()) {
-			gameFinished = true;
 			return true;
 		}
 		return false;
@@ -170,8 +170,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	@Override
 	public boolean playerLooses() {
 
-		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 2)) { // does cintainer.deadLemmings
-			gameFinished = true;
+		if (numLemmingsInBoard() == 0 || (numLemmingsDead() == 2)) {
 			return true;
 		}
 		return false;
@@ -184,6 +183,20 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		cycleNum++;
 		playerWins();
 		playerLooses();
+
+		if (playerWins()) {
+			if (currentLvl < 4) {
+				currentLvl++;
+				reset();
+			}
+			if (currentLvl == 3)
+				gameFinished = true;
+
+		}
+
+		if (playerLooses()) {
+			reset();
+		}
 
 	}
 
@@ -205,7 +218,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		numLemmingsExit = 0;
 		deadLemmings = 0;
 		container = new GameObjectContainer(this);
-		initLevel(1);
+		initLevel(currentLvl);
 
 	}
 
@@ -240,9 +253,26 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		lemmingsInGame -= exitedCount;
 		if (numLemmingsExit >= numLemmingsToWin()) {
 			playerWins = true;
-			gameFinished = true;
 		} else if (lemmingsInGame == 0) {
 			gameFinished = true;
+		}
+	}
+
+	public boolean checkLemmingPosition(Position pos) {
+		if (container.checkLemmingPosition(pos)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean setLemmingRole(Position pos, LemmingRole role) {
+		// System.out.println("Role : " + role + " @ " + pos);
+		if (container.setLemmingRole(pos, role)) {
+			return true;
+		} else {
+			System.out.println("ERROR");
+			return false;
 		}
 	}
 
@@ -262,21 +292,9 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		return gameString.toString();
 	}
 
-	public boolean checkLemmingPosition(Position pos) {
-		if (container.checkLemmingPosition(pos)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean setLemmingRole(Position pos, LemmingRole role) {
-		// System.out.println("Role : " + role + " @ " + pos);
-		if (container.setLemmingRole(pos, role)) {
-			return true;
-		} else {
-			System.out.println("ERROR");
-			return false;
-		}
+	@Override
+	public boolean receiveInteractionsFrom(GameItem obj) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'receiveInteractionsFrom'");
 	}
 }

@@ -4,32 +4,11 @@ import tp1.logic.Game;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
-public class ExitDoor extends GameObject {
+public class MetalWall extends GameObject {
 
-    public ExitDoor(Game game, Position pos) {
+    public MetalWall(Game game, Position pos) {
         super(game, pos);
     }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public String getIcon() {
-        return Messages.EXIT_DOOR;
-    }
-
-    @Override
-    public String toString() {
-        return Messages.EXIT_DOOR;
-    }
-
-    @Override
-    public void makeInvisible() {
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean receiveInteraction(GameItem other) {
@@ -45,7 +24,7 @@ public class ExitDoor extends GameObject {
 
     @Override
     public boolean interactWith(Lemming lemming) {
-        return true;
+        return false;
     }
 
     @Override
@@ -60,7 +39,7 @@ public class ExitDoor extends GameObject {
 
     @Override
     public boolean isSolid() {
-        return false;
+        return true;
     }
 
     @Override
@@ -68,8 +47,17 @@ public class ExitDoor extends GameObject {
         return false;
     }
 
-    // @Override
-    // public Position getPosition(){
-    // return this.pos;
-    // }
+    @Override
+    public String getIcon() {
+        return Messages.METALWALL;
+    }
+
+    @Override
+    public String toString() {
+        return Messages.METALWALL;
+    }
+
+    @Override
+    public void update() {
+    }
 }

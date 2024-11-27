@@ -1,8 +1,12 @@
 package tp1.logic.lemmingRoles;
 
 import tp1.logic.Direction;
+import tp1.logic.gameobjects.ExitDoor;
+import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.Lemming;
+import tp1.logic.gameobjects.MetalWall;
+import tp1.logic.gameobjects.Wall;
 import tp1.view.Messages;
 
 public class WalkerRole implements LemmingRole {
@@ -53,6 +57,33 @@ public class WalkerRole implements LemmingRole {
 	@Override
 	public String getShortcut() {
 		return "w";
+	}
+
+	@Override
+	public boolean receiveInteraction(GameItem other, Lemming lemming) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'receiveInteraction'");
+	}
+
+	@Override
+	public boolean interactWith(Lemming receiver, Lemming lemming) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
+	}
+
+	@Override
+	public boolean interactWith(Wall wall, Lemming lemming) {
+		return false;
+	}
+
+	@Override
+	public boolean interactWith(ExitDoor door, Lemming lemming) {
+		return true;
+	}
+
+	@Override
+	public boolean interactWith(MetalWall metalWall, Lemming lemming) {
+		return false;
 	}
 
 }
