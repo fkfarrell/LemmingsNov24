@@ -62,8 +62,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			case 2:
 				Position[] lemmingPos2 = {
 						new Position(0, 0),
-						new Position(1, 7),
-						new Position(3, 4) };
+						new Position(2, 0),
+						new Position(4, 0) };
 
 				for (Position pos : lemmingPos2) {
 					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
@@ -276,11 +276,11 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 	}
 
-	@Override
-	public boolean receiveInteractionsFrom(GameItem obj) {
-		return container.receiveInteractionsFrom(obj);
-	}
-
+	// Other methods
+	// TODO you should write a toString method to return the string that represents
+	// the object status
+	// @Override
+	// public String toString()
 	public String toString() {
 		StringBuilder gameString = new StringBuilder();
 		for (int row = 0; row < DIM_Y; row++) {
@@ -292,4 +292,9 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		return gameString.toString();
 	}
 
+	@Override
+	public boolean receiveInteractionsFrom(GameItem obj) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'receiveInteractionsFrom'");
+	}
 }

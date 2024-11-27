@@ -84,11 +84,7 @@ public class Lemming extends GameObject {
 
 		if (this.dir == Direction.RIGHT) {
 			if (nextCol >= WALL_RIGHT
-					|| game.positionToString(nextCol,
-							currentPosition.getRow()).equals(Messages.WALL)
-					||
-					game.positionToString(nextCol,
-							currentPosition.getRow()).equals(Messages.METALWALL)) {
+					|| game.positionToString(nextCol, currentPosition.getRow()).equals(Messages.WALL)) {
 				this.reverseDir();
 				return false;
 			}
@@ -107,6 +103,8 @@ public class Lemming extends GameObject {
 				this.reverseDir();
 				return false;
 			}
+			checkFloor();
+			this.fallForce = 0;
 			checkFloor();
 			this.fallForce = 0;
 			return true;
@@ -135,7 +133,9 @@ public class Lemming extends GameObject {
 		{
 
 			if (this.fallForce >= MAX_FALL
-					&& (this.getIcon().equals(Messages.LEMMING_RIGHT) || this.getIcon().equals(Messages.DOWN_CAVER_ROL_SYMBOL) || this.getIcon().equals(Messages.LEMMING_LEFT))) {
+					&& (this.getIcon().equals(Messages.LEMMING_RIGHT)
+							|| this.getIcon().equals(Messages.DOWN_CAVER_ROL_SYMBOL)
+							|| this.getIcon().equals(Messages.LEMMING_LEFT))) {
 				this.isAlive = false;
 			} else if (this.isFalling) {
 				this.dir = Direction.RIGHT;
