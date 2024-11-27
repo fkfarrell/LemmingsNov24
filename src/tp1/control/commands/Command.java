@@ -36,9 +36,9 @@ public abstract class Command {
 		return help;
 	}
 
-	public abstract void execute(GameModel game, GameView view);
-
-	public abstract Command parse(String[] commandWords);
+	public abstract void execute(GameModel game, GameView view) throws CommandExecuteException;
+	
+	public abstract Command parse(String[] commandWords) throws CommandParseException;
 
 	public abstract boolean showBoard();
 

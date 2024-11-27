@@ -8,7 +8,7 @@ public abstract class NoParamsCommand extends Command {
 		super(name, shortcut, details, help);
 	}
 
-	@Override
+	/*@Override
 	public Command parse(String[] commandWords) {
 		// TODO fill with your code
 		String word = commandWords[0];
@@ -19,6 +19,17 @@ public abstract class NoParamsCommand extends Command {
 
 		return null;
 	}
+	*/
+	
+	public Command parse(String[] commandWords) throws CommandParseException {
+		if (commandWords.length < 1 || !matchCommandName(commandWords[0]))
+		  return null;
+				
+		if (commandWords.length == 1 && matchCommandName(commandWords[0]))
+		  return this;
+			
+		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
+	  }
 
 	// ?????????????????????????/ does this need to be implemented??????????????????????
 	// @Override
