@@ -5,7 +5,7 @@ import tp1.control.commands.CommandException;
 import tp1.control.commands.CommandExecuteException;
 import tp1.control.commands.CommandGenerator;
 import tp1.control.commands.UpdateCommand;
-import tp1.logic.Game;
+//import tp1.logic.Game;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -22,41 +22,7 @@ public class Controller {
 		this.game = game;
 		this.view = view;
 	}
-
-	/*public void run() {
-		String[] words = null;
-
-		view.showWelcome();
-		view.showGame();
-
-		while (!game.isFinished()) {
-			words = view.getPrompt();
-
-			// runs update if "" is input.
-			if (words.length == 1 && words[0].isEmpty()) {
-				Command runUpdate = new UpdateCommand();
-				runUpdate.execute(game, view);
-				if (runUpdate.showBoard()) {
-					view.showGame();
-				}
-			} else {
-				Command command = CommandGenerator.parse(words);
-
-				if (command != null) {
-					command.execute(game, view);
-
-					if (command.showBoard()) {
-						view.showGame();
-					}
-				} else {
-					view.showError(Messages.UNKNOWN_COMMAND.formatted(words[0]));
-				}
-			}
-		}
-
-		view.showEndMessage();
-	}
-	*/
+	
 	public void run(){
     String[] words = null;
 
