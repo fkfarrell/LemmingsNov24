@@ -35,6 +35,7 @@ public class Controller {
         if (words.length == 1 && words[0].isEmpty()) {
             Command runUpdate = new UpdateCommand();
             try {
+
 				runUpdate.execute(game, view);
 			} catch (CommandExecuteException e) {
 				e.printStackTrace();

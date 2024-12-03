@@ -24,7 +24,7 @@ public class Main {
 			Game game = new Game(nLevel);
 			GameView view = args.length > 1 ? new ConsoleView(game) : new ConsoleColorsView(game);
 			Controller controller = new Controller(game, view);
-			
+
 			controller.run();
 
 		} catch (NumberFormatException e) {

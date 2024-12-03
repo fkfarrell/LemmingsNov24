@@ -59,7 +59,6 @@ public class WalkerRole implements LemmingRole {
 		return "w";
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public boolean receiveInteraction(GameItem other, Lemming lemming) {
 		// TODO Auto-generated method stub
