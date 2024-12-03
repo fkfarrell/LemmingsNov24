@@ -10,7 +10,6 @@ import tp1.view.Messages;
 
 public class Lemming extends GameObject {
 	private LemmingRole role;
-	private WalkerRole walkerRole;
 	private int fallForce = 0;
 	private Direction dir;
 	private final int MAX_FALL = 3;
@@ -20,6 +19,9 @@ public class Lemming extends GameObject {
 		super(game, pos);
 		this.role = role;
 		this.dir = dir;
+	}
+
+	public Lemming() {
 	}
 
 	@Override
@@ -84,7 +86,11 @@ public class Lemming extends GameObject {
 
 		if (this.dir == Direction.RIGHT) {
 			if (nextCol >= WALL_RIGHT
-					|| game.positionToString(nextCol, currentPosition.getRow()).equals(Messages.WALL)) {
+					|| game.positionToString(nextCol, currentPosition.getRow()).equals(Messages.WALL)) { // game is null
+																											// when a
+																											// new game
+																											// is loaded
+																											// in ?
 				this.reverseDir();
 				return false;
 			}

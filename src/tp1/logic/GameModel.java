@@ -1,5 +1,6 @@
 package tp1.logic;
 
+import java.io.File;
 import tp1.control.commands.OffBoardException;
 import tp1.logic.lemmingRoles.LemmingRole;
 
@@ -20,5 +21,7 @@ public interface GameModel {
     public boolean checkLemmingPosition(Position rolePosition);
 
     public boolean setLemmingRole(Position rolePosition, LemmingRole role) throws OffBoardException;
+
+    public boolean load(File file);
 
 }

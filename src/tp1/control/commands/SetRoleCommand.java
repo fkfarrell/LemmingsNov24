@@ -75,7 +75,10 @@ public class SetRoleCommand extends Command {
             }
 
             rolePosition = new Position(colNum - 1, rowNum);
-            return this;
+            Position rolePosition2 = new Position(colNum, rowNum);
+
+            return this;// create new setRole(with attributes as params) role and pos
+            // return new SetRoleCommand(gameRole, rolePosition2);
 
         } catch (NumberFormatException e) {
             throw new CommandParseException("[ERROR] Invalid column position format. Must be an integer.", e);

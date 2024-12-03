@@ -25,4 +25,9 @@ public class UpdateCommand extends NoParamsCommand {
     public boolean showBoard() {
         return true;
     }
+
+    @Override
+    public Command parse(String[] commandWords) {
+        return super.parse(commandWords);
+    }
 }

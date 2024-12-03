@@ -20,6 +20,7 @@ public class LemmingRoleFactory {
         String drShortLetter = String.valueOf(drLetter);
 
         for (LemmingRole r : availableRoles) {
+            // Run parse here for the roles and have them decetect theier own names
             if (desiredRole.equalsIgnoreCase(r.toString()) || drShortLetter.equalsIgnoreCase(r.getShortcut())) {
                 return r;
             }

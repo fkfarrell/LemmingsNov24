@@ -1,0 +1,6 @@
+0 1 0 0 2 
+(3,2) Lemming RIGHT 1 Walker
+(4,4) Lemming LEFT 2 DownCaver
+(4,2) Wall
+(4,3) MetalWall
+(5,4) ExitDoor

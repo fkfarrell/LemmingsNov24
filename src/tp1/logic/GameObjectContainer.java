@@ -21,6 +21,16 @@ public class GameObjectContainer {
 		objects.add(object);
 	}
 
+	public int numObjects() {
+		return objects.size();
+	}
+
+	public void setGame() {
+		for (GameObject object : objects) {
+			object.setGame(game);
+		}
+	}
+
 	public String getStringAt(Position position) {
 		for (GameObject object : objects) {
 			if (object.isInPosition(position)) {
