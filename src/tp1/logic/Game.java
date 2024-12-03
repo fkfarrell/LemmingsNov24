@@ -1,6 +1,11 @@
 package tp1.logic;
 
+import java.io.File;
+import java.io.IOException;
+
 import tp1.logic.Position;
+import tp1.logic.file.FileGameConfig;
+import tp1.logic.file.GameConfig;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
@@ -33,7 +38,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public void initLevel(int lvl) {
 
 		switch (lvl) {
-
 			case 1:
 				Position[] lemmingPos = {
 						// new Position(1, 1),
@@ -122,6 +126,10 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				break;
 
 			default:
+				// default behaviour for loading level data.
+				// for(int i; i < container.){
+				// container.add(go);
+				// }
 				break;
 		}
 	}
@@ -267,11 +275,33 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 
 	public boolean setLemmingRole(Position pos, LemmingRole role) {
-		// System.out.println("Role : " + role + " @ " + pos);
 		if (container.setLemmingRole(pos, role)) {
 			return true;
 		} else {
 			System.out.println("ERROR");
+			return false;
+		}
+	}
+
+	public boolean load(File inputFile) {
+		try {
+			FileGameConfig fileConfig = new FileGameConfig(inputFile);
+			fileConfig.readFile();
+			// set Game game attributes to the ones gathered by a fileConfig
+			// fileConfig has all the bits we need, just need now to turn it into a level.
+			lemmingsInGame = fileConfig.lemmingsOnBoard;
+			cycleNum = fileConfig.gameCycle;
+			playerWins = false;
+			numLemmingsExit = fileConfig.lemmingsExited;
+			deadLemmings = fileConfig.deadLemmings;
+			container = fileConfig.newLoadContainer;
+			container.setGame();
+
+			initLevel(4); // a defualt number
+
+			return true;
+		} catch (IOException e) {
+			System.err.println("Error loading game configuration: " + e.getMessage());
 			return false;
 		}
 	}

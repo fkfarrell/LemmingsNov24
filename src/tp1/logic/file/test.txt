@@ -1,0 +1,7 @@
+5 2 1 1 2 
+(4,2) Wall
+(4,3) Wall
+(5,4) Wall
+(2,2) MetalWall
+(1,2) MetalWall
+(5,3) ExitDoor

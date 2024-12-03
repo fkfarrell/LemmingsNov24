@@ -10,6 +10,9 @@ public class Wall extends GameObject {
         super(game, pos);
     }
 
+    public Wall() {
+    }
+
     @Override
     public void update() {
 

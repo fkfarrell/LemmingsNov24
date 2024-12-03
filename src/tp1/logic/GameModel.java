@@ -1,5 +1,7 @@
 package tp1.logic;
 
+import java.io.File;
+
 import tp1.logic.lemmingRoles.LemmingRole;
 
 public interface GameModel {
@@ -19,5 +21,7 @@ public interface GameModel {
     public boolean checkLemmingPosition(Position rolePosition);
 
     public boolean setLemmingRole(Position rolePosition, LemmingRole role);
+
+    public boolean load(File file);
 
 }

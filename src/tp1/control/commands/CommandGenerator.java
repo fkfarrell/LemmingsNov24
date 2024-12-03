@@ -12,7 +12,8 @@ public class CommandGenerator {
 			new ExitCommand(),
 			new UpdateCommand(),
 			new ResetCommand(),
-			new SetRoleCommand());
+			new SetRoleCommand(),
+			new LoadCommand());
 
 	public static Command parse(String[] commandWords) {
 

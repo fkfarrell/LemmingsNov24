@@ -110,6 +110,12 @@ public class Messages {
 	public static final String COMMAND_SET_ROLE_DETAILS = "[s]et[R]ole";
 	public static final String COMMAND_SET_ROLE_HELP = "ROLE ROW COL: set the lemming in position (ROW,COL) to role ROLE.";
 
+	// SET ROLE
+	public static final String COMMAND_LOAD_NAME = "Load";
+	public static final String COMMAND_LOAD_SHORTCUT = "l";
+	public static final String COMMAND_LOAD_DETAILS = "[l]oad <filename>";
+	public static final String COMMAND_LOAD_HELP = "load a state of the game from the text file <fileName>.";
+
 	// Roles
 	public static final String WALKER_ROL_SYMBOL = "W";
 	public static final String WALKER_ROL_NAME = "Walker";

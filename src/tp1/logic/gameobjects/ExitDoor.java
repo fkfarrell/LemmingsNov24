@@ -10,6 +10,9 @@ public class ExitDoor extends GameObject {
         super(game, pos);
     }
 
+    public ExitDoor() {
+    }
+
     @Override
     public void update() {
 

@@ -7,12 +7,15 @@ import tp1.logic.lemmingRoles.LemmingRole;
 public abstract class GameObject implements GameItem {
 	protected Position pos;
 	protected boolean isAlive;
-	protected Game game;
+	public Game game;
 
 	public GameObject(Game game, Position pos) {
 		this.isAlive = true;
 		this.pos = pos;
 		this.game = game;
+	}
+
+	public GameObject() {
 	}
 
 	public boolean isInPosition(Position p) {
@@ -47,10 +50,17 @@ public abstract class GameObject implements GameItem {
 	}
 
 	public boolean setRole(LemmingRole role) {
-		System.out.println(
-				"[ERROR] Error: SetRoleCommand error (Incorrect position or no object in that position admits that role)");
 		return false;
 	}
 
 	public abstract boolean receiveInteraction(GameItem other);
+
+	public GameObject parse(String input) {
+		// take in string and match to constructor
+		return this;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
 }

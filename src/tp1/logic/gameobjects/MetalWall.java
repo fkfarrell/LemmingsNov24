@@ -10,6 +10,9 @@ public class MetalWall extends GameObject {
         super(game, pos);
     }
 
+    public MetalWall() {
+    }
+
     @Override
     public boolean receiveInteraction(GameItem other) {
         try {

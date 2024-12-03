@@ -72,8 +72,10 @@ public class SetRoleCommand extends Command {
             }
 
             rolePosition = new Position(colNum - 1, rowNum);
+            Position rolePosition2 = new Position(colNum, rowNum);
 
-            return this;
+            return this;// create new setRole(with attributes as params) role and pos
+            // return new SetRoleCommand(gameRole, rolePosition2);
         } catch (NumberFormatException e) {
             System.err.println(
                     "[ERROR] Error: SetRoleCommand error (Incorrect position or no object in that position admits that role)");

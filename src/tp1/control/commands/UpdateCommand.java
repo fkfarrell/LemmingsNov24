@@ -25,4 +25,7 @@ public class UpdateCommand extends NoParamsCommand {
     public boolean showBoard() {
         return true;
     }
+
+    // @Override
+    // call parse of no params here should call the superConstructor
 }

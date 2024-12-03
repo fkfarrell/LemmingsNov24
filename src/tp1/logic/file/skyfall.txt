@@ -1,0 +1,6 @@
+0 1 0 0 2 
+(1,1) Lemming RIGHT 1 Walker
+(2,1) Lemming LEFT 2 DownCaver
+(4,1) Lemming RIGHT 1 Walker
+(6,1) Lemming LEFT 1 Walker
+(8,1) Lemming RIGHT 1 Walker
