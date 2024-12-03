@@ -297,8 +297,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			container = fileConfig.newLoadContainer;
 			container.setGame();
 
-			initLevel(4); // a defualt number
-
 			return true;
 		} catch (IOException e) {
 			System.err.println("Error loading game configuration: " + e.getMessage());

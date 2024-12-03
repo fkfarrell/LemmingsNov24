@@ -10,10 +10,12 @@ public abstract class NoParamsCommand extends Command {
 
 	@Override
 	public Command parse(String[] commandWords) {
-		// TODO fill with your code
-		String word = commandWords[0];
 
-		if (matchCommandName(word)) {
+		if (commandWords == null || commandWords.length == 0 || commandWords[0].isEmpty()) {
+			return new UpdateCommand();
+		}
+
+		if (matchCommandName(commandWords[0])) {
 			return this;
 		}
 

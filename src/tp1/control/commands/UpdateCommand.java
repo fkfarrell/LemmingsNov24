@@ -26,6 +26,8 @@ public class UpdateCommand extends NoParamsCommand {
         return true;
     }
 
-    // @Override
-    // call parse of no params here should call the superConstructor
+    @Override
+    public Command parse(String[] commandWords) {
+        return super.parse(commandWords);
+    }
 }

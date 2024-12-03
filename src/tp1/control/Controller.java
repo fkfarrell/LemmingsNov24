@@ -3,7 +3,6 @@ package tp1.control;
 import tp1.control.commands.Command;
 import tp1.control.commands.CommandGenerator;
 import tp1.control.commands.UpdateCommand;
-import tp1.logic.Game;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -30,29 +29,19 @@ public class Controller {
 		while (!game.isFinished()) {
 			words = view.getPrompt();
 
-			// move this stuff
-			if (words.length == 1 && words[0].isEmpty()) {
-				Command runUpdate = new UpdateCommand();
-				runUpdate.execute(game, view);
-				if (runUpdate.showBoard()) {
+			Command command = CommandGenerator.parse(words);
+
+			if (command != null) {
+				command.execute(game, view);
+
+				if (command.showBoard()) {
 					view.showGame();
 				}
 			} else {
-				Command command = CommandGenerator.parse(words);
-
-				if (command != null) {
-					command.execute(game, view);
-
-					if (command.showBoard()) {
-						view.showGame();
-					}
-				} else {
-					view.showError(Messages.UNKNOWN_COMMAND.formatted(words[0]));
-				}
+				view.showError(Messages.UNKNOWN_COMMAND.formatted(words[0]));
 			}
 		}
 
 		view.showEndMessage();
 	}
-
 }
