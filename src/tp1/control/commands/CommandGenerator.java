@@ -3,6 +3,8 @@ package tp1.control.commands;
 import java.util.Arrays;
 import java.util.List;
 
+import tp1.view.Messages;
+
 public class CommandGenerator {
 
 	private static final List<Command> availableCommands = Arrays.asList(
@@ -15,7 +17,7 @@ public class CommandGenerator {
 			new SetRoleCommand(),
 			new LoadCommand());
 
-	public static Command parse(String[] commandWords) {
+	public static Command parse(String[] commandWords) throws CommandParseException{
 
 		Command cmd = null;
 
@@ -27,8 +29,7 @@ public class CommandGenerator {
 			}
 
 		}
-
-		return null;
+		throw new CommandParseException(Messages.UNKNOWN_COMMAND.formatted(commandWords[0]));
 	}
 
 	public static String commandHelp() {

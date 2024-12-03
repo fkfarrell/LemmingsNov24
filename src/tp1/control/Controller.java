@@ -1,6 +1,8 @@
 package tp1.control;
 
 import tp1.control.commands.Command;
+import tp1.control.commands.CommandException;
+import tp1.control.commands.CommandExecuteException;
 import tp1.control.commands.CommandGenerator;
 import tp1.control.commands.UpdateCommand;
 import tp1.logic.GameModel;
@@ -19,7 +21,6 @@ public class Controller {
 		this.game = game;
 		this.view = view;
 	}
-
 	public void run() {
 		String[] words = null;
 
@@ -45,3 +46,4 @@ public class Controller {
 		view.showEndMessage();
 	}
 }
+	
