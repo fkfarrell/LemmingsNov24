@@ -142,10 +142,7 @@ public class Lemming extends GameObject {
 				this.isFalling = false;
 				this.disableRole();
 			}
-		} else {
-			System.out.println("NULL @ " + this.pos.toString());
-
-		}
+		} 
 
 	}
 
