@@ -130,11 +130,12 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 				}
 				break;
 
+			case 4:
+				// Space for laoded level
+				break;
+
 			default:
-				// default behaviour for loading level data.
-				// for(int i; i < container.){
-				// container.add(go);
-				// }
+
 				throw new IllegalArgumentException("Invalid level: " + lvl);
 		}
 	}
@@ -276,7 +277,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		}
 	}
 
-
 	private FileGameConfig fileLoader = null;
 
 	@Override
@@ -306,7 +306,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	private File loadFile;
 
-
 	public boolean load(File inputFile) throws GameLoadException, ObjectParseException, OffBoardException {
 
 		try {
@@ -325,16 +324,15 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 			return true;
 		} catch (GameLoadException e) {
 			System.err.println("Error loading game configuration: " + e.getMessage());
-			throw e; 
+			throw e;
 		} catch (ObjectParseException e) {
 			System.err.println("Error parsing game objects: " + e.getMessage());
-			throw e; 
+			throw e;
 		} catch (Exception e) {
 			System.err.println("Unexpected error: " + e.getMessage());
 			throw new GameLoadException(String.format(Messages.READ_ERROR, inputFile.getAbsolutePath()), e);
 		}
 	}
-	
 
 	public boolean exitAhead(Position pos, Direction dir) throws ObjectParseException {
 		Position ahead = new Position(pos.getCol() + dir.getX(), pos.getRow());
