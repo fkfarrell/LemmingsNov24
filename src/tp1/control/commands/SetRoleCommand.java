@@ -56,6 +56,7 @@ public class SetRoleCommand extends Command {
 
         try {
             LemmingRole role = LemmingRoleFactory.parse(commandWords);
+
             if (role == null) {
                 throw new CommandParseException(Messages.INVALID_COMMAND.formatted(commandWords[1]));
             }
@@ -84,7 +85,6 @@ public class SetRoleCommand extends Command {
         }
     }
 
-    
     @Override
     public boolean showBoard() {
         return true;

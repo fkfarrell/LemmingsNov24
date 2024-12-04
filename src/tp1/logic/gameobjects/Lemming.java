@@ -54,11 +54,15 @@ public class Lemming extends GameObject {
 		this.checkOffBoard();
 		Position wallPos = new Position(this.pos.getCol(), this.pos.getRow() + 1);
 		MetalWall metalWall = new MetalWall(game, wallPos);
+		Wall diggable = new Wall(game, wallPos);
 
-		if (!game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(metalWall.getIcon())) {
+		if (game.wallBelow(wallPos) && this.role.interactWith(diggable, this)) {
+			System.out.println("WALL BELOW");
 			this.pos = new Position(this.pos.getCol(), this.pos.getRow() + 1);
 			this.fallForce++;
+			System.out.println("FALLING");
 		} else {
+			System.out.println("No wall detected @ " + wallPos.toString());
 			this.checkFloor();
 			this.disableRole();
 		}
@@ -77,7 +81,9 @@ public class Lemming extends GameObject {
 		}
 	}
 
+
 	public boolean canMove() throws OffBoardException, ObjectParseException {
+
 		this.checkOffBoard();
 
 		Direction movDirection = this.getDirection();
@@ -85,40 +91,30 @@ public class Lemming extends GameObject {
 		final int WALL_RIGHT = 10;
 		final int WALL_LEFT = 1;
 
-		int nextCol = currentPosition.getCol() + (movDirection.getX());
+		int nextCol = currentPosition.getCol() + movDirection.getX();
 		int nextRow = currentPosition.getRow() + movDirection.getY();
 
 		if (this.dir == Direction.RIGHT) {
-			if (nextCol >= WALL_RIGHT
-					|| game.positionToString(nextCol, currentPosition.getRow()).equals(Messages.WALL)) { // game is null when a new game is loaded in?
-																											
+			if (nextCol >= WALL_RIGHT || game.wallAhead(currentPosition, movDirection)) {
+
 				this.reverseDir();
 				return false;
 			}
 			checkFloor();
 			this.fallForce = 0;
 			return true;
-		}
-
-		else if (this.dir == Direction.LEFT) {
-			if (nextCol <= WALL_LEFT
-					|| game.positionToString(nextCol,
-							currentPosition.getRow()).equals(Messages.WALL)
-					||
-					game.positionToString(nextCol,
-							currentPosition.getRow()).equals(Messages.METALWALL)) {
+		} else if (this.dir == Direction.LEFT) {
+			if (nextCol <= WALL_LEFT || game.wallAhead(currentPosition, movDirection)) {
 				this.reverseDir();
 				return false;
 			}
-			checkFloor();
-			this.fallForce = 0;
 			checkFloor();
 			this.fallForce = 0;
 			return true;
 		} else if (this.dir == Direction.DOWN) {
 			checkFloor();
-			if (game.positionToString(currentPosition.getCol(),
-					nextRow).equals(Messages.WALL)) {
+			if (game.wallBelow(currentPosition)) {
+				return false;
 			}
 			return true;
 		}
@@ -132,23 +128,22 @@ public class Lemming extends GameObject {
 
 		}
 
-		else if (game.positionToString(this.pos.getCol(), this.pos.getRow() +
-				1).equals(Messages.WALL)
-				|| (game.positionToString(this.pos.getCol(), this.pos.getRow() +
-						1).equals(Messages.METALWALL) && isFalling))
-
-		{
+		else if (game.wallBelow(pos)
+				|| (game.metalWallBelow(pos)
+						&& isFalling)) {
 
 			if (this.fallForce >= MAX_FALL
 					&& (this.getIcon().equals(Messages.LEMMING_RIGHT)
 							|| this.getIcon().equals(Messages.DOWN_CAVER_ROL_SYMBOL)
-							|| this.getIcon().equals(Messages.LEMMING_LEFT))) {
+							|| this.getIcon().equals(Messages.LEMMING_LEFT))) // !parachuter
+			{
 				this.isAlive = false;
 			} else if (this.isFalling) {
 				this.dir = Direction.RIGHT;
 				this.isFalling = false;
 				this.disableRole();
 			}
+
 		} 
 	}
 
@@ -160,8 +155,8 @@ public class Lemming extends GameObject {
 		}
 	}
 
-	private void checkExit() throws ObjectParseException{
-		if (game.positionToString(this.pos.getCol(), this.pos.getRow()).equals(Messages.EXIT_DOOR)) {
+	public void checkExit() throws ObjectParseException{
+		if (game.exitAhead(this.pos, this.dir) || game.exitBelow(this.pos, this.dir)) {
 			this.makeInvisible();
 			game.lemmingArrived();
 		}

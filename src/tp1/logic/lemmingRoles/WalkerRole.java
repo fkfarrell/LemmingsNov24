@@ -9,6 +9,7 @@ import tp1.logic.gameobjects.Lemming;
 import tp1.logic.gameobjects.MetalWall;
 import tp1.logic.gameobjects.Wall;
 import tp1.view.Messages;
+import tp1.logic.Game;
 
 public class WalkerRole implements LemmingRole {
 	private static final String NAME = Messages.WALKER_ROL_NAME;
@@ -35,13 +36,21 @@ public class WalkerRole implements LemmingRole {
 			return " ";
 	}
 
-	private String getName() {
+	public String getName() {
 		return NAME;
 	}
 
 	@Override
 	public String helpText() {
 		return HELP;
+	}
+
+	@Override
+	public LemmingRole parse(String input) {
+		System.out.println("parse input >>> " + input);
+		if (input.equalsIgnoreCase(getName()) || input.equalsIgnoreCase(getShortcut()))
+			return this;
+		return null;
 	}
 
 	// String that represents the object status
@@ -74,6 +83,7 @@ public class WalkerRole implements LemmingRole {
 
 	@Override
 	public boolean interactWith(Wall wall, Lemming lemming) {
+		System.out.println("Walker and wall" + wall.receiveInteraction(lemming));
 		return false;
 	}
 

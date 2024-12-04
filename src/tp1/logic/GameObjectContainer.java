@@ -28,7 +28,7 @@ public class GameObjectContainer {
 		return objects.size();
 	}
 
-	public void setGame() {
+	public void setGame(Game game2) {
 		for (GameObject object : objects) {
 			object.setGame(game);
 		}
@@ -71,24 +71,45 @@ public class GameObjectContainer {
 		return numArrived;
 	}
 
-	public Position[] getExitDoorPositions() throws ObjectParseException {
-		int numDoors = 0;
-		for (GameObject object : objects) {
-			if (object.getIcon().equals(Messages.EXIT_DOOR)) {
-				object.getPosition();
-				numDoors++;
-			}
-		}
 
-		Position[] exitDoorPositions = new Position[numDoors];
-		int index = 0;
+	public Position[] getExitDoorPositions() throws ObjectParseException {
+		List<Position> exitDoorPositionsList = new ArrayList<>();
+
 		for (GameObject object : objects) {
 			if (object.getIcon().equals(Messages.EXIT_DOOR)) {
-				exitDoorPositions[index] = object.getPosition();
-				index++;
+				Position pos = object.getPosition();
+				if (pos != null) {
+					exitDoorPositionsList.add(pos);
+				}
 			}
 		}
-		return exitDoorPositions;
+		return exitDoorPositionsList.toArray(new Position[0]);
+	}
+
+	public Position[] getWallPositions() {
+		List<Position> wallPositionsList = new ArrayList<>();
+		for (GameObject object : objects) {
+			if (object.getIcon().equals(Messages.WALL)) {
+				Position pos = object.getPosition();
+				if (pos != null) {
+					wallPositionsList.add(pos);
+				}
+			}
+		}
+		return wallPositionsList.toArray(new Position[0]);
+	}
+
+	public Position[] getMetalWallPositions() {
+		List<Position> metalWallPositionsList = new ArrayList<>();
+		for (GameObject object : objects) {
+			if (object.getIcon().equals(Messages.METALWALL)) {
+				Position pos = object.getPosition();
+				if (pos != null) {
+					metalWallPositionsList.add(pos);
+				}
+			}
+		}
+		return metalWallPositionsList.toArray(new Position[0]);
 	}
 
 	public boolean checkLemmingPosition(Position pos) {
@@ -105,7 +126,6 @@ public class GameObjectContainer {
 
 		for (GameObject object : objects) {
 			if (object.isInPosition(pos)) {
-				// System.out.println("SETTING " + role + " AT " + pos.toString());
 				object.setRole(role);
 				return true;
 			}
@@ -124,8 +144,7 @@ public class GameObjectContainer {
 		return deadLemmings;
 	}
 
-	public boolean receiveInteractionsFrom(GameItem obj) throws GameModelException {
-		// returns true for each interaction that an obkject can have?
+	public boolean receiveInteractionsFrom(GameItem obj) throws GameModelException{
 		for (GameObject object : objects) {
 			if (object.receiveInteraction(obj)) {
 				return true;

@@ -38,8 +38,16 @@ public class ParachuterRole implements LemmingRole {
         return HELP;
     }
 
-    private String getName() {
+    public String getName() {
         return NAME;
+    }
+
+    @Override
+    public LemmingRole parse(String input) {
+        System.out.println("parse input >>> " + input);
+        if (input.equalsIgnoreCase(getName()) || input.equalsIgnoreCase(getShortcut()))
+            return this;
+        return null;
     }
 
     @Override

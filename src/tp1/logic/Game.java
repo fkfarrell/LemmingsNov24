@@ -22,7 +22,7 @@ import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
 import tp1.view.Messages;
 
-public class Game implements GameModel, GameStatus, GameWorld {
+public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	public static final int DIM_X = 10;
 	public static final int DIM_Y = 10;
@@ -157,7 +157,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public int numLemmingsExit() {
-		// TODO Auto-generated method stub
 		return numLemmingsExit;
 	}
 
@@ -190,8 +189,9 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 
 	// GameModel methods
-	// @Override
+	@Override
 	public void update() throws GameModelException {
+
 		container.update();
 		cycleNum++;
 		playerWins();
@@ -213,7 +213,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	}
 
-	// @Override
+	@Override
 	public void exit() {
 		gameFinished = true;
 	}
@@ -221,18 +221,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	// @Override
 	public void none() throws GameModelException {
 		update();
-	}
-
-	// @Override
-	public void reset() {
-		lemmingsInGame = 0;
-		cycleNum = 0;
-		playerWins = false;
-		numLemmingsExit = 0;
-		deadLemmings = 0;
-		container = new GameObjectContainer(this);
-		initLevel(currentLvl);
-
 	}
 
 	// @Override
@@ -288,19 +276,43 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 	}
 
-	public boolean load(File inputFile) throws GameLoadException, ObjectParseException, OffBoardException {
-		try {
-			FileGameConfig fileConfig = new FileGameConfig(inputFile);
-			fileConfig.readFile();
-			// set Game game attributes to the ones gathered by a fileConfig
-			// fileConfig has all the bits we need, just need now to turn it into a level.
-			lemmingsInGame = fileConfig.lemmingsOnBoard;
-			cycleNum = fileConfig.gameCycle;
+
+	private FileGameConfig fileLoader = null;
+
+	@Override
+	public void reset() {
+		if (fileLoader != null) {
+			// Load from the saved file configuration
+			load(loadFile);
+		} else {
+			// Perform standard reset if no fileLoader is available
+			lemmingsInGame = 0;
+			cycleNum = 0;
 			playerWins = false;
-			numLemmingsExit = fileConfig.lemmingsExited;
-			deadLemmings = fileConfig.deadLemmings;
-			container = fileConfig.newLoadContainer;
-			container.setGame();
+			numLemmingsExit = 0;
+			deadLemmings = 0;
+			container = new GameObjectContainer(this);
+			initLevel(currentLvl);
+		}
+	}
+
+	private File loadFile;
+
+
+	public boolean load(File inputFile) throws GameLoadException, ObjectParseException, OffBoardException {
+
+		try {
+			fileLoader = new FileGameConfig(inputFile);
+			loadFile = inputFile;
+
+			fileLoader.readFile();
+			lemmingsInGame = fileLoader.numLemmingsInBoard();
+			cycleNum = fileLoader.getCycle();
+			playerWins = false;
+			numLemmingsExit = fileLoader.numLemmingsExit();
+			deadLemmings = fileLoader.numLemmingsDead();
+			container = fileLoader.getGameObjects();
+			container.setGame(this);
 
 			return true;
 		} catch (GameLoadException e) {
@@ -317,7 +329,71 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 	
 
-	
+	public boolean exitAhead(Position pos, Direction dir) {
+		Position ahead = new Position(pos.getCol() + dir.getX(), pos.getRow());
+		Position[] exitPositions = container.getExitDoorPositions();
+		for (Position exitDoor : exitPositions) {
+			if (exitDoor.equals(ahead)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean exitBelow(Position pos, Direction dir) {
+		Position below = new Position(pos.getCol(), pos.getRow() + 1);
+		Position[] exitPositions = container.getExitDoorPositions();
+		for (Position exitDoor : exitPositions) {
+			if (exitDoor.equals(below)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean wallAhead(Position pos, Direction dir) {
+		Position ahead = new Position(pos.getCol() + dir.getX(), pos.getRow());
+		Position[] wallPositions = container.getWallPositions();
+		for (Position wall : wallPositions) {
+			if (wall.toString().equals(ahead.toString())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean wallBelow(Position pos) {
+		Position below = new Position(pos.getCol(), pos.getRow() + 1);
+		Position[] wallPositions = container.getWallPositions();
+		for (Position wall : wallPositions) {
+			if (wall.toString().equals(below.toString())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean metalWallAhead(Position pos, Direction dir) {
+		Position ahead = new Position(pos.getCol() + dir.getX(), pos.getRow());
+		Position[] wallPositions = container.getMetalWallPositions();
+		for (Position wall : wallPositions) {
+			if (wall.toString().equals(ahead.toString())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean metalWallBelow(Position pos) {
+		Position below = new Position(pos.getCol(), pos.getRow() + 1);
+		Position[] wallPositions = container.getMetalWallPositions();
+		for (Position wall : wallPositions) {
+			if (wall.toString().equals(below.toString())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public String toString() {
 		StringBuilder gameString = new StringBuilder();
@@ -334,4 +410,22 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	public boolean receiveInteractionsFrom(GameItem obj) {
 		throw new UnsupportedOperationException("Unimplemented method 'receiveInteractionsFrom'");
 	}
+
+	@Override
+	public void parseGameConfigInfo(String firstLine) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'parseGameConfigInfo'");
+	}
+
+	@Override
+	public GameObjectContainer getGameObjects() {
+		return container;
+	}
+
+	@Override
+	public void readFile() throws IOException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'readFile'");
+	}
+
 }
