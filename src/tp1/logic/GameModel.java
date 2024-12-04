@@ -15,7 +15,7 @@ public interface GameModel {
 
     public void exit();
 
-    public void reset();
+    public void reset() throws ObjectParseException, GameLoadException, OffBoardException;
 
     public void none() throws OffBoardException, ObjectParseException, GameModelException;
 
@@ -23,7 +23,7 @@ public interface GameModel {
 
     public boolean checkLemmingPosition(Position rolePosition);
 
-    public boolean setLemmingRole(Position rolePosition, LemmingRole role) throws OffBoardException, ObjectParseException;
+    public boolean setLemmingRole(Position rolePosition, LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException;
 
     public boolean load(File file) throws GameLoadException, ObjectParseException, OffBoardException;
 

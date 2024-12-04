@@ -5,7 +5,6 @@ import java.util.List;
 
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
-import tp1.exceptions.OffBoardException;
 import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.lemmingRoles.LemmingRole;
@@ -86,7 +85,7 @@ public class GameObjectContainer {
 		return exitDoorPositionsList.toArray(new Position[0]);
 	}
 
-	public Position[] getWallPositions() {
+	public Position[] getWallPositions() throws ObjectParseException {
 		List<Position> wallPositionsList = new ArrayList<>();
 		for (GameObject object : objects) {
 			if (object.getIcon().equals(Messages.WALL)) {
@@ -99,7 +98,7 @@ public class GameObjectContainer {
 		return wallPositionsList.toArray(new Position[0]);
 	}
 
-	public Position[] getMetalWallPositions() {
+	public Position[] getMetalWallPositions() throws ObjectParseException {
 		List<Position> metalWallPositionsList = new ArrayList<>();
 		for (GameObject object : objects) {
 			if (object.getIcon().equals(Messages.METALWALL)) {
@@ -122,7 +121,7 @@ public class GameObjectContainer {
 		return false;
 	}
 
-	public boolean setLemmingRole(Position pos, LemmingRole role) throws ObjectParseException, OffBoardException {
+	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException {
 
 		for (GameObject object : objects) {
 			if (object.isInPosition(pos)) {

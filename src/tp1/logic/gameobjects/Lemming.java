@@ -29,7 +29,7 @@ public class Lemming extends GameObject {
     }
 
     @Override
-	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException {
+	public boolean setRole(LemmingRole role) throws GameModelException {
 		if (this.role.equals(role)) {
 			game.update();
 			return false;
@@ -81,9 +81,7 @@ public class Lemming extends GameObject {
 		}
 	}
 
-
 	public boolean canMove() throws OffBoardException, ObjectParseException {
-
 		this.checkOffBoard();
 
 		Direction movDirection = this.getDirection();
@@ -96,7 +94,7 @@ public class Lemming extends GameObject {
 
 		if (this.dir == Direction.RIGHT) {
 			if (nextCol >= WALL_RIGHT || game.wallAhead(currentPosition, movDirection)) {
-
+																											
 				this.reverseDir();
 				return false;
 			}
@@ -108,6 +106,8 @@ public class Lemming extends GameObject {
 				this.reverseDir();
 				return false;
 			}
+			checkFloor();
+			this.fallForce = 0;
 			checkFloor();
 			this.fallForce = 0;
 			return true;
@@ -143,7 +143,6 @@ public class Lemming extends GameObject {
 				this.isFalling = false;
 				this.disableRole();
 			}
-
 		} 
 	}
 
