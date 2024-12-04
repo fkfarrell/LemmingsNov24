@@ -37,8 +37,21 @@ public class DownCaverRole implements LemmingRole {
     }
 
     @Override
+    public LemmingRole parse(String input) {
+        System.out.println("parse input >>> " + input);
+        if (input.equalsIgnoreCase(getName()) || input.equalsIgnoreCase(getShortcut()))
+            return this;
+        return null;
+    }
+
+    @Override
     public String getShortcut() {
         return "d";
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -60,8 +73,7 @@ public class DownCaverRole implements LemmingRole {
 
     @Override
     public boolean interactWith(ExitDoor door, Lemming lemming) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
+        return true;
     }
 
     @Override

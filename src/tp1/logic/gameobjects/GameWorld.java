@@ -11,4 +11,15 @@ public interface GameWorld {
 
     public boolean receiveInteractionsFrom(GameItem obj);
 
+    public boolean wallBelow(Position pos);
+
+    public boolean exitAhead(Position pos, Direction dir);
+
+    public boolean exitBelow(Position pos, Direction dir);
+
+    public boolean wallAhead(Position pos, Direction dir);
+
+    public boolean metalWallAhead(Position pos, Direction dir);
+
+    public boolean metalWallBelow(Position pos);
 }

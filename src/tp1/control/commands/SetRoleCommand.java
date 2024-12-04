@@ -53,7 +53,8 @@ public class SetRoleCommand extends Command {
         }
 
         try {
-            LemmingRole role = LemmingRoleFactory.parse(commandWords); 
+            String input = commandWords[1];
+            LemmingRole role = LemmingRoleFactory.parse(commandWords); // commandWords
             if (role == null) {
                 throw new CommandParseException("[ERROR] Unknown Role.");
             }
@@ -85,7 +86,6 @@ public class SetRoleCommand extends Command {
         }
     }
 
-    
     @Override
     public boolean showBoard() {
         return true;

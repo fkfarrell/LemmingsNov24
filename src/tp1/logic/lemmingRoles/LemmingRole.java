@@ -17,6 +17,8 @@ public interface LemmingRole {
 
     public String getIcon(Lemming lemming);
 
+    public String getName();
+
     public void play(Lemming lemming);
 
     public void advance(Lemming lemming);
@@ -35,4 +37,5 @@ public interface LemmingRole {
 
     public boolean interactWith(ExitDoor door, Lemming lemming);
 
+    public LemmingRole parse(String input);
 }

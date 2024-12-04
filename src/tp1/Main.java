@@ -3,6 +3,8 @@ package tp1;
 import java.util.Locale;
 
 import tp1.control.Controller;
+import tp1.control.commands.CommandExecuteException;
+import tp1.control.commands.CommandParseException;
 import tp1.logic.Game;
 import tp1.view.ConsoleColorsView;
 import tp1.view.ConsoleView;
@@ -11,7 +13,7 @@ import tp1.view.Messages;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CommandParseException, CommandExecuteException {
 		// Required to avoid issues with tests
 		Locale.setDefault(new Locale("es", "ES"));
 

@@ -4,6 +4,7 @@ import tp1.control.commands.Command;
 import tp1.control.commands.CommandException;
 import tp1.control.commands.CommandExecuteException;
 import tp1.control.commands.CommandGenerator;
+import tp1.control.commands.CommandParseException;
 import tp1.control.commands.UpdateCommand;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
@@ -21,7 +22,8 @@ public class Controller {
 		this.game = game;
 		this.view = view;
 	}
-	public void run() {
+
+	public void run() throws CommandParseException, CommandExecuteException {
 		String[] words = null;
 
 		view.showWelcome();
@@ -46,4 +48,3 @@ public class Controller {
 		view.showEndMessage();
 	}
 }
-	

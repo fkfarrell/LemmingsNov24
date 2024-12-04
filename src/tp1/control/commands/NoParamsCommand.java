@@ -8,10 +8,11 @@ public abstract class NoParamsCommand extends Command {
 		super(name, shortcut, details, help);
 	}
 
-	/*@Override
-	public Command parse(String[] commandWords) {
+	@Override
+	public Command parse(String[] commandWords) throws CommandParseException {
 
-		if (commandWords == null || commandWords.length == 0 || commandWords[0].isEmpty()) {
+		if (commandWords == null || commandWords.length == 0 ||
+				commandWords[0].isEmpty()) {
 			return new UpdateCommand();
 		}
 
@@ -21,16 +22,5 @@ public abstract class NoParamsCommand extends Command {
 
 		return null;
 	}
-	*/
-	
-	public Command parse(String[] commandWords) throws CommandParseException {
-		if (commandWords.length < 1 || !matchCommandName(commandWords[0]))
-		  return null;
-				
-		if (commandWords.length == 1 && matchCommandName(commandWords[0]))
-		  return this;
-			
-		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
-	  }
 
 }

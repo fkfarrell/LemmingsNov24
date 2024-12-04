@@ -14,17 +14,19 @@ public class CommandGenerator {
 			new ExitCommand(),
 			new UpdateCommand(),
 			new ResetCommand(),
-			new SetRoleCommand(),
-			new LoadCommand());
+			new LoadCommand(),
+			new SetRoleCommand());
 
-	public static Command parse(String[] commandWords) throws CommandParseException{
+	public static Command parse(String[] commandWords) throws CommandParseException {
 
 		Command cmd = null;
 
 		for (Command c : availableCommands) {
 
 			cmd = c.parse(commandWords);
+
 			if (cmd != null) {
+				System.out.println(">>> " + cmd.toString());
 				return cmd;
 			}
 

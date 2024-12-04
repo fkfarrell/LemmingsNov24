@@ -138,4 +138,6 @@ public class Messages {
 	public static final String LEMMING_LEFT = "ᗺ";
 	public static final String LEMMING_PARACHUTE = "🪂";
 	public static final String LEMMING_DOWN_CAVER = "´･ω･`";
+
+	public static final String INVALID_ROLE = "Invalvid role entered.";
 }

@@ -25,7 +25,7 @@ public class GameObjectContainer {
 		return objects.size();
 	}
 
-	public void setGame() {
+	public void setGame(Game game2) {
 		for (GameObject object : objects) {
 			object.setGame(game);
 		}
@@ -67,23 +67,42 @@ public class GameObjectContainer {
 	}
 
 	public Position[] getExitDoorPositions() {
-		int numDoors = 0;
+		List<Position> exitDoorPositionsList = new ArrayList<>();
 		for (GameObject object : objects) {
 			if (object.getIcon().equals(Messages.EXIT_DOOR)) {
-				object.getPosition();
-				numDoors++;
+				Position pos = object.getPosition();
+				if (pos != null) {
+					exitDoorPositionsList.add(pos);
+				}
 			}
 		}
+		return exitDoorPositionsList.toArray(new Position[0]);
+	}
 
-		Position[] exitDoorPositions = new Position[numDoors];
-		int index = 0;
+	public Position[] getWallPositions() {
+		List<Position> wallPositionsList = new ArrayList<>();
 		for (GameObject object : objects) {
-			if (object.getIcon().equals(Messages.EXIT_DOOR)) {
-				exitDoorPositions[index] = object.getPosition();
-				index++;
+			if (object.getIcon().equals(Messages.WALL)) {
+				Position pos = object.getPosition();
+				if (pos != null) {
+					wallPositionsList.add(pos);
+				}
 			}
 		}
-		return exitDoorPositions;
+		return wallPositionsList.toArray(new Position[0]);
+	}
+
+	public Position[] getMetalWallPositions() {
+		List<Position> metalWallPositionsList = new ArrayList<>();
+		for (GameObject object : objects) {
+			if (object.getIcon().equals(Messages.METALWALL)) {
+				Position pos = object.getPosition();
+				if (pos != null) {
+					metalWallPositionsList.add(pos);
+				}
+			}
+		}
+		return metalWallPositionsList.toArray(new Position[0]);
 	}
 
 	public boolean checkLemmingPosition(Position pos) {
@@ -100,7 +119,6 @@ public class GameObjectContainer {
 
 		for (GameObject object : objects) {
 			if (object.isInPosition(pos)) {
-				// System.out.println("SETTING " + role + " AT " + pos.toString());
 				object.setRole(role);
 				return true;
 			}
@@ -120,7 +138,6 @@ public class GameObjectContainer {
 	}
 
 	public boolean receiveInteractionsFrom(GameItem obj) {
-		// returns true for each interaction that an obkject can have?
 		for (GameObject object : objects) {
 			if (object.receiveInteraction(obj)) {
 				return true;

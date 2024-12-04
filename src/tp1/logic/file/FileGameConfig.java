@@ -9,15 +9,14 @@ import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameWorld;
 
 public class FileGameConfig implements GameConfig {
-    // Handles the reading, validating, and storing of game info from a text file.
-    // This is where we'll make calls to the GameObjectFactory.
 
     private File inputFile;
     public String fullFilePath;
     private String content;
     public GameObjectFactory factory = new GameObjectFactory();
     private Game game;
-    public GameObjectContainer newLoadContainer = new GameObjectContainer(game);
+    public GameObjectContainer newLoadContainer;
+    private static int LoadLevel = 4;
 
     // Game Config Variables
     public int gameCycle = 0;
@@ -35,33 +34,26 @@ public class FileGameConfig implements GameConfig {
 
     public void readFile() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
-
             String firstLine = reader.readLine();
             if (firstLine == null) {
                 throw new IOException("The file is empty.");
             }
 
             parseGameConfigInfo(firstLine);
-
-            Game newGame = new Game(4); // trying to maje this.game != null
+            Game newGame = new Game(LoadLevel);
+            newLoadContainer = new GameObjectContainer(newGame);
 
             while ((content = reader.readLine()) != null) {
                 GameObject obj = factory.parse(content, newGame);
-                System.out.println("GAME : " + newGame);
-                // if (obj != null) {
                 if (obj.game == null) {
                     obj.setGame(newGame);
-                    System.out.println(">>> : " + newGame);
                 }
                 newLoadContainer.add(obj);
-                // }
             }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
-            throw e; // Rethrow exception to be handled by the caller.
+            throw e;
         }
-        // System.out.println("Contents after file reading");
-        // System.out.println(newLoadContainer.toString());
     }
 
     public void parseGameConfigInfo(String firstLine) {
@@ -79,5 +71,35 @@ public class FileGameConfig implements GameConfig {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid game configuration: All values must be integers.", e);
         }
+    }
+
+    @Override
+    public int getCycle() {
+        return gameCycle;
+    }
+
+    @Override
+    public int numLemmingsInBoard() {
+        return lemmingsOnBoard;
+    }
+
+    @Override
+    public int numLemmingsDead() {
+        return deadLemmings;
+    }
+
+    @Override
+    public int numLemmingsExit() {
+        return lemmingsExited;
+    }
+
+    @Override
+    public int numLemmingsToWin() {
+        return lemmingsToExit;
+    }
+
+    @Override
+    public GameObjectContainer getGameObjects() {
+        return newLoadContainer;
     }
 }

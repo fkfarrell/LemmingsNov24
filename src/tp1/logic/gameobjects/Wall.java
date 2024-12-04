@@ -29,11 +29,6 @@ public class Wall extends GameObject {
     }
 
     @Override
-    public Position getPosition() {
-        return null;
-    }
-
-    @Override
     public void makeInvisible() {
     }
 
