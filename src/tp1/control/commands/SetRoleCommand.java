@@ -42,12 +42,12 @@ public class SetRoleCommand extends Command {
                 game.setLemmingRole(rolePosition, gameRole);
             } catch (OffBoardException e) {
                 throw new CommandExecuteException("Error: Position is off the board or invalid.", e);
-                }
+            }
         } else {
-            throw new CommandExecuteException("[ERROR] SetRoleCommand error (Incorrect position or no object in that position admits that role)");
+            throw new CommandExecuteException(
+                    "[ERROR] SetRoleCommand error (Incorrect position or no object in that position admits that role)");
         }
     }
-
 
     @Override
     public Command parse(String[] commandWords) throws CommandParseException {
@@ -68,24 +68,25 @@ public class SetRoleCommand extends Command {
         try {
             String rowPos = commandWords[2].toLowerCase();
             if (rowPos.length() != 1 || rowPos.charAt(0) < 'a' || rowPos.charAt(0) > 'j') {
-                throw new CommandParseException("[ERROR] Row position out of board bounds. Must be between 'a' and 'j'.");
+                throw new CommandParseException(
+                        "[ERROR] Row position out of board bounds. Must be between 'a' and 'j'.");
             }
             int rowNum = rowPos.charAt(0) - 'a';
 
             int colNum = Integer.parseInt(commandWords[3]);
             if (colNum < 0 || colNum >= 10) {
-                throw new CommandParseException("[ERROR] Column position out of board bounds. Must be between 0 and 9.");
+                throw new CommandParseException(
+                        "[ERROR] Column position out of board bounds. Must be between 0 and 9.");
             }
 
             rolePosition = new Position(colNum - 1, rowNum);
-            return new SetRoleCommand(gameRole, rolePosition); 
+            return new SetRoleCommand(gameRole, rolePosition);
 
         } catch (NumberFormatException e) {
             throw new CommandParseException("[ERROR] Invalid column position format. Column must be an integer.", e);
         }
     }
 
-    
     @Override
     public boolean showBoard() {
         return true;

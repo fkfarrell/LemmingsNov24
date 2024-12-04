@@ -45,16 +45,16 @@ public class FileGameConfig implements GameConfig {
             }
 
             parseGameConfigInfo(firstLine);
-            Game newGame = new Game(LoadLevel);
+            Game newGame = new Game(LoadLevel); // LoadLevel
             newLoadContainer = new GameObjectContainer(newGame);
 
             while ((content = reader.readLine()) != null) {
-                try{
-                GameObject obj = factory.parse(content, newGame);
-                if (obj.game == null) {
-                    obj.setGame(newGame);
-                }
-                newLoadContainer.add(obj);
+                try {
+                    GameObject obj = factory.parse(content, newGame);
+                    if (obj.game == null) {
+                        obj.setGame(newGame);
+                    }
+                    newLoadContainer.add(obj);
 
                 } catch (ObjectParseException | OffBoardException e) {
                     throw new ObjectParseException(String.format(Messages.ERROR_PARSING_GAME_OBJECT, content), e);
