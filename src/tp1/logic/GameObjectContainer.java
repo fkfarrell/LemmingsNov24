@@ -3,6 +3,9 @@ package tp1.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import tp1.exceptions.GameModelException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.lemmingRoles.LemmingRole;
@@ -40,11 +43,13 @@ public class GameObjectContainer {
 		return " ";
 	}
 
-	public void update() {
+	public void update() throws GameModelException {
 		for (GameObject object : objects) {
 			if (object.isAlive()) {
 				object.update();
 			}
+
+			
 		}
 		int numExited = checkExit();
 		if (numExited > 0) {
@@ -52,7 +57,7 @@ public class GameObjectContainer {
 		}
 	}
 
-	public int checkExit() {
+	public int checkExit() throws ObjectParseException {
 		int numArrived = 0;
 		for (Position exit : getExitDoorPositions()) {
 			for (GameObject object : objects) {
@@ -66,7 +71,7 @@ public class GameObjectContainer {
 		return numArrived;
 	}
 
-	public Position[] getExitDoorPositions() {
+	public Position[] getExitDoorPositions() throws ObjectParseException {
 		int numDoors = 0;
 		for (GameObject object : objects) {
 			if (object.getIcon().equals(Messages.EXIT_DOOR)) {
@@ -96,7 +101,7 @@ public class GameObjectContainer {
 		return false;
 	}
 
-	public boolean setLemmingRole(Position pos, LemmingRole role) {
+	public boolean setLemmingRole(Position pos, LemmingRole role) throws ObjectParseException, OffBoardException {
 
 		for (GameObject object : objects) {
 			if (object.isInPosition(pos)) {
@@ -119,7 +124,7 @@ public class GameObjectContainer {
 		return deadLemmings;
 	}
 
-	public boolean receiveInteractionsFrom(GameItem obj) {
+	public boolean receiveInteractionsFrom(GameItem obj) throws GameModelException {
 		// returns true for each interaction that an obkject can have?
 		for (GameObject object : objects) {
 			if (object.receiveInteraction(obj)) {

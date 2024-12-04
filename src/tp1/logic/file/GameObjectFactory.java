@@ -3,6 +3,8 @@ package tp1.logic.file;
 import java.util.Arrays;
 import java.util.List;
 
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Direction;
 import tp1.logic.Game;
 import tp1.logic.GameObjectContainer;
@@ -17,6 +19,7 @@ import tp1.logic.lemmingRoles.DownCaverRole;
 import tp1.logic.lemmingRoles.LemmingRole;
 import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
+import tp1.view.Messages;
 
 public class GameObjectFactory {
     // parses the text representation of the game objects in the text file and
@@ -30,19 +33,29 @@ public class GameObjectFactory {
             new MetalWall(),
             new ExitDoor());
 
-    public GameObject parse(String line, Game game) {
-
+    public GameObject parse(String line, Game game) throws ObjectParseException, OffBoardException {
+        Position pos;
+        String objectTitle;
         // working parse methods
-        Position pos = parsePosition(line);
-        String objectTitle = parseObjectName(line);
-
+        try{
+        pos = parsePosition(line);
+        objectTitle = parseObjectName(line);
+        }catch (Exception e){
+            throw new ObjectParseException(String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid position or object name: " + line), e);
+        }
         // in progress...
         if (objectTitle.equals("LEMMING")) {
+            Direction direction;
+            int forceOfFall;
+            LemmingRole role;
 
-            Direction direction = getLemmingDirectionFrom(line); // Parse direction
-            int forceOfFall = getLemmingHeigthFrom(line); // Parse fall height
-            LemmingRole role = getLemmingRoleFrom(line); // Parse role
-
+            try{
+            direction = getLemmingDirectionFrom(line); // Parse direction
+            forceOfFall = getLemmingHeigthFrom(line); // Parse fall height
+            role = getLemmingRoleFrom(line); // Parse role
+            }catch (Exception e) {
+                throw new ObjectParseException(String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid lemming attributes: " + line), e);
+            }
             return new Lemming(game, pos, direction, role);
         }
 
@@ -58,11 +71,10 @@ public class GameObjectFactory {
                     return new ExitDoor(game, pos);
 
                 default:
-
-                    break;
+                throw new ObjectParseException(String.format(Messages.UNKNOWN_GAME_OBJECT, objectTitle));
+                    
             }
         }
-        return null; // should throw an exeption NULL is not allowed
     }
 
     private static Position parsePosition(String inputPos) {

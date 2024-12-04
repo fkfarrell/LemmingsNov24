@@ -1,5 +1,6 @@
 package tp1.control.commands;
 
+import tp1.exceptions.CommandParseException;
 import tp1.view.Messages;
 
 public abstract class NoParamsCommand extends Command {
@@ -8,29 +9,22 @@ public abstract class NoParamsCommand extends Command {
 		super(name, shortcut, details, help);
 	}
 
-	/*@Override
-	public Command parse(String[] commandWords) {
-
-		if (commandWords == null || commandWords.length == 0 || commandWords[0].isEmpty()) {
-			return new UpdateCommand();
-		}
-
-		if (matchCommandName(commandWords[0])) {
-			return this;
-		}
-
-		return null;
-	}
-	*/
 	
 	public Command parse(String[] commandWords) throws CommandParseException {
-		if (commandWords.length < 1 || !matchCommandName(commandWords[0]))
-		  return null;
-				
-		if (commandWords.length == 1 && matchCommandName(commandWords[0]))
-		  return this;
-			
-		throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
-	  }
+		if (commandWords == null || commandWords.length == 0) {
+			throw new CommandParseException("No command provided.");
+		}
+	
+		if (!matchCommandName(commandWords[0])) {
+			throw new CommandParseException("Unknown command: " + commandWords[0]);
+		}
+	
+		if (commandWords.length == 1) {
+			return this;
+		} else {
+			throw new CommandParseException("Incorrect number of parameters for command: " + commandWords[0]);
+		}
+	}
+	
 
 }

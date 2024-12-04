@@ -3,6 +3,10 @@ package tp1.logic;
 import java.io.File;
 import java.io.IOException;
 
+import tp1.exceptions.GameLoadException;
+import tp1.exceptions.GameModelException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Position;
 import tp1.logic.file.FileGameConfig;
 import tp1.logic.file.GameConfig;
@@ -16,6 +20,7 @@ import tp1.logic.gameobjects.Wall;
 import tp1.logic.lemmingRoles.LemmingRole;
 import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
+import tp1.view.Messages;
 
 public class Game implements GameModel, GameStatus, GameWorld {
 
@@ -130,7 +135,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 				// for(int i; i < container.){
 				// container.add(go);
 				// }
-				break;
+				throw new IllegalArgumentException("Invalid level: " + lvl);
 		}
 	}
 
@@ -186,7 +191,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	// GameModel methods
 	// @Override
-	public void update() {
+	public void update() throws GameModelException {
 		container.update();
 		cycleNum++;
 		playerWins();
@@ -214,7 +219,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 
 	// @Override
-	public void none() {
+	public void none() throws GameModelException {
 		update();
 	}
 
@@ -249,7 +254,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 	}
 
 	//// @Override
-	public void lemmingArrived() {
+	public void lemmingArrived() throws ObjectParseException {
 		if (container.checkExit() != 0) {
 			numLemmingsExit += container.checkExit();
 			lemmingsInGame -= container.checkExit();
@@ -274,7 +279,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 	}
 
-	public boolean setLemmingRole(Position pos, LemmingRole role) {
+	public boolean setLemmingRole(Position pos, LemmingRole role) throws ObjectParseException, OffBoardException {
 		if (container.setLemmingRole(pos, role)) {
 			return true;
 		} else {
@@ -283,7 +288,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		}
 	}
 
-	public boolean load(File inputFile) {
+	public boolean load(File inputFile) throws GameLoadException, ObjectParseException, OffBoardException {
 		try {
 			FileGameConfig fileConfig = new FileGameConfig(inputFile);
 			fileConfig.readFile();
@@ -298,17 +303,22 @@ public class Game implements GameModel, GameStatus, GameWorld {
 			container.setGame();
 
 			return true;
-		} catch (IOException e) {
+		} catch (GameLoadException e) {
 			System.err.println("Error loading game configuration: " + e.getMessage());
-			return false;
+			throw e; 
+		} catch (ObjectParseException e) {
+			System.err.println("Error parsing game objects: " + e.getMessage());
+			throw e; 
+			System.err.println("Error with off-board objects: " + e.getMessage());
+			throw e; 
+		} catch (Exception e) {
+			System.err.println("Unexpected error: " + e.getMessage());
+			throw new GameLoadException(String.format(Messages.READ_ERROR, inputFile.getAbsolutePath()), e);
 		}
-	}
+	
 
-	// Other methods
-	// TODO you should write a toString method to return the string that represents
-	// the object status
-	// @Override
-	// public String toString()
+	
+
 	public String toString() {
 		StringBuilder gameString = new StringBuilder();
 		for (int row = 0; row < DIM_Y; row++) {
@@ -322,7 +332,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
 	@Override
 	public boolean receiveInteractionsFrom(GameItem obj) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'receiveInteractionsFrom'");
 	}
 }
