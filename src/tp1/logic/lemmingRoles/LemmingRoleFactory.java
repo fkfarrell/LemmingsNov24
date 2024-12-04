@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import tp1.control.commands.Command;
-import tp1.control.commands.RoleParseException;
 import tp1.exceptions.CommandParseException;
 import tp1.logic.lemmingRoles.*;
 import tp1.view.Messages;

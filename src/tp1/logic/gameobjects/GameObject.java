@@ -52,7 +52,7 @@ public abstract class GameObject implements GameItem {
 		this.isAlive = false;
 	}
 
-	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException {
+	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException {
 		return false;
 	}
 

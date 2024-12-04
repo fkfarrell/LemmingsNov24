@@ -8,6 +8,7 @@ import tp1.logic.lemmingRoles.*;
 import tp1.logic.Position;
 import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.CommandParseException;
+import tp1.exceptions.GameModelException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.Game;
 
@@ -35,7 +36,7 @@ public class SetRoleCommand extends Command {
     }
 
     @Override
-    public void execute(GameModel game, GameView view) throws CommandExecuteException {
+    public void execute(GameModel game, GameView view) throws CommandExecuteException, GameModelException {
         if (game.checkLemmingPosition(rolePosition)) {
             try {
                 game.setLemmingRole(rolePosition, gameRole);
@@ -56,7 +57,6 @@ public class SetRoleCommand extends Command {
 
         try {
             LemmingRole role = LemmingRoleFactory.parse(commandWords);
-
             if (role == null) {
                 throw new CommandParseException(Messages.INVALID_COMMAND.formatted(commandWords[1]));
             }
@@ -85,6 +85,7 @@ public class SetRoleCommand extends Command {
         }
     }
 
+    
     @Override
     public boolean showBoard() {
         return true;

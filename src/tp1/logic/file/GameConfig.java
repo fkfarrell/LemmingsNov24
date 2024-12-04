@@ -13,7 +13,7 @@ public interface GameConfig {
     // will contain the methods used by classes to update game status and represent
     // a valid state congig
 
-    public void readFile() throws ObjectParseException, OffBoardException, GameLoadException;
+    public void readFile() throws ObjectParseException, OffBoardException, GameLoadException, IOException;
 
     public void parseGameConfigInfo(String firstLine) throws GameLoadException;
 

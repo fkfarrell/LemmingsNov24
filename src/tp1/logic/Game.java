@@ -267,7 +267,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		}
 	}
 
-	public boolean setLemmingRole(Position pos, LemmingRole role) throws ObjectParseException, OffBoardException {
+	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException {
 		if (container.setLemmingRole(pos, role)) {
 			return true;
 		} else {
@@ -283,7 +283,15 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	public void reset() {
 		if (fileLoader != null) {
 			// Load from the saved file configuration
-			load(loadFile);
+			try {
+				load(loadFile);
+			} catch (ObjectParseException e) {
+				e.printStackTrace();
+			} catch (GameLoadException e) {
+				e.printStackTrace();
+			} catch (OffBoardException e) {
+				e.printStackTrace();
+			}
 		} else {
 			// Perform standard reset if no fileLoader is available
 			lemmingsInGame = 0;
@@ -321,15 +329,14 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		} catch (ObjectParseException e) {
 			System.err.println("Error parsing game objects: " + e.getMessage());
 			throw e; 
-			System.err.println("Error with off-board objects: " + e.getMessage());
-			throw e; 
 		} catch (Exception e) {
 			System.err.println("Unexpected error: " + e.getMessage());
 			throw new GameLoadException(String.format(Messages.READ_ERROR, inputFile.getAbsolutePath()), e);
 		}
+	}
 	
 
-	public boolean exitAhead(Position pos, Direction dir) {
+	public boolean exitAhead(Position pos, Direction dir) throws ObjectParseException {
 		Position ahead = new Position(pos.getCol() + dir.getX(), pos.getRow());
 		Position[] exitPositions = container.getExitDoorPositions();
 		for (Position exitDoor : exitPositions) {
@@ -340,7 +347,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		return false;
 	}
 
-	public boolean exitBelow(Position pos, Direction dir) {
+	public boolean exitBelow(Position pos, Direction dir) throws ObjectParseException {
 		Position below = new Position(pos.getCol(), pos.getRow() + 1);
 		Position[] exitPositions = container.getExitDoorPositions();
 		for (Position exitDoor : exitPositions) {
@@ -351,7 +358,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		return false;
 	}
 
-	public boolean wallAhead(Position pos, Direction dir) {
+	public boolean wallAhead(Position pos, Direction dir) throws ObjectParseException {
 		Position ahead = new Position(pos.getCol() + dir.getX(), pos.getRow());
 		Position[] wallPositions = container.getWallPositions();
 		for (Position wall : wallPositions) {
@@ -362,7 +369,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		return false;
 	}
 
-	public boolean wallBelow(Position pos) {
+	public boolean wallBelow(Position pos) throws ObjectParseException {
 		Position below = new Position(pos.getCol(), pos.getRow() + 1);
 		Position[] wallPositions = container.getWallPositions();
 		for (Position wall : wallPositions) {
@@ -373,7 +380,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		return false;
 	}
 
-	public boolean metalWallAhead(Position pos, Direction dir) {
+	public boolean metalWallAhead(Position pos, Direction dir) throws ObjectParseException {
 		Position ahead = new Position(pos.getCol() + dir.getX(), pos.getRow());
 		Position[] wallPositions = container.getMetalWallPositions();
 		for (Position wall : wallPositions) {
@@ -384,7 +391,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		return false;
 	}
 
-	public boolean metalWallBelow(Position pos) {
+	public boolean metalWallBelow(Position pos) throws ObjectParseException {
 		Position below = new Position(pos.getCol(), pos.getRow() + 1);
 		Position[] wallPositions = container.getMetalWallPositions();
 		for (Position wall : wallPositions) {

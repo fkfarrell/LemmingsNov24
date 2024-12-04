@@ -3,8 +3,7 @@ package tp1;
 import java.util.Locale;
 
 import tp1.control.Controller;
-import tp1.control.commands.CommandExecuteException;
-import tp1.control.commands.CommandParseException;
+
 import tp1.exceptions.GameModelException;
 import tp1.logic.Game;
 import tp1.view.ConsoleColorsView;
