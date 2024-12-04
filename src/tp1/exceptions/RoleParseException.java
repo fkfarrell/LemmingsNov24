@@ -1,4 +1,4 @@
-package tp1.control.commands;
+package tp1.exceptions;
 
 public class RoleParseException extends GameParseException{
     public RoleParseException(String message) {

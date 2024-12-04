@@ -1,6 +1,7 @@
 package tp1.control.commands;
 
-//import tp1.logic.Game;
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.CommandParseException;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -17,9 +18,14 @@ public class UpdateCommand extends NoParamsCommand {
     }
 
     @Override
-    public void execute(GameModel game, GameView view) {
-        game.update();
+    public void execute(GameModel game, GameView view) throws CommandExecuteException {
+        try {
+            game.update();
+        } catch (Exception e) {
+            throw new CommandExecuteException("Error during game update", e);
+        }
     }
+
 
     @Override
     public boolean showBoard() {
@@ -27,7 +33,7 @@ public class UpdateCommand extends NoParamsCommand {
     }
 
     @Override
-    public Command parse(String[] commandWords) {
+    public Command parse(String[] commandWords) throws CommandParseException {
         return super.parse(commandWords);
     }
 }

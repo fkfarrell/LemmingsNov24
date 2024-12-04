@@ -1,5 +1,8 @@
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.GameModelException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Game;
 import tp1.logic.Position;
 import tp1.logic.lemmingRoles.LemmingRole;
@@ -37,23 +40,23 @@ public abstract class GameObject implements GameItem {
 		return false;
 	}
 
-	public abstract String getIcon();
+	public abstract String getIcon() throws ObjectParseException;
 
 	public Position getPosition() {
 		return this.pos;
 	}
 
-	public abstract void update();
+	public abstract void update() throws OffBoardException, ObjectParseException, GameModelException;
 
 	public void makeInvisible() {
 		this.isAlive = false;
 	}
 
-	public boolean setRole(LemmingRole role) {
+	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException {
 		return false;
 	}
 
-	public abstract boolean receiveInteraction(GameItem other);
+	public abstract boolean receiveInteraction(GameItem other) throws GameModelException;
 
 	public GameObject parse(String input) {
 		// take in string and match to constructor
