@@ -1,5 +1,7 @@
 package tp1.logic.lemmingRoles;
 
+import tp1.exceptions.GameModelException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
@@ -21,7 +23,7 @@ public interface LemmingRole {
 
     public void play(Lemming lemming);
 
-    public void advance(Lemming lemming);
+    public void advance(Lemming lemming) throws OffBoardException, GameModelException;
 
     public String helpText();
 

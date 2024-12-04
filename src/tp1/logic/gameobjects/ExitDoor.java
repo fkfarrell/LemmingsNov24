@@ -32,8 +32,6 @@ public class ExitDoor extends GameObject {
     public void makeInvisible() {
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-
     @Override
     public boolean receiveInteraction(GameItem other) {
         try {
@@ -71,8 +69,4 @@ public class ExitDoor extends GameObject {
         return false;
     }
 
-    // @Override
-    // public Position getPosition(){
-    // return this.pos;
-    // }
 }

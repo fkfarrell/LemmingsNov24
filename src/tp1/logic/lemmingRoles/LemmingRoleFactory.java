@@ -5,6 +5,7 @@ import java.util.List;
 
 import tp1.control.commands.Command;
 import tp1.control.commands.RoleParseException;
+import tp1.exceptions.CommandParseException;
 import tp1.logic.lemmingRoles.*;
 import tp1.view.Messages;
 
@@ -15,8 +16,11 @@ public class LemmingRoleFactory {
             new ParachuterRole(),
             new DownCaverRole());
 
-    public static LemmingRole parse(String input[]) {
-
+    public static LemmingRole parse(String input[]) throws CommandParseException {
+          if (input.length < 2 || input[1].isEmpty()) {
+        throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
+    }
+    
         String desiredRole = input[1];
         char drLetter = desiredRole.charAt(0);
         String drShortLetter = String.valueOf(drLetter);
@@ -29,7 +33,7 @@ public class LemmingRoleFactory {
             }
         }
 
-        return null;
+        throw new CommandParseException(Messages.UNKNOWN_ROLE.formatted(desiredRole));
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

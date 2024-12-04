@@ -1,9 +1,10 @@
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.GameModelException;
 import tp1.logic.Position;
 
 public interface GameItem {
-    public boolean receiveInteraction(GameItem other);
+    public boolean receiveInteraction(GameItem other) throws GameModelException;
 
     public boolean interactWith(Lemming lemming);
 

@@ -1,5 +1,8 @@
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.GameModelException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Direction;
 import tp1.logic.Game;
 import tp1.logic.Position;
@@ -10,6 +13,7 @@ import tp1.view.Messages;
 
 public class Lemming extends GameObject {
 	private LemmingRole role;
+	private WalkerRole walkerRole;
 	private int fallForce = 0;
 	private Direction dir;
 	private final int MAX_FALL = 3;
@@ -20,12 +24,12 @@ public class Lemming extends GameObject {
 		this.role = role;
 		this.dir = dir;
 	}
-
+	
 	public Lemming() {
-	}
+    }
 
-	@Override
-	public boolean setRole(LemmingRole role) {
+    @Override
+	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException {
 		if (this.role.equals(role)) {
 			game.update();
 			return false;
@@ -46,7 +50,7 @@ public class Lemming extends GameObject {
 		return this.dir;
 	}
 
-	public void dig() {
+	public void dig() throws OffBoardException, ObjectParseException {
 		this.checkOffBoard();
 		Position wallPos = new Position(this.pos.getCol(), this.pos.getRow() + 1);
 		MetalWall metalWall = new MetalWall(game, wallPos);
@@ -64,7 +68,7 @@ public class Lemming extends GameObject {
 		}
 	}
 
-	public void walkOrFall() {
+	public void walkOrFall() throws OffBoardException, GameModelException {
 		if (this.canMove()) {
 			if (this.dir == Direction.LEFT) {
 				this.pos = new Position(this.pos.getCol() - 1, this.pos.getRow());
@@ -77,8 +81,9 @@ public class Lemming extends GameObject {
 		}
 	}
 
-	// this can move has the double turn bug on the second level
-	public boolean canMove() {
+
+	public boolean canMove() throws OffBoardException, ObjectParseException {
+
 		this.checkOffBoard();
 
 		Direction movDirection = this.getDirection();
@@ -90,8 +95,8 @@ public class Lemming extends GameObject {
 		int nextRow = currentPosition.getRow() + movDirection.getY();
 
 		if (this.dir == Direction.RIGHT) {
-			// Use wallAhead to check for walls
 			if (nextCol >= WALL_RIGHT || game.wallAhead(currentPosition, movDirection)) {
+
 				this.reverseDir();
 				return false;
 			}
@@ -116,7 +121,7 @@ public class Lemming extends GameObject {
 		return false;
 	}
 
-	private void checkFloor() {
+	private void checkFloor() throws ObjectParseException{
 		if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(" ")) {
 			this.isFalling = true;
 			this.dir = Direction.DOWN;
@@ -138,27 +143,26 @@ public class Lemming extends GameObject {
 				this.isFalling = false;
 				this.disableRole();
 			}
-		} else {
-			System.out.println("NULL @ " + this.pos.toString());
-		}
 
+		} 
 	}
 
-	private void checkOffBoard() {
+	private void checkOffBoard() throws OffBoardException {
 		if (this.pos.getCol() < 0 || this.pos.getCol() > Game.DIM_X ||
 				this.pos.getRow() < 0 || this.pos.getRow() > Game.DIM_Y - 2) {
 			this.makeInvisible();
+			throw new OffBoardException("Lemming is out of bounds at: " + this.pos);
 		}
 	}
 
-	public void checkExit() {
+	public void checkExit() throws ObjectParseException{
 		if (game.exitAhead(this.pos, this.dir) || game.exitBelow(this.pos, this.dir)) {
 			this.makeInvisible();
 			game.lemmingArrived();
 		}
 	}
 
-	private void reverseDir() {
+	private void reverseDir() throws ObjectParseException{
 		if (this.dir == Direction.RIGHT) {
 			this.dir = Direction.LEFT;
 		} else if (this.dir == Direction.LEFT) {
@@ -173,7 +177,7 @@ public class Lemming extends GameObject {
 	}
 
 	@Override
-	public void update() {
+	public void update() throws GameModelException {
 		if (this.isAlive()) {
 			role.advance(this);
 			checkExit();
@@ -181,7 +185,7 @@ public class Lemming extends GameObject {
 	}
 
 	@Override
-	public String getIcon() {
+	public String getIcon() throws ObjectParseException{
 		if (role != null) {
 			return role.getIcon(this);
 		}
@@ -194,10 +198,10 @@ public class Lemming extends GameObject {
 	}
 
 	@Override
-	public boolean receiveInteraction(GameItem other) {
+	public boolean receiveInteraction(GameItem other) throws GameModelException{
 		try {
 			boolean result = other.interactWith(this);
-			System.out.println(other.toString() + " interacts with " + this.toString() + " : " + result);
+			//System.out.println(other.toString() + " interacts with " + this.toString() + " : " + result);
 			return result;
 		} catch (Exception e) {
 			System.err.println("Error during interaction: " + e.getMessage());

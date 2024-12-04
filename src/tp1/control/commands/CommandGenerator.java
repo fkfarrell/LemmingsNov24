@@ -8,8 +8,6 @@ import tp1.view.Messages;
 public class CommandGenerator {
 
 	private static final List<Command> availableCommands = Arrays.asList(
-			// TODO fill with your code
-			// new UpdateCommand(),
 			new HelpCommand(),
 			new ExitCommand(),
 			new UpdateCommand(),
@@ -26,7 +24,6 @@ public class CommandGenerator {
 			cmd = c.parse(commandWords);
 
 			if (cmd != null) {
-				System.out.println(">>> " + cmd.toString());
 				return cmd;
 			}
 

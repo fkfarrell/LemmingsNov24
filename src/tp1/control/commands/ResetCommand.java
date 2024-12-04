@@ -1,5 +1,7 @@
 package tp1.control.commands;
 
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.GameModelException;
 //import tp1.logic.Game;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
@@ -17,12 +19,18 @@ public class ResetCommand extends NoParamsCommand {
     }
 
     @Override
-    public void execute(GameModel game, GameView view) {
-        game.reset();
+    public void execute(GameModel game, GameView view) throws CommandExecuteException {
+        try {
+            game.reset();
+        } catch (Exception e) {
+            throw new CommandExecuteException("An unexpected error occurred while resetting the game.", e);
+        }
     }
+    
 
     @Override
     public boolean showBoard() {
         return true;
     }
+
 }

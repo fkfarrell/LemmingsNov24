@@ -1,5 +1,7 @@
 package tp1.logic.lemmingRoles;
 
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.Lemming;
@@ -27,7 +29,7 @@ public class DownCaverRole implements LemmingRole {
     }
 
     @Override
-    public void advance(Lemming lemming) {
+    public void advance(Lemming lemming) throws OffBoardException, ObjectParseException {
         lemming.dig();
     }
 

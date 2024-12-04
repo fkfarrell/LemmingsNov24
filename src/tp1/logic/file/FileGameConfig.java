@@ -2,11 +2,15 @@ package tp1.logic.file;
 
 import java.io.*;
 
+import tp1.exceptions.GameLoadException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Game;
 import tp1.logic.GameObjectContainer;
 import tp1.logic.file.GameObjectFactory;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameWorld;
+import tp1.view.Messages;
 
 public class FileGameConfig implements GameConfig {
 
@@ -25,18 +29,19 @@ public class FileGameConfig implements GameConfig {
     public int lemmingsExited = 0;
     public int lemmingsToExit = 0;
 
-    public FileGameConfig(File filePath) throws IOException {
+    public FileGameConfig(File filePath) throws GameLoadException {
         this.inputFile = filePath;
         if (!inputFile.exists()) {
-            throw new FileNotFoundException("File not found: " + filePath);
+            throw new GameLoadException(String.format(Messages.FILE_NOT_FOUND, filePath));
+
         }
     }
 
-    public void readFile() throws IOException {
+    public void readFile() throws GameLoadException, ObjectParseException, OffBoardException {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String firstLine = reader.readLine();
             if (firstLine == null) {
-                throw new IOException("The file is empty.");
+                throw new GameLoadException("The file is empty.");
             }
 
             parseGameConfigInfo(firstLine);
@@ -44,23 +49,28 @@ public class FileGameConfig implements GameConfig {
             newLoadContainer = new GameObjectContainer(newGame);
 
             while ((content = reader.readLine()) != null) {
+                try{
                 GameObject obj = factory.parse(content, newGame);
                 if (obj.game == null) {
                     obj.setGame(newGame);
                 }
                 newLoadContainer.add(obj);
+
+                } catch (ObjectParseException | OffBoardException e) {
+                    throw new ObjectParseException(String.format(Messages.ERROR_PARSING_GAME_OBJECT, content), e);
+                }
             }
         } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
-            throw e;
+            throw new GameLoadException(String.format(Messages.READ_ERROR, inputFile.getAbsolutePath()), e);
+
         }
     }
 
-    public void parseGameConfigInfo(String firstLine) {
+    public void parseGameConfigInfo(String firstLine) throws GameLoadException {
         // parse the first line of the file into the game info.
         String[] tokens = firstLine.trim().split("\\s+");
         if (tokens.length != 5) {
-            throw new IllegalArgumentException("Invalid game configuration: Expected 5 values");
+            throw new GameLoadException("Invalid game configuration: Expected 5 values");
         }
         try {
             gameCycle = Integer.parseInt(tokens[0]);
@@ -69,7 +79,7 @@ public class FileGameConfig implements GameConfig {
             lemmingsExited = Integer.parseInt(tokens[3]);
             lemmingsToExit = Integer.parseInt(tokens[4]);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid game configuration: All values must be integers.", e);
+            throw new GameLoadException(Messages.INVALID_INIT_CONF, e);
         }
     }
 

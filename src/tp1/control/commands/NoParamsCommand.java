@@ -1,5 +1,6 @@
 package tp1.control.commands;
 
+import tp1.exceptions.CommandParseException;
 import tp1.view.Messages;
 
 public abstract class NoParamsCommand extends Command {
@@ -14,13 +15,19 @@ public abstract class NoParamsCommand extends Command {
 		if (commandWords == null || commandWords.length == 0 ||
 				commandWords[0].isEmpty()) {
 			return new UpdateCommand();
-		}
 
-		if (matchCommandName(commandWords[0])) {
+		}
+	
+		if (!matchCommandName(commandWords[0])) {
+			throw new CommandParseException("Unknown command: " + commandWords[0]);
+		}
+	
+		if (commandWords.length == 1) {
 			return this;
+		} else {
+			throw new CommandParseException("Incorrect number of parameters for command: " + commandWords[0]);
 		}
-
-		return null;
 	}
+
 
 }

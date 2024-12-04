@@ -1,5 +1,6 @@
 package tp1.logic.lemmingRoles;
 
+import tp1.exceptions.GameModelException;
 import tp1.logic.Direction;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameItem;
@@ -17,7 +18,7 @@ public class WalkerRole implements LemmingRole {
 	private static final String ICON_LEFT = Messages.LEMMING_LEFT;
 
 	@Override
-	public void advance(Lemming lemming) {
+	public void advance(Lemming lemming) throws GameModelException {
 		lemming.walkOrFall();
 	}
 

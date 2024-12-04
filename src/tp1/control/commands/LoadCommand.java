@@ -3,6 +3,9 @@ package tp1.control.commands;
 import java.io.File;
 import java.io.IOException;
 
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.CommandParseException;
+import tp1.exceptions.GameModelException;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -26,40 +29,42 @@ public class LoadCommand extends Command {
         this.inputFile = inputFile;
     }
 
-    @Override
-    public void execute(GameModel game, GameView view) {
-        // should try call the read file operation
+   @Override
+    public void execute(GameModel game, GameView view) throws CommandExecuteException {
         try {
             game.load(this.inputFile);
         } catch (Exception e) {
-            System.err.println("Unable to execute on entered file");
+            throw new CommandExecuteException("Unexpected error occurred while loading the file.", e);
         }
     }
 
     @Override
-    public Command parse(String[] commandWords) {
+    public Command parse(String[] commandWords) throws CommandParseException {
         try {
             if (commandWords == null || commandWords.length < 2 || commandWords[1] == null) {
-                throw new IllegalArgumentException("Invalid command: Missing file name.");
+                throw new CommandParseException("Invalid command: Missing file name.");
             }
             if (commandWords.length > 2) {
-                throw new IllegalArgumentException("Invalid command: Too many arguments.");
+                throw new CommandParseException("Invalid command: Too many arguments.");
             }
 
             String filePath = "C:\\Users\\finnf\\Desktop\\College\\UCM\\TP1\\LemmingsAssignment2\\2425-Lemmings\\src\\tp1\\logic\\file\\"
-                    + commandWords[1];
+                + commandWords[1];
             File loadFile = new File(filePath);
+
+            if (!loadFile.exists()) {
+                throw new CommandParseException("The specified file does not exist: " + filePath);
+            }
 
             return new LoadCommand(loadFile);
 
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error: " + e.getMessage());
-            return null;
+        } catch (CommandParseException e) {
+            throw e;
         } catch (Exception e) {
-            System.err.println("An unexpected error occurred: " + e.getMessage());
-            return null;
+            throw new CommandParseException("Unexpected error while parsing load command.", e);
         }
     }
+
 
     @Override
     public boolean showBoard() {

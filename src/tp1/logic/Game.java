@@ -3,6 +3,10 @@ package tp1.logic;
 import java.io.File;
 import java.io.IOException;
 
+import tp1.exceptions.GameLoadException;
+import tp1.exceptions.GameModelException;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 import tp1.logic.Position;
 import tp1.logic.file.FileGameConfig;
 import tp1.logic.file.GameConfig;
@@ -16,6 +20,7 @@ import tp1.logic.gameobjects.Wall;
 import tp1.logic.lemmingRoles.LemmingRole;
 import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
+import tp1.view.Messages;
 
 public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
@@ -130,7 +135,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 				// for(int i; i < container.){
 				// container.add(go);
 				// }
-				break;
+				throw new IllegalArgumentException("Invalid level: " + lvl);
 		}
 	}
 
@@ -185,7 +190,8 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	// GameModel methods
 	@Override
-	public void update() {
+	public void update() throws GameModelException {
+
 		container.update();
 		cycleNum++;
 		playerWins();
@@ -213,7 +219,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	}
 
 	// @Override
-	public void none() {
+	public void none() throws GameModelException {
 		update();
 	}
 
@@ -236,7 +242,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	}
 
 	//// @Override
-	public void lemmingArrived() {
+	public void lemmingArrived() throws ObjectParseException {
 		if (container.checkExit() != 0) {
 			numLemmingsExit += container.checkExit();
 			lemmingsInGame -= container.checkExit();
@@ -261,7 +267,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		}
 	}
 
-	public boolean setLemmingRole(Position pos, LemmingRole role) {
+	public boolean setLemmingRole(Position pos, LemmingRole role) throws ObjectParseException, OffBoardException {
 		if (container.setLemmingRole(pos, role)) {
 			return true;
 		} else {
@@ -269,6 +275,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 			return false;
 		}
 	}
+
 
 	private FileGameConfig fileLoader = null;
 
@@ -291,7 +298,9 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	private File loadFile;
 
-	public boolean load(File inputFile) {
+
+	public boolean load(File inputFile) throws GameLoadException, ObjectParseException, OffBoardException {
+
 		try {
 			fileLoader = new FileGameConfig(inputFile);
 			loadFile = inputFile;
@@ -306,11 +315,19 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 			container.setGame(this);
 
 			return true;
-		} catch (IOException e) {
+		} catch (GameLoadException e) {
 			System.err.println("Error loading game configuration: " + e.getMessage());
-			return false;
+			throw e; 
+		} catch (ObjectParseException e) {
+			System.err.println("Error parsing game objects: " + e.getMessage());
+			throw e; 
+			System.err.println("Error with off-board objects: " + e.getMessage());
+			throw e; 
+		} catch (Exception e) {
+			System.err.println("Unexpected error: " + e.getMessage());
+			throw new GameLoadException(String.format(Messages.READ_ERROR, inputFile.getAbsolutePath()), e);
 		}
-	}
+	
 
 	public boolean exitAhead(Position pos, Direction dir) {
 		Position ahead = new Position(pos.getCol() + dir.getX(), pos.getRow());
@@ -391,7 +408,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	@Override
 	public boolean receiveInteractionsFrom(GameItem obj) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'receiveInteractionsFrom'");
 	}
 
