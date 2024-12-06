@@ -24,11 +24,11 @@ public class Lemming extends GameObject {
 		this.role = role;
 		this.dir = dir;
 	}
-	
-	public Lemming() {
-    }
 
-    @Override
+	public Lemming() {
+	}
+
+	@Override
 	public boolean setRole(LemmingRole role) throws GameModelException {
 		if (this.role.equals(role)) {
 			game.update();
@@ -52,7 +52,7 @@ public class Lemming extends GameObject {
 
 	public void dig() throws OffBoardException, ObjectParseException {
 		this.checkOffBoard();
-		Position wallPos = new Position(this.pos.getCol(), this.pos.getRow() + 1);
+		Position wallPos = new Position(this.pos.getCol(), this.pos.getRow());
 		MetalWall metalWall = new MetalWall(game, wallPos);
 		Wall diggable = new Wall(game, wallPos);
 
@@ -94,7 +94,7 @@ public class Lemming extends GameObject {
 
 		if (this.dir == Direction.RIGHT) {
 			if (nextCol >= WALL_RIGHT || game.wallAhead(currentPosition, movDirection)) {
-																											
+
 				this.reverseDir();
 				return false;
 			}
@@ -121,12 +121,17 @@ public class Lemming extends GameObject {
 		return false;
 	}
 
-	private void checkFloor() throws ObjectParseException{
+	private void checkFloor() throws ObjectParseException {
 		if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(" ")) {
 			this.isFalling = true;
 			this.dir = Direction.DOWN;
 
 		}
+		// if (!game.wallBelow(this.pos) || !game.metalWallBelow(this.pos)) {
+		// this.isFalling = true;
+		// this.dir = Direction.DOWN;
+
+		// }
 
 		else if (game.wallBelow(pos)
 				|| (game.metalWallBelow(pos)
@@ -143,7 +148,7 @@ public class Lemming extends GameObject {
 				this.isFalling = false;
 				this.disableRole();
 			}
-		} 
+		}
 	}
 
 	private void checkOffBoard() throws OffBoardException {
@@ -154,14 +159,14 @@ public class Lemming extends GameObject {
 		}
 	}
 
-	public void checkExit() throws ObjectParseException{
+	public void checkExit() throws ObjectParseException {
 		if (game.exitAhead(this.pos, this.dir) || game.exitBelow(this.pos, this.dir)) {
 			this.makeInvisible();
 			game.lemmingArrived();
 		}
 	}
 
-	private void reverseDir() throws ObjectParseException{
+	private void reverseDir() throws ObjectParseException {
 		if (this.dir == Direction.RIGHT) {
 			this.dir = Direction.LEFT;
 		} else if (this.dir == Direction.LEFT) {
@@ -184,7 +189,7 @@ public class Lemming extends GameObject {
 	}
 
 	@Override
-	public String getIcon() throws ObjectParseException{
+	public String getIcon() throws ObjectParseException {
 		if (role != null) {
 			return role.getIcon(this);
 		}
@@ -197,10 +202,11 @@ public class Lemming extends GameObject {
 	}
 
 	@Override
-	public boolean receiveInteraction(GameItem other) throws GameModelException{
+	public boolean receiveInteraction(GameItem other) throws GameModelException {
 		try {
 			boolean result = other.interactWith(this);
-			//System.out.println(other.toString() + " interacts with " + this.toString() + " : " + result);
+			// System.out.println(other.toString() + " interacts with " + this.toString() +
+			// " : " + result);
 			return result;
 		} catch (Exception e) {
 			System.err.println("Error during interaction: " + e.getMessage());

@@ -48,7 +48,6 @@ public class GameObjectContainer {
 				object.update();
 			}
 
-			
 		}
 		int numExited = checkExit();
 		if (numExited > 0) {
@@ -69,7 +68,6 @@ public class GameObjectContainer {
 		}
 		return numArrived;
 	}
-
 
 	public Position[] getExitDoorPositions() throws ObjectParseException {
 		List<Position> exitDoorPositionsList = new ArrayList<>();
@@ -111,8 +109,37 @@ public class GameObjectContainer {
 		return metalWallPositionsList.toArray(new Position[0]);
 	}
 
-	public boolean checkLemmingPosition(Position pos) {
+	// public boolean checkLemmingPosition(Position pos) {
 
+	// for (GameObject object : objects) {
+	// if (object.isInPosition(pos)) {
+	// return true;
+	// }
+	// }
+	// return false;
+	// }
+
+	// public boolean setLemmingRole(Position pos, LemmingRole role) throws
+	// GameModelException {
+
+	// for (GameObject object : objects) {
+	// if (object.isInPosition(pos)) {
+	// object.setRole(role);
+	// return true;
+	// }
+	// }
+
+	// return false;
+	// }
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean checkLemmingPosition(Position pos) {
+		// First validate the position
+		if (!Game.isValidPosition(pos)) {
+			return false;
+		}
+
+		// Then check if there's a game object at the position
 		for (GameObject object : objects) {
 			if (object.isInPosition(pos)) {
 				return true;
@@ -122,7 +149,15 @@ public class GameObjectContainer {
 	}
 
 	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException {
+		// First validate the position
 
+		if (!Game.isValidPosition(pos)) {
+			System.out.println("Is it a valid position ? " + Game.isValidPosition(pos));
+			System.out.println("Invalid position " + pos);
+			return false;
+		}
+
+		// Then attempt to set the role
 		for (GameObject object : objects) {
 			if (object.isInPosition(pos)) {
 				object.setRole(role);
@@ -132,6 +167,7 @@ public class GameObjectContainer {
 
 		return false;
 	}
+	/// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int deadLemmings() {
 		int deadLemmings = 0;
@@ -143,7 +179,7 @@ public class GameObjectContainer {
 		return deadLemmings;
 	}
 
-	public boolean receiveInteractionsFrom(GameItem obj) throws GameModelException{
+	public boolean receiveInteractionsFrom(GameItem obj) throws GameModelException {
 		for (GameObject object : objects) {
 			if (object.receiveInteraction(obj)) {
 				return true;

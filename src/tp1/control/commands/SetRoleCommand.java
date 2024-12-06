@@ -21,9 +21,9 @@ public class SetRoleCommand extends Command {
     private static final String HELP = Messages.COMMAND_SET_ROLE_HELP;
     private Position pos;
     private LemmingRole role;
-    private LemmingRole gameRole;
+    private static LemmingRole gameRole;
     private Game game;
-    private Position rolePosition;
+    private static Position rolePosition;
 
     public SetRoleCommand() {
         super(NAME, SHORTCUT, DETAILS, HELP);
@@ -37,15 +37,13 @@ public class SetRoleCommand extends Command {
 
     @Override
     public void execute(GameModel game, GameView view) throws CommandExecuteException, GameModelException {
-        if (game.checkLemmingPosition(rolePosition)) {
-            try {
-                game.setLemmingRole(rolePosition, gameRole);
-            } catch (OffBoardException e) {
-                throw new CommandExecuteException("Error: Position is off the board or invalid.", e);
-            }
-        } else {
+        try {
+            System.out.println("this.rolePosition, this.gameRole >>> " + SetRoleCommand.rolePosition + " "
+                    + SetRoleCommand.gameRole);
+            game.setLemmingRole(SetRoleCommand.rolePosition, SetRoleCommand.gameRole);
+        } catch (GameModelException e) {
             throw new CommandExecuteException(
-                    "[ERROR] SetRoleCommand error (Incorrect position or no object in that position admits that role)");
+                    "[ERROR] SetRoleCommand error: " + e.getMessage(), e);
         }
     }
 
@@ -55,6 +53,7 @@ public class SetRoleCommand extends Command {
             throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
         }
 
+        // Parse lemming role
         try {
             LemmingRole role = LemmingRoleFactory.parse(commandWords);
             if (role == null) {
@@ -62,25 +61,23 @@ public class SetRoleCommand extends Command {
             }
             gameRole = role;
         } catch (IllegalArgumentException e) {
-            throw new CommandParseException(Messages.INVALID_COMMAND.formatted(commandWords[0]), e);
+            throw new CommandParseException(Messages.INVALID_COMMAND.formatted(commandWords[0]),
+                    e);
         }
 
+        // Parse and validate position
         try {
             String rowPos = commandWords[2].toLowerCase();
-            if (rowPos.length() != 1 || rowPos.charAt(0) < 'a' || rowPos.charAt(0) > 'j') {
-                throw new CommandParseException(
-                        "[ERROR] Row position out of board bounds. Must be between 'a' and 'j'.");
-            }
             int rowNum = rowPos.charAt(0) - 'a';
-
             int colNum = Integer.parseInt(commandWords[3]);
-            if (colNum < 0 || colNum >= 10) {
-                throw new CommandParseException(
-                        "[ERROR] Column position out of board bounds. Must be between 0 and 9.");
-            }
 
             rolePosition = new Position(colNum - 1, rowNum);
-            return new SetRoleCommand(gameRole, rolePosition);
+            if (Game.isValidPosition(rolePosition)) {
+                System.out.println("Valid Position");
+                return new SetRoleCommand(gameRole, rolePosition);
+            } else {
+                throw new CommandParseException("[ERROR] Invalid column position format. Column must be an integer.");
+            }
 
         } catch (NumberFormatException e) {
             throw new CommandParseException("[ERROR] Invalid column position format. Column must be an integer.", e);

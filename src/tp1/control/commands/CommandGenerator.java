@@ -22,7 +22,6 @@ public class CommandGenerator {
 
 		for (Command c : availableCommands) {
 
-			// this is throwing a for the first command instead of returing null.
 			cmd = c.parse(commandWords);
 
 			if (cmd != null) {

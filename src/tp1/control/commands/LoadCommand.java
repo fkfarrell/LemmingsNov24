@@ -29,7 +29,7 @@ public class LoadCommand extends Command {
         this.inputFile = inputFile;
     }
 
-   @Override
+    @Override
     public void execute(GameModel game, GameView view) throws CommandExecuteException {
         try {
             game.load(this.inputFile);
@@ -45,11 +45,12 @@ public class LoadCommand extends Command {
                 throw new CommandParseException("Invalid command: Missing file name.");
             }
             if (commandWords.length > 2) {
-                throw new CommandParseException("Invalid command: Too many arguments.");
+                return null;
+                // throw new CommandParseException("Invalid command: Too many arguments.");
             }
 
             String filePath = "C:\\Users\\finnf\\Desktop\\College\\UCM\\TP1\\LemmingsAssignment2\\2425-Lemmings\\src\\tp1\\logic\\file\\"
-                + commandWords[1];
+                    + commandWords[1];
             File loadFile = new File(filePath);
 
             if (!loadFile.exists()) {
@@ -64,7 +65,6 @@ public class LoadCommand extends Command {
             throw new CommandParseException("Unexpected error while parsing load command.", e);
         }
     }
-
 
     @Override
     public boolean showBoard() {
