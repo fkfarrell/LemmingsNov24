@@ -260,7 +260,21 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		}
 	}
 
+	public static boolean isValidPosition(Position pos) {
+
+		if (pos == null) {
+			return false;
+		} else if (pos.getCol() >= 0 && pos.getCol() < DIM_X &&
+				pos.getRow() >= 0 && pos.getRow() < DIM_Y) {
+			System.out.println("Game : Valid Pos");
+			return true;
+		} else
+			return false;
+
+	}
+
 	public boolean checkLemmingPosition(Position pos) {
+		System.out.println("Position being checked >>> " + pos);
 		if (container.checkLemmingPosition(pos)) {
 			return true;
 		} else {
@@ -269,6 +283,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	}
 
 	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException {
+
 		if (container.setLemmingRole(pos, role)) {
 			return true;
 		} else {
@@ -418,7 +433,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	@Override
 	public void parseGameConfigInfo(String firstLine) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'parseGameConfigInfo'");
 	}
 
@@ -429,7 +443,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	@Override
 	public void readFile() throws IOException {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'readFile'");
 	}
 

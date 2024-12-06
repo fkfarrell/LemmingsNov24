@@ -37,11 +37,12 @@ public class GameObjectFactory {
         Position pos;
         String objectTitle;
         // working parse methods
-        try{
-        pos = parsePosition(line);
-        objectTitle = parseObjectName(line);
-        }catch (Exception e){
-            throw new ObjectParseException(String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid position or object name: " + line), e);
+        try {
+            pos = parsePosition(line);
+            objectTitle = parseObjectName(line);
+        } catch (Exception e) {
+            throw new ObjectParseException(
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid position or object name: " + line), e);
         }
         // in progress...
         if (objectTitle.equals("LEMMING")) {
@@ -49,12 +50,13 @@ public class GameObjectFactory {
             int forceOfFall;
             LemmingRole role;
 
-            try{
-            direction = getLemmingDirectionFrom(line); // Parse direction
-            forceOfFall = getLemmingHeigthFrom(line); // Parse fall height
-            role = getLemmingRoleFrom(line); // Parse role
-            }catch (Exception e) {
-                throw new ObjectParseException(String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid lemming attributes: " + line), e);
+            try {
+                direction = getLemmingDirectionFrom(line); // Parse direction
+                forceOfFall = getLemmingHeigthFrom(line); // Parse fall height
+                role = getLemmingRoleFrom(line); // Parse role
+            } catch (Exception e) {
+                throw new ObjectParseException(
+                        String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid lemming attributes: " + line), e);
             }
             return new Lemming(game, pos, direction, role);
         }
@@ -71,8 +73,8 @@ public class GameObjectFactory {
                     return new ExitDoor(game, pos);
 
                 default:
-                throw new ObjectParseException(String.format(Messages.UNKNOWN_GAME_OBJECT, objectTitle));
-                    
+                    throw new ObjectParseException(String.format(Messages.UNKNOWN_GAME_OBJECT, objectTitle));
+
             }
         }
     }
@@ -107,7 +109,7 @@ public class GameObjectFactory {
             System.err.println("Unexpected error occurred while parsing position: " + inputPos);
         }
 
-        return null;
+        throw new IllegalArgumentException("No valid position detected.");
     }
 
     private static String parseObjectName(String inputName) {

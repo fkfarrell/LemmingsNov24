@@ -16,10 +16,10 @@ public class LemmingRoleFactory {
             new DownCaverRole());
 
     public static LemmingRole parse(String input[]) throws CommandParseException {
-          if (input.length < 2 || input[1].isEmpty()) {
-        throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
-    }
-    
+        if (input.length < 2 || input[1].isEmpty()) {
+            throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
+        }
+
         String desiredRole = input[1];
         char drLetter = desiredRole.charAt(0);
         String drShortLetter = String.valueOf(drLetter);
