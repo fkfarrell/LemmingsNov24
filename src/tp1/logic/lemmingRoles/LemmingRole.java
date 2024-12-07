@@ -39,5 +39,7 @@ public interface LemmingRole {
 
     public boolean interactWith(ExitDoor door, Lemming lemming);
 
+    public boolean interactWithAir(Lemming lemming);
+
     public LemmingRole parse(String input);
 }

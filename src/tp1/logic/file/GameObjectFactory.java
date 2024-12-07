@@ -52,6 +52,7 @@ public class GameObjectFactory {
 
             try {
                 direction = getLemmingDirectionFrom(line); // Parse direction
+                System.out.println("Lemming direction >>> " + direction);
                 forceOfFall = getLemmingHeigthFrom(line); // Parse fall height
                 role = getLemmingRoleFrom(line); // Parse role
             } catch (Exception e) {
@@ -126,7 +127,7 @@ public class GameObjectFactory {
             // **DISCLAIMER** i know this is bad code, and that it doesnt allow easily the
             // creation of new objects,
             // a parse should have been added etc, however time is at the essence and a bad
-            // idea that works is still an idea that works
+            // idea that works is still an idea that works...
             switch (lowerCaseInitial) {
                 case "l":
                     objName = "LEMMING";

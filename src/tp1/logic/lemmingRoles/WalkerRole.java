@@ -97,4 +97,9 @@ public class WalkerRole implements LemmingRole {
 		return false;
 	}
 
+	@Override
+	public boolean interactWithAir(Lemming lemming) {
+		return true;
+	}
+
 }

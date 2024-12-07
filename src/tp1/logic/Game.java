@@ -219,14 +219,13 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		gameFinished = true;
 	}
 
-	// @Override
+	@Override
 	public void none() throws GameModelException {
 		update();
 	}
 
 	// @Override
 	public String help() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -238,7 +237,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	// GameWorld methods (callbacks)
 	// @Override
 	public boolean isInAir(Position pos) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -266,7 +264,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 			return false;
 		} else if (pos.getCol() >= 0 && pos.getCol() < DIM_X &&
 				pos.getRow() >= 0 && pos.getRow() < DIM_Y) {
-			System.out.println("Game : Valid Pos");
 			return true;
 		} else
 			return false;
@@ -274,7 +271,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	}
 
 	public boolean checkLemmingPosition(Position pos) {
-		System.out.println("Position being checked >>> " + pos);
 		if (container.checkLemmingPosition(pos)) {
 			return true;
 		} else {

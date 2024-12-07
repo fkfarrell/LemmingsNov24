@@ -53,7 +53,6 @@ public class SetRoleCommand extends Command {
             throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
         }
 
-        // Parse lemming role
         try {
             LemmingRole role = LemmingRoleFactory.parse(commandWords);
             if (role == null) {
@@ -65,7 +64,6 @@ public class SetRoleCommand extends Command {
                     e);
         }
 
-        // Parse and validate position
         try {
             String rowPos = commandWords[2].toLowerCase();
             int rowNum = rowPos.charAt(0) - 'a';

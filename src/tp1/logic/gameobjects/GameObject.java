@@ -59,7 +59,6 @@ public abstract class GameObject implements GameItem {
 	public abstract boolean receiveInteraction(GameItem other) throws GameModelException;
 
 	public GameObject parse(String input) {
-		// take in string and match to constructor
 		return this;
 	}
 

@@ -46,6 +46,7 @@ public class GameObjectContainer {
 		for (GameObject object : objects) {
 			if (object.isAlive()) {
 				object.update();
+				System.out.println("Game Object Direction >>>> " + object);
 			}
 
 		}
@@ -60,7 +61,7 @@ public class GameObjectContainer {
 		for (Position exit : getExitDoorPositions()) {
 			for (GameObject object : objects) {
 				if (object.isAlive() && object.getPosition() != null && object.getPosition().isEqual(exit)
-						&& !object.getIcon().equals(Messages.EXIT_DOOR)) {
+						&& !object.getIcon().equals(Messages.EXIT_DOOR)) { //
 					numArrived++;
 					object.makeInvisible();
 				}

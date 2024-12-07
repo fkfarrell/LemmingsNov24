@@ -35,21 +35,6 @@ public class LemmingRoleFactory {
         throw new CommandParseException(Messages.UNKNOWN_ROLE.formatted(desiredRole));
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // public static LemmingRole parse(String input) { // throws RoleParseException
-    // System.out.println("input >>> " + input);
-    // LemmingRole result;
-    // for (LemmingRole role : availableRoles) {
-    // result = role.parse(input);
-    // if (result != null)
-    // return result;
-    // System.out.println("role >>> " + result);
-    // }
-    // // throw new RoleParseException(String.format(Messages.INVALID_ROLE, input));
-    // return null;
-    // }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static String roleHelp() {
         StringBuilder roles = new StringBuilder();
 
