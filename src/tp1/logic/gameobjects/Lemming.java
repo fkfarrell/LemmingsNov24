@@ -20,7 +20,7 @@ public class Lemming extends GameObject {
 	private boolean isFalling = false;
 
 	public Lemming(Game game, Position pos, Direction dir, LemmingRole role) {
-		super(game, pos);
+		super(game, pos, dir);
 		this.role = role;
 		this.dir = dir;
 	}
@@ -33,7 +33,7 @@ public class Lemming extends GameObject {
 		if (this.role.equals(role)) {
 			game.update();
 			return false;
-		} else if (!this.isFalling && role.toString().equals(new ParachuterRole().toString())) {
+		} else if (!this.isFalling && !role.interactWithAir(this)) {
 			game.update();
 			return false;
 		} else {
@@ -53,16 +53,13 @@ public class Lemming extends GameObject {
 	public void dig() throws OffBoardException, ObjectParseException {
 		this.checkOffBoard();
 		Position wallPos = new Position(this.pos.getCol(), this.pos.getRow());
-		MetalWall metalWall = new MetalWall(game, wallPos);
-		Wall diggable = new Wall(game, wallPos);
+		MetalWall metalWall = new MetalWall(game, wallPos, null);
+		Wall diggable = new Wall(game, wallPos, null);
 
 		if (game.wallBelow(wallPos) && this.role.interactWith(diggable, this)) {
-			System.out.println("WALL BELOW");
 			this.pos = new Position(this.pos.getCol(), this.pos.getRow() + 1);
 			this.fallForce++;
-			System.out.println("FALLING");
 		} else {
-			System.out.println("No wall detected @ " + wallPos.toString());
 			this.checkFloor();
 			this.disableRole();
 		}
@@ -93,8 +90,7 @@ public class Lemming extends GameObject {
 		int nextRow = currentPosition.getRow() + movDirection.getY();
 
 		if (this.dir == Direction.RIGHT) {
-			if (nextCol >= WALL_RIGHT || game.wallAhead(currentPosition, movDirection)) {
-
+			if ((nextCol >= WALL_RIGHT || game.wallAhead(currentPosition, movDirection))) {
 				this.reverseDir();
 				return false;
 			}
@@ -122,31 +118,18 @@ public class Lemming extends GameObject {
 	}
 
 	private void checkFloor() throws ObjectParseException {
-		if (game.positionToString(this.pos.getCol(), this.pos.getRow() + 1).equals(" ")) {
+		if (!game.wallBelow(this.pos) && !game.metalWallBelow(this.pos)) {
 			this.isFalling = true;
 			this.dir = Direction.DOWN;
-
-		}
-		// if (!game.wallBelow(this.pos) || !game.metalWallBelow(this.pos)) {
-		// this.isFalling = true;
-		// this.dir = Direction.DOWN;
-
-		// }
-
-		else if (game.wallBelow(pos)
-				|| (game.metalWallBelow(pos)
-						&& isFalling)) {
-
-			if (this.fallForce >= MAX_FALL
-					&& (this.getIcon().equals(Messages.LEMMING_RIGHT)
-							|| this.getIcon().equals(Messages.DOWN_CAVER_ROL_SYMBOL)
-							|| this.getIcon().equals(Messages.LEMMING_LEFT))) // !parachuter
-			{
-				this.isAlive = false;
-			} else if (this.isFalling) {
-				this.dir = Direction.RIGHT;
-				this.isFalling = false;
-				this.disableRole();
+		} else {
+			if (this.isFalling) {
+				if (this.fallForce >= MAX_FALL && (this.role.interactWithAir(this))) {
+					this.isAlive = false;
+				} else {
+					this.dir = Direction.RIGHT;
+					this.isFalling = false;
+					this.disableRole();
+				}
 			}
 		}
 	}
@@ -205,8 +188,6 @@ public class Lemming extends GameObject {
 	public boolean receiveInteraction(GameItem other) throws GameModelException {
 		try {
 			boolean result = other.interactWith(this);
-			// System.out.println(other.toString() + " interacts with " + this.toString() +
-			// " : " + result);
 			return result;
 		} catch (Exception e) {
 			System.err.println("Error during interaction: " + e.getMessage());

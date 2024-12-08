@@ -1,13 +1,14 @@
 package tp1.logic.gameobjects;
 
+import tp1.logic.Direction;
 import tp1.logic.Game;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
 public class ExitDoor extends GameObject {
 
-    public ExitDoor(Game game, Position pos) {
-        super(game, pos);
+    public ExitDoor(Game game, Position pos, Direction dir) {
+        super(game, pos, dir);
     }
 
     public ExitDoor() {

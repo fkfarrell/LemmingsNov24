@@ -62,11 +62,11 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 						new Position(8, 7), new Position(8, 8), new Position(8, 9) };
 
 				for (Position pos : wallsPos) {
-					container.add(new Wall(this, pos));
+					container.add(new Wall(this, pos, null));
 				}
 
 				Position ExitDoorPos = new Position(7, 4);
-				container.add(new ExitDoor(this, ExitDoorPos));
+				container.add(new ExitDoor(this, ExitDoorPos, null));
 				break;
 			case 2:
 				Position[] lemmingPos2 = {
@@ -91,7 +91,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 				};
 				for (Position pos : wallsPos2) {
-					container.add(new Wall(this, pos));
+					container.add(new Wall(this, pos, null));
 				}
 
 				Position[] metalWalls = {
@@ -101,11 +101,11 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 						new Position(1, 8), new Position(2, 8), new Position(3, 8), };
 
 				for (Position pos : metalWalls) {
-					container.add(new MetalWall(this, pos));
+					container.add(new MetalWall(this, pos, null));
 				}
 
 				Position ExitDoorPos2 = new Position(5, 7);
-				container.add(new ExitDoor(this, ExitDoorPos2));
+				container.add(new ExitDoor(this, ExitDoorPos2, null));
 				break;
 
 			case 3:
@@ -126,7 +126,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 				};
 
 				for (Position pos : wallsPos3) {
-					container.add(new Wall(this, pos));
+					container.add(new Wall(this, pos, null));
 				}
 				break;
 
@@ -219,14 +219,13 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		gameFinished = true;
 	}
 
-	// @Override
+	@Override
 	public void none() throws GameModelException {
 		update();
 	}
 
 	// @Override
 	public String help() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -238,7 +237,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	// GameWorld methods (callbacks)
 	// @Override
 	public boolean isInAir(Position pos) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -266,7 +264,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 			return false;
 		} else if (pos.getCol() >= 0 && pos.getCol() < DIM_X &&
 				pos.getRow() >= 0 && pos.getRow() < DIM_Y) {
-			System.out.println("Game : Valid Pos");
 			return true;
 		} else
 			return false;
@@ -274,7 +271,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	}
 
 	public boolean checkLemmingPosition(Position pos) {
-		System.out.println("Position being checked >>> " + pos);
 		if (container.checkLemmingPosition(pos)) {
 			return true;
 		} else {
@@ -287,7 +283,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		if (container.setLemmingRole(pos, role)) {
 			return true;
 		} else {
-			System.out.println("ERROR");
 			return false;
 		}
 	}
@@ -297,7 +292,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	@Override
 	public void reset() {
 		if (fileLoader != null) {
-			// Load from the saved file configuration
 			try {
 				load(loadFile);
 			} catch (ObjectParseException e) {
@@ -308,7 +302,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 				e.printStackTrace();
 			}
 		} else {
-			// Perform standard reset if no fileLoader is available
 			lemmingsInGame = 0;
 			cycleNum = 0;
 			playerWins = false;

@@ -5,17 +5,20 @@ import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.Game;
 import tp1.logic.Position;
+import tp1.logic.Direction;
 import tp1.logic.lemmingRoles.LemmingRole;
 
 public abstract class GameObject implements GameItem {
 	protected Position pos;
 	protected boolean isAlive;
 	public Game game;
+	protected Direction dir;
 
-	public GameObject(Game game, Position pos) {
+	public GameObject(Game game, Position pos, Direction dir) {
 		this.isAlive = true;
 		this.pos = pos;
 		this.game = game;
+		this.dir = dir;
 	}
 
 	public GameObject() {
@@ -46,6 +49,10 @@ public abstract class GameObject implements GameItem {
 		return this.pos;
 	}
 
+	public Direction getDirection() {
+		return this.dir;
+	}
+
 	public abstract void update() throws OffBoardException, ObjectParseException, GameModelException;
 
 	public void makeInvisible() {
@@ -59,7 +66,6 @@ public abstract class GameObject implements GameItem {
 	public abstract boolean receiveInteraction(GameItem other) throws GameModelException;
 
 	public GameObject parse(String input) {
-		// take in string and match to constructor
 		return this;
 	}
 
