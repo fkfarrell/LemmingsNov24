@@ -20,7 +20,7 @@ public class Lemming extends GameObject {
 	private boolean isFalling = false;
 
 	public Lemming(Game game, Position pos, Direction dir, LemmingRole role) {
-		super(game, pos);
+		super(game, pos, dir);
 		this.role = role;
 		this.dir = dir;
 	}
@@ -53,8 +53,8 @@ public class Lemming extends GameObject {
 	public void dig() throws OffBoardException, ObjectParseException {
 		this.checkOffBoard();
 		Position wallPos = new Position(this.pos.getCol(), this.pos.getRow());
-		MetalWall metalWall = new MetalWall(game, wallPos);
-		Wall diggable = new Wall(game, wallPos);
+		MetalWall metalWall = new MetalWall(game, wallPos, null);
+		Wall diggable = new Wall(game, wallPos, null);
 
 		if (game.wallBelow(wallPos) && this.role.interactWith(diggable, this)) {
 			this.pos = new Position(this.pos.getCol(), this.pos.getRow() + 1);
@@ -90,8 +90,7 @@ public class Lemming extends GameObject {
 		int nextRow = currentPosition.getRow() + movDirection.getY();
 
 		if (this.dir == Direction.RIGHT) {
-			if (nextCol >= WALL_RIGHT || game.wallAhead(currentPosition, movDirection)) {
-
+			if ((nextCol >= WALL_RIGHT || game.wallAhead(currentPosition, movDirection))) {
 				this.reverseDir();
 				return false;
 			}

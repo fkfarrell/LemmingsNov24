@@ -29,7 +29,7 @@ public class GameObjectContainer {
 
 	public void setGame(Game game2) {
 		for (GameObject object : objects) {
-			object.setGame(game);
+			object.setGame(game2);
 		}
 	}
 
@@ -46,7 +46,6 @@ public class GameObjectContainer {
 		for (GameObject object : objects) {
 			if (object.isAlive()) {
 				object.update();
-				System.out.println("Game Object Direction >>>> " + object);
 			}
 
 		}
@@ -110,37 +109,11 @@ public class GameObjectContainer {
 		return metalWallPositionsList.toArray(new Position[0]);
 	}
 
-	// public boolean checkLemmingPosition(Position pos) {
-
-	// for (GameObject object : objects) {
-	// if (object.isInPosition(pos)) {
-	// return true;
-	// }
-	// }
-	// return false;
-	// }
-
-	// public boolean setLemmingRole(Position pos, LemmingRole role) throws
-	// GameModelException {
-
-	// for (GameObject object : objects) {
-	// if (object.isInPosition(pos)) {
-	// object.setRole(role);
-	// return true;
-	// }
-	// }
-
-	// return false;
-	// }
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	public boolean checkLemmingPosition(Position pos) {
-		// First validate the position
 		if (!Game.isValidPosition(pos)) {
 			return false;
 		}
 
-		// Then check if there's a game object at the position
 		for (GameObject object : objects) {
 			if (object.isInPosition(pos)) {
 				return true;
@@ -150,7 +123,6 @@ public class GameObjectContainer {
 	}
 
 	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException {
-		// First validate the position
 
 		if (!Game.isValidPosition(pos)) {
 			System.out.println("Is it a valid position ? " + Game.isValidPosition(pos));
@@ -158,7 +130,6 @@ public class GameObjectContainer {
 			return false;
 		}
 
-		// Then attempt to set the role
 		for (GameObject object : objects) {
 			if (object.isInPosition(pos)) {
 				object.setRole(role);
@@ -168,7 +139,6 @@ public class GameObjectContainer {
 
 		return false;
 	}
-	/// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int deadLemmings() {
 		int deadLemmings = 0;

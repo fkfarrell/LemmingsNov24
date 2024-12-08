@@ -36,7 +36,6 @@ public class GameObjectFactory {
     public GameObject parse(String line, Game game) throws ObjectParseException, OffBoardException {
         Position pos;
         String objectTitle;
-        // working parse methods
         try {
             pos = parsePosition(line);
             objectTitle = parseObjectName(line);
@@ -44,17 +43,15 @@ public class GameObjectFactory {
             throw new ObjectParseException(
                     String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid position or object name: " + line), e);
         }
-        // in progress...
         if (objectTitle.equals("LEMMING")) {
             Direction direction;
             int forceOfFall;
             LemmingRole role;
 
             try {
-                direction = getLemmingDirectionFrom(line); // Parse direction
-                System.out.println("Lemming direction >>> " + direction);
-                forceOfFall = getLemmingHeigthFrom(line); // Parse fall height
-                role = getLemmingRoleFrom(line); // Parse role
+                direction = getLemmingDirectionFrom(line);
+                forceOfFall = getLemmingHeigthFrom(line);
+                role = getLemmingRoleFrom(line);
             } catch (Exception e) {
                 throw new ObjectParseException(
                         String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid lemming attributes: " + line), e);
@@ -65,13 +62,13 @@ public class GameObjectFactory {
         else {
             switch (objectTitle) {
                 case "WALL":
-                    return new Wall(game, pos);
+                    return new Wall(game, pos, null);
 
                 case "METALWALL":
-                    return new MetalWall(game, pos);
+                    return new MetalWall(game, pos, null);
 
                 case "EXITDOOR":
-                    return new ExitDoor(game, pos);
+                    return new ExitDoor(game, pos, null);
 
                 default:
                     throw new ObjectParseException(String.format(Messages.UNKNOWN_GAME_OBJECT, objectTitle));
@@ -125,9 +122,10 @@ public class GameObjectFactory {
             String lowerCaseInitial = String.valueOf(Character.toLowerCase(initial));
 
             // **DISCLAIMER** i know this is bad code, and that it doesnt allow easily the
-            // creation of new objects,
-            // a parse should have been added etc, however time is at the essence and a bad
-            // idea that works is still an idea that works...
+            // creation of new objects
+            // a parse should have been added , ergo bad OOP, however time is at the essence
+            // and a bad
+            // idea that works is still an idea that works... (faulty logic)
             switch (lowerCaseInitial) {
                 case "l":
                     objName = "LEMMING";

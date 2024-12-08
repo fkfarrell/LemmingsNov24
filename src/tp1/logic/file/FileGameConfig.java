@@ -20,6 +20,7 @@ public class FileGameConfig implements GameConfig {
     public GameObjectFactory factory = new GameObjectFactory();
     private Game game;
     public GameObjectContainer newLoadContainer;
+    public Game newGame;
     private static int LoadLevel = 4;
 
     // Game Config Variables
@@ -45,7 +46,7 @@ public class FileGameConfig implements GameConfig {
             }
 
             parseGameConfigInfo(firstLine);
-            Game newGame = new Game(LoadLevel); // LoadLevel
+            newGame = new Game(LoadLevel);
             newLoadContainer = new GameObjectContainer(newGame);
 
             while ((content = reader.readLine()) != null) {
