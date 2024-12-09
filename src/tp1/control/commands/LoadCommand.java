@@ -1,11 +1,8 @@
 package tp1.control.commands;
 
 import java.io.File;
-import java.io.IOException;
-
 import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.CommandParseException;
-import tp1.exceptions.GameModelException;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -18,7 +15,6 @@ public class LoadCommand extends Command {
     private static final String HELP = Messages.COMMAND_LOAD_HELP;
 
     private File inputFile;
-    private String inputFilePath;
 
     public LoadCommand() {
         super(NAME, SHORTCUT, DETAILS, HELP);
@@ -46,7 +42,6 @@ public class LoadCommand extends Command {
             }
             if (commandWords.length > 2) {
                 return null;
-                // throw new CommandParseException("Invalid command: Too many arguments.");
             }
 
             String filePath = "C:\\Users\\finnf\\Desktop\\College\\UCM\\TP1\\LemmingsAssignment2\\2425-Lemmings\\src\\tp1\\logic\\file\\"

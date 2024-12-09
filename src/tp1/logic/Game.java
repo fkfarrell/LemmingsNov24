@@ -3,22 +3,20 @@ package tp1.logic;
 import java.io.File;
 import java.io.IOException;
 
+import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.GameLoadException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
-import tp1.logic.Position;
 import tp1.logic.file.FileGameConfig;
 import tp1.logic.file.GameConfig;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameItem;
-import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameWorld;
 import tp1.logic.gameobjects.Lemming;
 import tp1.logic.gameobjects.MetalWall;
 import tp1.logic.gameobjects.Wall;
 import tp1.logic.lemmingRoles.LemmingRole;
-import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
 import tp1.view.Messages;
 
@@ -109,7 +107,14 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 				break;
 
 			case 3:
+			Position[] lemmingPos3 = {
+				new Position(0, 0),
+				 };
 
+				for (Position pos : lemmingPos3) {
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					lemmingsInGame++;
+				}
 				Position[] wallsPos3 = {
 						new Position(1, 3), new Position(1, 4), new Position(1, 5), new Position(1, 6),
 						new Position(1, 7),
@@ -135,7 +140,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 				break;
 
 			default:
-
 				throw new IllegalArgumentException("Invalid level: " + lvl);
 		}
 	}
@@ -191,7 +195,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	// GameModel methods
 	@Override
-	public void update() throws GameModelException {
+	public void update() throws GameModelException, CommandExecuteException {
 
 		container.update();
 		cycleNum++;
@@ -211,7 +215,6 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		if (playerLooses()) {
 			reset();
 		}
-
 	}
 
 	@Override
@@ -220,7 +223,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	}
 
 	@Override
-	public void none() throws GameModelException {
+	public void none() throws GameModelException, CommandExecuteException {
 		update();
 	}
 
@@ -278,7 +281,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		}
 	}
 
-	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException {
+	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException, CommandExecuteException {
 
 		if (container.setLemmingRole(pos, role)) {
 			return true;
@@ -290,17 +293,14 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 	private FileGameConfig fileLoader = null;
 
 	@Override
-	public void reset() {
+	public void reset() throws CommandExecuteException {
 		if (fileLoader != null) {
 			try {
 				load(loadFile);
-			} catch (ObjectParseException e) {
-				e.printStackTrace();
 			} catch (GameLoadException e) {
-				e.printStackTrace();
-			} catch (OffBoardException e) {
-				e.printStackTrace();
+				throw new CommandExecuteException(Messages.ERROR_COMMAND_EXECUTE, e);
 			}
+
 		} else {
 			lemmingsInGame = 0;
 			cycleNum = 0;
@@ -314,7 +314,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 
 	private File loadFile;
 
-	public boolean load(File inputFile) throws GameLoadException, ObjectParseException, OffBoardException {
+	public boolean load(File inputFile) throws GameLoadException, CommandExecuteException {
 
 		try {
 			fileLoader = new FileGameConfig(inputFile);
@@ -335,7 +335,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 			throw e;
 		} catch (ObjectParseException e) {
 			System.err.println("Error parsing game objects: " + e.getMessage());
-			throw e;
+			throw new CommandExecuteException(Messages.ERROR_COMMAND_EXECUTE, e);
 		} catch (Exception e) {
 			System.err.println("Unexpected error: " + e.getMessage());
 			throw new GameLoadException(String.format(Messages.READ_ERROR, inputFile.getAbsolutePath()), e);

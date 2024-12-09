@@ -3,7 +3,6 @@ package tp1.control;
 import tp1.control.commands.Command;
 import tp1.control.commands.CommandGenerator;
 import tp1.control.commands.UpdateCommand;
-import tp1.exceptions.CommandException;
 import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.CommandParseException;
 import tp1.exceptions.GameModelException;

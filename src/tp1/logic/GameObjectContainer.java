@@ -3,6 +3,7 @@ package tp1.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.logic.gameobjects.GameItem;
@@ -122,7 +123,7 @@ public class GameObjectContainer {
 		return false;
 	}
 
-	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException {
+	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException, CommandExecuteException {
 
 		if (!Game.isValidPosition(pos)) {
 			System.out.println("Is it a valid position ? " + Game.isValidPosition(pos));

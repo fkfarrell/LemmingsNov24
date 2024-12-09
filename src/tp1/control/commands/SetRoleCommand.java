@@ -1,15 +1,12 @@
 package tp1.control.commands;
-
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
-//import tp1.logic.gameobjects.*;
 import tp1.logic.lemmingRoles.*;
 import tp1.logic.Position;
 import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.CommandParseException;
 import tp1.exceptions.GameModelException;
-import tp1.exceptions.OffBoardException;
 import tp1.logic.Game;
 
 public class SetRoleCommand extends Command {
@@ -22,7 +19,6 @@ public class SetRoleCommand extends Command {
     private Position pos;
     private LemmingRole role;
     private static LemmingRole gameRole;
-    private Game game;
     private static Position rolePosition;
 
     public SetRoleCommand() {
@@ -62,7 +58,9 @@ public class SetRoleCommand extends Command {
         } catch (IllegalArgumentException e) {
             throw new CommandParseException(Messages.INVALID_COMMAND.formatted(commandWords[0]),
                     e);
-        }
+        } catch (CommandExecuteException e) {
+                    e.printStackTrace();
+                }
 
         try {
             String rowPos = commandWords[2].toLowerCase();
