@@ -67,7 +67,6 @@ public class Wall extends GameObject {
 
     @Override
     public boolean interactWith(MetalWall metalWall) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
+        return false;
     }
 }

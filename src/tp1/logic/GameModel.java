@@ -1,4 +1,5 @@
 package tp1.logic;
+
 import java.io.File;
 
 import tp1.exceptions.CommandExecuteException;
@@ -16,7 +17,8 @@ public interface GameModel {
 
     public void exit();
 
-    public void reset() throws ObjectParseException, GameLoadException, OffBoardException, GameModelException, CommandExecuteException;
+    public void reset() throws ObjectParseException, GameLoadException, OffBoardException, GameModelException,
+            CommandExecuteException;
 
     public void none() throws OffBoardException, ObjectParseException, GameModelException, CommandExecuteException;
 
@@ -24,8 +26,10 @@ public interface GameModel {
 
     public boolean checkLemmingPosition(Position rolePosition);
 
-    public boolean setLemmingRole(Position rolePosition, LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException;
+    public boolean setLemmingRole(Position rolePosition, LemmingRole role)
+            throws OffBoardException, ObjectParseException, GameModelException, CommandExecuteException;
 
-    public boolean load(File file) throws GameLoadException, ObjectParseException, OffBoardException, CommandExecuteException, GameModelException;
+    public boolean load(File file) throws GameLoadException, ObjectParseException, OffBoardException,
+            CommandExecuteException, GameModelException;
 
 }
