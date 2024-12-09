@@ -1,9 +1,5 @@
 package tp1.control.commands;
-
-import java.util.Arrays;
-
 import tp1.exceptions.CommandParseException;
-import tp1.view.Messages;
 
 public abstract class NoParamsCommand extends Command {
 

@@ -3,9 +3,8 @@ package tp1.logic.lemmingRoles;
 import java.util.Arrays;
 import java.util.List;
 
-import tp1.control.commands.Command;
-import tp1.exceptions.CommandParseException;
-import tp1.logic.lemmingRoles.*;
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.RoleParseException;
 import tp1.view.Messages;
 
 public class LemmingRoleFactory {
@@ -15,9 +14,10 @@ public class LemmingRoleFactory {
             new ParachuterRole(),
             new DownCaverRole());
 
-    public static LemmingRole parse(String input[]) throws CommandParseException {
+    public static LemmingRole parse(String input[]) throws CommandExecuteException {
+        try{
         if (input.length < 2 || input[1].isEmpty()) {
-            throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
+            throw new RoleParseException(Messages.COMMAND_PARAMETERS_MISSING);
         }
 
         String desiredRole = input[1];
@@ -32,7 +32,10 @@ public class LemmingRoleFactory {
             }
         }
 
-        throw new CommandParseException(Messages.UNKNOWN_ROLE.formatted(desiredRole));
+        throw new RoleParseException(Messages.UNKNOWN_ROLE.formatted(desiredRole));
+        }catch(RoleParseException rpe){
+            throw new CommandExecuteException(Messages.INVALID_COMMAND, rpe);
+        }
     }
 
     public static String roleHelp() {

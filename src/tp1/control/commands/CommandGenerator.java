@@ -36,7 +36,6 @@ public class CommandGenerator {
 		StringBuilder commands = new StringBuilder();
 
 		for (Command c : availableCommands) {
-			// TODO fill with your code
 			if (c.helpText() != null) {
 				commands.append(c.helpText());
 			}

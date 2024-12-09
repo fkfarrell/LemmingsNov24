@@ -1,6 +1,4 @@
 package tp1.logic.file;
-
-import java.io.File;
 import java.io.IOException;
 import tp1.exceptions.GameLoadException;
 import tp1.exceptions.ObjectParseException;

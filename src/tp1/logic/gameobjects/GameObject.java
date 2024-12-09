@@ -1,5 +1,6 @@
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
@@ -59,7 +60,7 @@ public abstract class GameObject implements GameItem {
 		this.isAlive = false;
 	}
 
-	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException {
+	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException, CommandExecuteException {
 		return false;
 	}
 

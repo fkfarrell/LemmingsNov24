@@ -7,9 +7,7 @@ import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.Game;
 import tp1.logic.GameObjectContainer;
-import tp1.logic.file.GameObjectFactory;
 import tp1.logic.gameobjects.GameObject;
-import tp1.logic.gameobjects.GameWorld;
 import tp1.view.Messages;
 
 public class FileGameConfig implements GameConfig {
@@ -18,7 +16,6 @@ public class FileGameConfig implements GameConfig {
     public String fullFilePath;
     private String content;
     public GameObjectFactory factory = new GameObjectFactory();
-    private Game game;
     public GameObjectContainer newLoadContainer;
     public Game newGame;
     private static int LoadLevel = 4;

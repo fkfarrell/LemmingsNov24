@@ -1,5 +1,6 @@
 package tp1.logic.gameobjects;
 
+import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
@@ -7,9 +8,7 @@ import tp1.logic.Direction;
 import tp1.logic.Game;
 import tp1.logic.Position;
 import tp1.logic.lemmingRoles.LemmingRole;
-import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
-import tp1.view.Messages;
 
 public class Lemming extends GameObject {
 	private LemmingRole role;
@@ -29,7 +28,7 @@ public class Lemming extends GameObject {
 	}
 
 	@Override
-	public boolean setRole(LemmingRole role) throws GameModelException {
+	public boolean setRole(LemmingRole role) throws GameModelException, CommandExecuteException {
 		if (this.role.equals(role)) {
 			game.update();
 			return false;

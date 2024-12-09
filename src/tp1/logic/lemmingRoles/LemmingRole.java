@@ -4,7 +4,6 @@ import tp1.exceptions.GameModelException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameItem;
-import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.Lemming;
 import tp1.logic.gameobjects.MetalWall;
 import tp1.logic.gameobjects.Wall;

@@ -1,13 +1,10 @@
 package tp1.logic.file;
-
 import java.util.Arrays;
 import java.util.List;
-
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.Direction;
 import tp1.logic.Game;
-import tp1.logic.GameObjectContainer;
 import tp1.logic.Position;
 import tp1.logic.gameobjects.ExitDoor;
 import tp1.logic.gameobjects.GameObject;
@@ -77,38 +74,41 @@ public class GameObjectFactory {
         }
     }
 
-    private static Position parsePosition(String inputPos) {
+    private static Position parsePosition(String inputPos) throws ObjectParseException {
         String positionString;
         int maxX = Game.DIM_X;
         int maxY = Game.DIM_Y;
-
+    
         try {
             positionString = inputPos.substring(0, 5);
-
+    
             int x = Character.getNumericValue(positionString.charAt(1));
             int y = Character.getNumericValue(positionString.charAt(3));
-
+    
             if (x < 0 || y < 0) {
                 throw new IllegalArgumentException("Coordinates cannot be negative");
             }
             if (x > maxX || y > maxY) {
                 throw new IllegalArgumentException("Coordinates exceed maximum dimensions");
             }
-
+    
             return new Position(x - 1, y - 1);
-
+    
         } catch (StringIndexOutOfBoundsException e) {
-            System.err.println("Error: Input string is not in the expected format (x,y): " + inputPos);
+            throw new ObjectParseException(
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Input string is not in the expected format (x,y): " + inputPos), e);
         } catch (NumberFormatException e) {
-            System.err.println("Error: Unable to parse coordinates as integers: " + inputPos);
+            throw new ObjectParseException(
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Unable to parse coordinates as integers: " + inputPos), e);
         } catch (IllegalArgumentException e) {
-            System.err.println("Error: " + e.getMessage());
+            throw new ObjectParseException(
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, e.getMessage() + ": " + inputPos), e);
         } catch (Exception e) {
-            System.err.println("Unexpected error occurred while parsing position: " + inputPos);
+            throw new ObjectParseException(
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Unexpected error occurred while parsing position: " + inputPos), e);
         }
-
-        throw new IllegalArgumentException("No valid position detected.");
     }
+    
 
     private static String parseObjectName(String inputName) {
         String objName = "";
@@ -121,11 +121,6 @@ public class GameObjectFactory {
             char initial = inputName.charAt(6);
             String lowerCaseInitial = String.valueOf(Character.toLowerCase(initial));
 
-            // **DISCLAIMER** i know this is bad code, and that it doesnt allow easily the
-            // creation of new objects
-            // a parse should have been added , ergo bad OOP, however time is at the essence
-            // and a bad
-            // idea that works is still an idea that works... (faulty logic)
             switch (lowerCaseInitial) {
                 case "l":
                     objName = "LEMMING";
