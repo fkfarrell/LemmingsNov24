@@ -24,7 +24,7 @@ public interface GameModel {
 
     public boolean checkLemmingPosition(Position rolePosition);
 
-    public boolean setLemmingRole(Position rolePosition, LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException;
+    public boolean setLemmingRole(Position rolePosition, LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException, CommandExecuteException;
 
     public boolean load(File file) throws GameLoadException, ObjectParseException, OffBoardException, CommandExecuteException, GameModelException;
 

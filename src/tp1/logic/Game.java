@@ -107,7 +107,14 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 				break;
 
 			case 3:
+			Position[] lemmingPos3 = {
+				new Position(0, 0),
+				 };
 
+				for (Position pos : lemmingPos3) {
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					lemmingsInGame++;
+				}
 				Position[] wallsPos3 = {
 						new Position(1, 3), new Position(1, 4), new Position(1, 5), new Position(1, 6),
 						new Position(1, 7),
@@ -274,7 +281,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 		}
 	}
 
-	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException {
+	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException, CommandExecuteException {
 
 		if (container.setLemmingRole(pos, role)) {
 			return true;
