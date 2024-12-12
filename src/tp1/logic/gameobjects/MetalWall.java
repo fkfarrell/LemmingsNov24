@@ -7,6 +7,9 @@ import tp1.view.Messages;
 
 public class MetalWall extends GameObject {
 
+    private final String name = "MetalWall";
+    private final String shortcut = "mw";
+
     public MetalWall(Game game, Position pos, Direction dir) {
         super(game, pos, dir);
     }
@@ -63,5 +66,24 @@ public class MetalWall extends GameObject {
 
     @Override
     public void update() {
+    }
+
+    @Override
+    public String getShortcut() {
+        return this.shortcut;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public GameObject parse(String input, Game game, Position pos) {
+        if (matchObjectName(input)) {
+            return new MetalWall(game, pos, null);
+        } else {
+            return null;
+        }
     }
 }

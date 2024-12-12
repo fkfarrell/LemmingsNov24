@@ -10,7 +10,7 @@ import tp1.logic.Direction;
 import tp1.logic.lemmingRoles.LemmingRole;
 
 public abstract class GameObject implements GameItem {
-	protected Position pos;
+	protected Position pos; // allowed to be public??
 	protected boolean isAlive;
 	public Game game;
 	protected Direction dir;
@@ -23,6 +23,7 @@ public abstract class GameObject implements GameItem {
 	}
 
 	public GameObject() {
+		super();
 	}
 
 	public boolean isInPosition(Position p) {
@@ -60,14 +61,29 @@ public abstract class GameObject implements GameItem {
 		this.isAlive = false;
 	}
 
-	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException, CommandExecuteException {
+	public boolean setRole(LemmingRole role)
+			throws OffBoardException, ObjectParseException, GameModelException, CommandExecuteException {
 		return false;
 	}
 
 	public abstract boolean receiveInteraction(GameItem other) throws GameModelException;
 
-	public GameObject parse(String input) {
-		return this;
+	public abstract String getShortcut();
+
+	public abstract String getName();
+
+	protected boolean matchObjectName(String name) {
+		return getShortcut().equalsIgnoreCase(name) ||
+				getName().equalsIgnoreCase(name);
+	}
+
+	// public abstract GameObject parse(String input);
+	public GameObject parse(String input, Game game, Position pos) {
+		if (matchObjectName(input)) {
+			return this;
+		} else {
+			return null;
+		}
 	}
 
 	public void setGame(Game game) {

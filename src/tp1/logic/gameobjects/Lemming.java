@@ -17,6 +17,8 @@ public class Lemming extends GameObject {
 	private Direction dir;
 	private final int MAX_FALL = 3;
 	private boolean isFalling = false;
+	private final String name = "Lemming";
+	private final String shortcut = "l";
 
 	public Lemming(Game game, Position pos, Direction dir, LemmingRole role) {
 		super(game, pos, dir);
@@ -25,6 +27,16 @@ public class Lemming extends GameObject {
 	}
 
 	public Lemming() {
+	}
+
+	@Override
+	public String getShortcut() {
+		return this.shortcut;
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
 	}
 
 	@Override

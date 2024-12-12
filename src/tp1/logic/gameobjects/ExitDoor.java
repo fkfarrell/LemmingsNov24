@@ -7,6 +7,9 @@ import tp1.view.Messages;
 
 public class ExitDoor extends GameObject {
 
+    private final String name = "ExitDoor";
+    private final String shortcut = "ed";
+
     public ExitDoor(Game game, Position pos, Direction dir) {
         super(game, pos, dir);
     }
@@ -68,6 +71,25 @@ public class ExitDoor extends GameObject {
     @Override
     public boolean interactWith(MetalWall metalWall) {
         return false;
+    }
+
+    @Override
+    public String getShortcut() {
+        return this.shortcut;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public GameObject parse(String input, Game game, Position pos) {
+        if (matchObjectName(input)) {
+            return new ExitDoor(game, pos, null);
+        } else {
+            return null;
+        }
     }
 
 }

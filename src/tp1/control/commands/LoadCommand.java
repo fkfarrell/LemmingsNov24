@@ -47,6 +47,7 @@ public class LoadCommand extends Command {
             String filePath = "C:\\Users\\finnf\\Desktop\\College\\UCM\\TP1\\LemmingsAssignment2\\2425-Lemmings\\src\\tp1\\logic\\file\\"
                     + commandWords[1];
             File loadFile = new File(filePath);
+            // File loadFile = new File(commandWords[1]);
 
             if (!loadFile.exists()) {
                 throw new CommandParseException("The specified file does not exist: " + filePath);

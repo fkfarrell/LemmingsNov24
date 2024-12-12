@@ -53,6 +53,7 @@ public class FileGameConfig implements GameConfig {
                         obj.setGame(newGame);
                     }
                     newLoadContainer.add(obj);
+                    System.out.println("added >>>" + obj);
 
                 } catch (ObjectParseException | OffBoardException e) {
                     throw new ObjectParseException(String.format(Messages.ERROR_PARSING_GAME_OBJECT, content), e);

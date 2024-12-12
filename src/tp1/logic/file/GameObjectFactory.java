@@ -1,12 +1,16 @@
 package tp1.logic.file;
+
 import java.util.Arrays;
 import java.util.List;
+
+import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.Direction;
 import tp1.logic.Game;
 import tp1.logic.Position;
 import tp1.logic.gameobjects.ExitDoor;
+import tp1.logic.gameobjects.GameItem;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.GameWorld;
 import tp1.logic.gameobjects.Lemming;
@@ -30,7 +34,8 @@ public class GameObjectFactory {
             new MetalWall(),
             new ExitDoor());
 
-    public GameObject parse(String line, Game game) throws ObjectParseException, OffBoardException {
+    public GameObject parse(String line, Game game) throws ObjectParseException,
+            OffBoardException {
         Position pos;
         String objectTitle;
         try {
@@ -56,21 +61,22 @@ public class GameObjectFactory {
             return new Lemming(game, pos, direction, role);
         }
 
+        // fix this if possible
         else {
-            switch (objectTitle) {
-                case "WALL":
-                    return new Wall(game, pos, null);
 
-                case "METALWALL":
-                    return new MetalWall(game, pos, null);
+            System.out.println("Line to be parsed >>> " + line);
 
-                case "EXITDOOR":
-                    return new ExitDoor(game, pos, null);
+            GameObject newObject = null;
 
-                default:
-                    throw new ObjectParseException(String.format(Messages.UNKNOWN_GAME_OBJECT, objectTitle));
+            for (GameObject go : availableObjects) {
+                newObject = go.parse(objectTitle, game, pos);
 
+                if (newObject != null) {
+                    return newObject;
+                }
             }
+
+            throw new ObjectParseException("Invalid object");
         }
     }
 
@@ -78,37 +84,42 @@ public class GameObjectFactory {
         String positionString;
         int maxX = Game.DIM_X;
         int maxY = Game.DIM_Y;
-    
+
         try {
             positionString = inputPos.substring(0, 5);
-    
+
             int x = Character.getNumericValue(positionString.charAt(1));
             int y = Character.getNumericValue(positionString.charAt(3));
-    
+
             if (x < 0 || y < 0) {
                 throw new IllegalArgumentException("Coordinates cannot be negative");
             }
             if (x > maxX || y > maxY) {
                 throw new IllegalArgumentException("Coordinates exceed maximum dimensions");
             }
-    
+
             return new Position(x - 1, y - 1);
-    
+
         } catch (StringIndexOutOfBoundsException e) {
             throw new ObjectParseException(
-                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Input string is not in the expected format (x,y): " + inputPos), e);
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT,
+                            "Input string is not in the expected format (x,y): " + inputPos),
+                    e);
         } catch (NumberFormatException e) {
             throw new ObjectParseException(
-                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Unable to parse coordinates as integers: " + inputPos), e);
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT,
+                            "Unable to parse coordinates as integers: " + inputPos),
+                    e);
         } catch (IllegalArgumentException e) {
             throw new ObjectParseException(
                     String.format(Messages.ERROR_PARSING_GAME_OBJECT, e.getMessage() + ": " + inputPos), e);
         } catch (Exception e) {
             throw new ObjectParseException(
-                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Unexpected error occurred while parsing position: " + inputPos), e);
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT,
+                            "Unexpected error occurred while parsing position: " + inputPos),
+                    e);
         }
     }
-    
 
     private static String parseObjectName(String inputName) {
         String objName = "";

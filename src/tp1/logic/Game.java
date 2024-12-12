@@ -116,6 +116,10 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 					lemmingsInGame++;
 				}
 
+				for (Position pos : lemmingPos3) {
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					lemmingsInGame++;
+				}
 				Position[] wallsPos3 = {
 						new Position(1, 3), new Position(1, 4), new Position(1, 5), new Position(1, 6),
 						new Position(1, 7),
