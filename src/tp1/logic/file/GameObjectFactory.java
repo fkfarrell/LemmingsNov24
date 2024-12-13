@@ -59,7 +59,7 @@ public class GameObjectFactory {
                 throw new ObjectParseException(
                         String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid lemming attributes: " + line), e);
             }
-            return new Lemming(game, pos, direction, role);
+            return new Lemming(game, pos, direction, role, forceOfFall);
         }
 
         else {

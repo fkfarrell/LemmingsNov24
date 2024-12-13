@@ -45,7 +45,6 @@ public class WalkerRole implements LemmingRole {
 
 	@Override
 	public LemmingRole parse(String input) {
-		System.out.println("parse input >>> " + input);
 		if (input.equalsIgnoreCase(getName()) || input.equalsIgnoreCase(getShortcut()))
 			return this;
 		return null;

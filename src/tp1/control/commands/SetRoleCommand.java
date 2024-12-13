@@ -35,8 +35,6 @@ public class SetRoleCommand extends Command {
     @Override
     public void execute(GameModel game, GameView view) throws CommandExecuteException, GameModelException {
         try {
-            System.out.println("this.rolePosition, this.gameRole >>> " + SetRoleCommand.rolePosition + " "
-                    + SetRoleCommand.gameRole);
             game.setLemmingRole(SetRoleCommand.rolePosition, SetRoleCommand.gameRole);
         } catch (GameModelException e) {
             throw new CommandExecuteException(
@@ -70,7 +68,6 @@ public class SetRoleCommand extends Command {
 
             rolePosition = new Position(colNum - 1, rowNum);
             if (Game.isValidPosition(rolePosition)) {
-                System.out.println("Valid Position");
                 return new SetRoleCommand(gameRole, rolePosition);
             } else {
                 throw new CommandParseException("[ERROR] Invalid column position format. Column must be an integer.");

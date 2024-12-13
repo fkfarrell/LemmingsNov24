@@ -37,8 +37,10 @@ public class LoadCommand extends Command {
     @Override
     public Command parse(String[] commandWords) throws CommandParseException {
         try {
-            if (commandWords == null || commandWords.length < 2 || commandWords[1] == null) {
-                throw new CommandParseException("Invalid command: Missing file name.");
+            if (commandWords == null || commandWords.length < 2 || commandWords[1] == null
+                    || !NAME.equalsIgnoreCase(commandWords[0])) {
+                return null;
+                // throw new CommandParseException("Invalid command: Missing file name.");
             }
             if (commandWords.length > 2) {
                 return null;

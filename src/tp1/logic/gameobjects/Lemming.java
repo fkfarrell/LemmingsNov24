@@ -20,10 +20,11 @@ public class Lemming extends GameObject {
 	private final String name = "Lemming";
 	private final String shortcut = "l";
 
-	public Lemming(Game game, Position pos, Direction dir, LemmingRole role) {
+	public Lemming(Game game, Position pos, Direction dir, LemmingRole role, int fallForce) {
 		super(game, pos, dir);
 		this.role = role;
 		this.dir = dir;
+		this.fallForce = fallForce;
 	}
 
 	public Lemming() {

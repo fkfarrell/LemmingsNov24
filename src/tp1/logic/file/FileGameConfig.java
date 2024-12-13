@@ -29,9 +29,19 @@ public class FileGameConfig implements GameConfig {
 
     public FileGameConfig(File filePath) throws GameLoadException {
         this.inputFile = filePath;
-        if (!inputFile.exists()) {
-            throw new GameLoadException(String.format(Messages.FILE_NOT_FOUND, filePath));
+        // if (!inputFile.exists()) {
+        // throw new GameLoadException(String.format(Messages.FILE_NOT_FOUND,
+        // filePath));
 
+        // }
+        try {
+            if (!inputFile.exists()) {
+                throw new GameLoadException(String.format(Messages.FILE_NOT_FOUND, filePath));
+            }
+        } catch (GameLoadException gle) {
+            throw gle;
+        } catch (Exception e) {
+            throw new GameLoadException("Error reading file...", e);
         }
     }
 
