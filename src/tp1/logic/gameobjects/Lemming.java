@@ -17,14 +17,31 @@ public class Lemming extends GameObject {
 	private Direction dir;
 	private final int MAX_FALL = 3;
 	private boolean isFalling = false;
+	private final String name = "Lemming";
+	private final String shortcut = "l";
 
-	public Lemming(Game game, Position pos, Direction dir, LemmingRole role) {
+	public Lemming(Game game, Position pos, Direction dir, LemmingRole role, int fallForce) {
 		super(game, pos, dir);
 		this.role = role;
 		this.dir = dir;
+		this.fallForce = fallForce;
 	}
 
 	public Lemming() {
+	}
+
+	public Lemming(Game game, Position pos, Direction dir) {
+		super(game, pos, dir);
+	}
+
+	@Override
+	public String getShortcut() {
+		return this.shortcut;
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
 	}
 
 	@Override
@@ -191,6 +208,25 @@ public class Lemming extends GameObject {
 		} catch (Exception e) {
 			System.err.println("Error during interaction: " + e.getMessage());
 			return false;
+		}
+	}
+
+	@Override
+	public GameObject parse(String input, Game game, Position pos) {
+		if (matchObjectName(input)) {
+			return new Lemming(game, pos, null);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public String parseName(String input) {
+		String[] parts = input.split(" ");
+		if (matchObjectName(parts[1])) {
+			return this.getName();
+		} else {
+			return null;
 		}
 	}
 

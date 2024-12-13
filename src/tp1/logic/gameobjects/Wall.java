@@ -7,11 +7,15 @@ import tp1.view.Messages;
 
 public class Wall extends GameObject {
 
+    private final String name = "Wall";
+    private final String shortcut = "w";
+
     public Wall(Game game, Position pos, Direction dir) {
         super(game, pos, dir);
     }
 
     public Wall() {
+        super();
     }
 
     @Override
@@ -67,7 +71,35 @@ public class Wall extends GameObject {
 
     @Override
     public boolean interactWith(MetalWall metalWall) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
+        return false;
+    }
+
+    @Override
+    public String getShortcut() {
+        return this.shortcut;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public GameObject parse(String input, Game game, Position pos) {
+        if (matchObjectName(input)) {
+            return new Wall(game, pos, null);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String parseName(String input) {
+        String[] parts = input.split(" ");
+        if (matchObjectName(parts[1])) {
+            return this.getName();
+        } else {
+            return null;
+        }
     }
 }

@@ -126,8 +126,6 @@ public class GameObjectContainer {
 	public boolean setLemmingRole(Position pos, LemmingRole role) throws GameModelException, CommandExecuteException {
 
 		if (!Game.isValidPosition(pos)) {
-			System.out.println("Is it a valid position ? " + Game.isValidPosition(pos));
-			System.out.println("Invalid position " + pos);
 			return false;
 		}
 

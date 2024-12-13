@@ -37,8 +37,10 @@ public class LoadCommand extends Command {
     @Override
     public Command parse(String[] commandWords) throws CommandParseException {
         try {
-            if (commandWords == null || commandWords.length < 2 || commandWords[1] == null) {
-                throw new CommandParseException("Invalid command: Missing file name.");
+            if (commandWords == null || commandWords.length < 2 || commandWords[1] == null
+                    || !NAME.equalsIgnoreCase(commandWords[0])) {
+                return null;
+                // throw new CommandParseException("Invalid command: Missing file name.");
             }
             if (commandWords.length > 2) {
                 return null;
@@ -46,7 +48,8 @@ public class LoadCommand extends Command {
 
             String filePath = "C:\\Users\\finnf\\Desktop\\College\\UCM\\TP1\\LemmingsAssignment2\\2425-Lemmings\\src\\tp1\\logic\\file\\"
                     + commandWords[1];
-            File loadFile = new File(filePath);
+            // File loadFile = new File(filePath);
+            File loadFile = new File(commandWords[1]); // for files in the src folder.
 
             if (!loadFile.exists()) {
                 throw new CommandParseException("The specified file does not exist: " + filePath);

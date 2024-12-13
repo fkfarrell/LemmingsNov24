@@ -45,7 +45,6 @@ public class WalkerRole implements LemmingRole {
 
 	@Override
 	public LemmingRole parse(String input) {
-		System.out.println("parse input >>> " + input);
 		if (input.equalsIgnoreCase(getName()) || input.equalsIgnoreCase(getShortcut()))
 			return this;
 		return null;
@@ -69,13 +68,11 @@ public class WalkerRole implements LemmingRole {
 
 	@Override
 	public boolean receiveInteraction(GameItem other, Lemming lemming) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'receiveInteraction'");
 	}
 
 	@Override
 	public boolean interactWith(Lemming receiver, Lemming lemming) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'interactWith'");
 	}
 

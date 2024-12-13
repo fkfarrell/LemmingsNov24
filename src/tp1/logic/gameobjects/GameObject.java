@@ -1,5 +1,7 @@
 package tp1.logic.gameobjects;
 
+import java.text.ParseException;
+
 import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
@@ -23,6 +25,7 @@ public abstract class GameObject implements GameItem {
 	}
 
 	public GameObject() {
+		super();
 	}
 
 	public boolean isInPosition(Position p) {
@@ -60,15 +63,25 @@ public abstract class GameObject implements GameItem {
 		this.isAlive = false;
 	}
 
-	public boolean setRole(LemmingRole role) throws OffBoardException, ObjectParseException, GameModelException, CommandExecuteException {
+	public boolean setRole(LemmingRole role)
+			throws OffBoardException, ObjectParseException, GameModelException, CommandExecuteException {
 		return false;
 	}
 
 	public abstract boolean receiveInteraction(GameItem other) throws GameModelException;
 
-	public GameObject parse(String input) {
-		return this;
+	public abstract String getShortcut();
+
+	public abstract String getName();
+
+	public boolean matchObjectName(String name) {
+		return getShortcut().equalsIgnoreCase(name) ||
+				getName().equalsIgnoreCase(name);
 	}
+
+	public abstract GameObject parse(String input, Game game, Position pos);
+
+	public abstract String parseName(String input);
 
 	public void setGame(Game game) {
 		this.game = game;

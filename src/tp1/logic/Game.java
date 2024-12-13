@@ -48,7 +48,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 						new Position(2, 2) };
 
 				for (Position pos : lemmingPos) {
-					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole(), 0));
 					lemmingsInGame++;
 				}
 
@@ -73,7 +73,7 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 						new Position(4, 0) };
 
 				for (Position pos : lemmingPos2) {
-					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole(), 0));
 					lemmingsInGame++;
 				}
 
@@ -107,12 +107,17 @@ public class Game implements GameModel, GameStatus, GameWorld, GameConfig {
 				break;
 
 			case 3:
-			Position[] lemmingPos3 = {
-				new Position(0, 0),
-				 };
+				Position[] lemmingPos3 = {
+						new Position(0, 0),
+				};
 
 				for (Position pos : lemmingPos3) {
-					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole()));
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole(), 0));
+					lemmingsInGame++;
+				}
+
+				for (Position pos : lemmingPos3) {
+					container.add(new Lemming(this, pos, Direction.RIGHT, new WalkerRole(), 0));
 					lemmingsInGame++;
 				}
 				Position[] wallsPos3 = {

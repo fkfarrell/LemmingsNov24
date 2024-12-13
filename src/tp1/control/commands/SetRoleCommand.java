@@ -1,4 +1,5 @@
 package tp1.control.commands;
+
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -34,8 +35,6 @@ public class SetRoleCommand extends Command {
     @Override
     public void execute(GameModel game, GameView view) throws CommandExecuteException, GameModelException {
         try {
-            System.out.println("this.rolePosition, this.gameRole >>> " + SetRoleCommand.rolePosition + " "
-                    + SetRoleCommand.gameRole);
             game.setLemmingRole(SetRoleCommand.rolePosition, SetRoleCommand.gameRole);
         } catch (GameModelException e) {
             throw new CommandExecuteException(
@@ -59,8 +58,8 @@ public class SetRoleCommand extends Command {
             throw new CommandParseException(Messages.INVALID_COMMAND.formatted(commandWords[0]),
                     e);
         } catch (CommandExecuteException e) {
-                    e.printStackTrace();
-                }
+            e.printStackTrace();
+        }
 
         try {
             String rowPos = commandWords[2].toLowerCase();
@@ -69,7 +68,6 @@ public class SetRoleCommand extends Command {
 
             rolePosition = new Position(colNum - 1, rowNum);
             if (Game.isValidPosition(rolePosition)) {
-                System.out.println("Valid Position");
                 return new SetRoleCommand(gameRole, rolePosition);
             } else {
                 throw new CommandParseException("[ERROR] Invalid column position format. Column must be an integer.");
