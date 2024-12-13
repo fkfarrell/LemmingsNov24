@@ -1,0 +1,6 @@
+0 3 0 0 2
+(3,2) Lemming RIGHT 1 Walker
+(8,5) Lemming LEFT 1 Walker
+(4,2) Lemming LEFT 2 DownCaver
+(3,6) Lemming RIGHT 0 Parachuter
+(1,3) Wall

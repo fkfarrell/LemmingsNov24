@@ -92,4 +92,14 @@ public class Wall extends GameObject {
             return null;
         }
     }
+
+    @Override
+    public String parseName(String input) {
+        String[] parts = input.split(" ");
+        if (matchObjectName(parts[1])) {
+            return this.getName();
+        } else {
+            return null;
+        }
+    }
 }

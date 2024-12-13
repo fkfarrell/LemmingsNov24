@@ -1,5 +1,7 @@
 package tp1.logic.gameobjects;
 
+import java.text.ParseException;
+
 import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.GameModelException;
 import tp1.exceptions.ObjectParseException;
@@ -72,19 +74,14 @@ public abstract class GameObject implements GameItem {
 
 	public abstract String getName();
 
-	protected boolean matchObjectName(String name) {
+	public boolean matchObjectName(String name) {
 		return getShortcut().equalsIgnoreCase(name) ||
 				getName().equalsIgnoreCase(name);
 	}
 
-	// public abstract GameObject parse(String input);
-	public GameObject parse(String input, Game game, Position pos) {
-		if (matchObjectName(input)) {
-			return this;
-		} else {
-			return null;
-		}
-	}
+	public abstract GameObject parse(String input, Game game, Position pos);
+
+	public abstract String parseName(String input);
 
 	public void setGame(Game game) {
 		this.game = game;

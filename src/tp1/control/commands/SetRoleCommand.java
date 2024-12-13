@@ -1,4 +1,5 @@
 package tp1.control.commands;
+
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -59,8 +60,8 @@ public class SetRoleCommand extends Command {
             throw new CommandParseException(Messages.INVALID_COMMAND.formatted(commandWords[0]),
                     e);
         } catch (CommandExecuteException e) {
-                    e.printStackTrace();
-                }
+            e.printStackTrace();
+        }
 
         try {
             String rowPos = commandWords[2].toLowerCase();

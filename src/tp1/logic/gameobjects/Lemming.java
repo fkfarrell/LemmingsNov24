@@ -29,6 +29,10 @@ public class Lemming extends GameObject {
 	public Lemming() {
 	}
 
+	public Lemming(Game game, Position pos, Direction dir) {
+		super(game, pos, dir);
+	}
+
 	@Override
 	public String getShortcut() {
 		return this.shortcut;
@@ -203,6 +207,25 @@ public class Lemming extends GameObject {
 		} catch (Exception e) {
 			System.err.println("Error during interaction: " + e.getMessage());
 			return false;
+		}
+	}
+
+	@Override
+	public GameObject parse(String input, Game game, Position pos) {
+		if (matchObjectName(input)) {
+			return new Lemming(game, pos, null);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public String parseName(String input) {
+		String[] parts = input.split(" ");
+		if (matchObjectName(parts[1])) {
+			return this.getName();
+		} else {
+			return null;
 		}
 	}
 

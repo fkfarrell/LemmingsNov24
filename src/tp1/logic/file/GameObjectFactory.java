@@ -18,6 +18,7 @@ import tp1.logic.gameobjects.MetalWall;
 import tp1.logic.gameobjects.Wall;
 import tp1.logic.lemmingRoles.DownCaverRole;
 import tp1.logic.lemmingRoles.LemmingRole;
+import tp1.logic.lemmingRoles.LemmingRoleFactory;
 import tp1.logic.lemmingRoles.ParachuterRole;
 import tp1.logic.lemmingRoles.WalkerRole;
 import tp1.view.Messages;
@@ -45,7 +46,7 @@ public class GameObjectFactory {
             throw new ObjectParseException(
                     String.format(Messages.ERROR_PARSING_GAME_OBJECT, "Invalid position or object name: " + line), e);
         }
-        if (objectTitle.equals("LEMMING")) {
+        if (objectTitle.equals("Lemming")) {
             Direction direction;
             int forceOfFall;
             LemmingRole role;
@@ -61,10 +62,9 @@ public class GameObjectFactory {
             return new Lemming(game, pos, direction, role);
         }
 
-        // fix this if possible
         else {
 
-            System.out.println("Line to be parsed >>> " + line);
+            // implement try catch
 
             GameObject newObject = null;
 
@@ -81,15 +81,18 @@ public class GameObjectFactory {
     }
 
     private static Position parsePosition(String inputPos) throws ObjectParseException {
-        String positionString;
         int maxX = Game.DIM_X;
         int maxY = Game.DIM_Y;
 
         try {
-            positionString = inputPos.substring(0, 5);
+            String positionString = inputPos.split(" ")[0];
+            String[] coordinates = positionString
+                    .replace("(", "")
+                    .replace(")", "")
+                    .split(",");
 
-            int x = Character.getNumericValue(positionString.charAt(1));
-            int y = Character.getNumericValue(positionString.charAt(3));
+            int x = Integer.parseInt(coordinates[0]);
+            int y = Integer.parseInt(coordinates[1]);
 
             if (x < 0 || y < 0) {
                 throw new IllegalArgumentException("Coordinates cannot be negative");
@@ -100,19 +103,16 @@ public class GameObjectFactory {
 
             return new Position(x - 1, y - 1);
 
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             throw new ObjectParseException(
                     String.format(Messages.ERROR_PARSING_GAME_OBJECT,
                             "Input string is not in the expected format (x,y): " + inputPos),
                     e);
-        } catch (NumberFormatException e) {
-            throw new ObjectParseException(
-                    String.format(Messages.ERROR_PARSING_GAME_OBJECT,
-                            "Unable to parse coordinates as integers: " + inputPos),
-                    e);
         } catch (IllegalArgumentException e) {
             throw new ObjectParseException(
-                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, e.getMessage() + ": " + inputPos), e);
+                    String.format(Messages.ERROR_PARSING_GAME_OBJECT, e.getMessage() + ": " +
+                            inputPos),
+                    e);
         } catch (Exception e) {
             throw new ObjectParseException(
                     String.format(Messages.ERROR_PARSING_GAME_OBJECT,
@@ -129,31 +129,22 @@ public class GameObjectFactory {
                 throw new IllegalArgumentException("Input string is null: " + inputName);
             }
 
-            char initial = inputName.charAt(6);
-            String lowerCaseInitial = String.valueOf(Character.toLowerCase(initial));
-
-            switch (lowerCaseInitial) {
-                case "l":
-                    objName = "LEMMING";
-                    break;
-                case "w":
-                    objName = "WALL";
-                    break;
-                case "m":
-                    objName = "METALWALL";
-                    break;
-                case "e":
-                    objName = "EXITDOOR";
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown object type for initial: " + lowerCaseInitial);
+            String tmp;
+            for (GameObject go : availableObjects) {
+                tmp = go.parseName(inputName);
+                if (tmp != null) {
+                    return tmp;
+                }
             }
+
         } catch (StringIndexOutOfBoundsException e) {
-            System.err.println("Error: Input string is not in the expected format: " + inputName);
+            System.err.println("Error: Input string is not in the expected format: " +
+                    inputName);
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Unexpected error occurred while parsing object name: " + inputName);
+            System.err.println("Unexpected error occurred while parsing object name: " +
+                    inputName);
         }
 
         return objName;
@@ -179,20 +170,29 @@ public class GameObjectFactory {
 
     private static LemmingRole getLemmingRoleFrom(String inputRole) {
         String[] parts = inputRole.split("\\s+");
+        String[] newParts = new String[2];
 
         try {
-            String roleStr = parts[4].toLowerCase();
-            char firstChar = roleStr.charAt(0);
+            // String roleStr = parts[4].toLowerCase();
+            // char firstChar = roleStr.charAt(0);
 
-            switch (firstChar) {
-                case 'd':
-                    return new DownCaverRole();
-                case 'p':
-                    return new ParachuterRole();
-                case 'w':
-                default:
-                    return new WalkerRole();
-            }
+            newParts[0] = parts[3];
+            newParts[1] = parts[4];
+
+            LemmingRole role = LemmingRoleFactory.parse(newParts);
+
+            return role;
+
+            // to add another role, just add it to the switch, between case p and w.
+            // switch (firstChar) {
+            // case 'd':
+            // return new DownCaverRole();
+            // case 'p':
+            // return new ParachuterRole();
+            // case 'w':
+            // default:
+            // return new WalkerRole();
+            // }
         } catch (Exception e) {
             System.err.println("Error parsing role: " + e.getMessage());
             return new WalkerRole();
