@@ -59,7 +59,6 @@ public class ParachuterRole implements LemmingRole {
 
     @Override
     public boolean receiveInteraction(GameItem other, Lemming lemming) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'receiveInteraction'");
     }
 

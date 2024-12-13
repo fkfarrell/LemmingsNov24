@@ -64,19 +64,24 @@ public class GameObjectFactory {
 
         else {
 
-            // implement try catch
+            try {
+                GameObject newObject = null;
 
-            GameObject newObject = null;
+                for (GameObject go : availableObjects) {
+                    newObject = go.parse(objectTitle, game, pos);
 
-            for (GameObject go : availableObjects) {
-                newObject = go.parse(objectTitle, game, pos);
-
-                if (newObject != null) {
-                    return newObject;
+                    if (newObject != null) {
+                        return newObject;
+                    }
                 }
-            }
 
-            throw new ObjectParseException("Invalid object");
+                throw new ObjectParseException("Invalid object");
+            } catch (Exception e) {
+                throw new ObjectParseException(
+                        String.format(Messages.ERROR_PARSING_GAME_OBJECT,
+                                "Error parsing game object: " + line),
+                        e);
+            }
         }
     }
 

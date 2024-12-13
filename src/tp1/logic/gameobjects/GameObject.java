@@ -12,7 +12,7 @@ import tp1.logic.Direction;
 import tp1.logic.lemmingRoles.LemmingRole;
 
 public abstract class GameObject implements GameItem {
-	protected Position pos; // allowed to be public??
+	protected Position pos;
 	protected boolean isAlive;
 	public Game game;
 	protected Direction dir;
